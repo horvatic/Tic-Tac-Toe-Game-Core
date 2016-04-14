@@ -24,7 +24,11 @@
 *.sdf
 ipch/
 obj/
+packages/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+App.config
+AssemblyInfo.fs
+packages.config
