@@ -1,4 +1,5 @@
 ﻿module CleanInput
+
 exception NonIntError of string
 exception OutOfBoundsOverFlow of string
 exception OutOfBoundsUnderFlow of string
