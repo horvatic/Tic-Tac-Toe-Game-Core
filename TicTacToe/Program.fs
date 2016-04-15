@@ -3,7 +3,7 @@ open TicTacToeBoxEdit
 open AI
 open CheckForWinnerOrTie
 
-let startGame = 
+let startGame () = 
     let mutable gameNotOver = true
     let mutable endResult = -1
     let mutable firstMove = true
@@ -62,10 +62,10 @@ let main argv =
     let mutable playgame = true
     let mutable input = ""
     while playgame do
-        startGame
-        printf "Another Game? Y/N"
+        startGame()
+        printf "Another Game? Y/N: "
         input <- System.Console.ReadLine()
-        if not (input = "Y") then
+        if not (input = "Y" || input = "y") then
             playgame <- false
 
     0 // return an integer exit code
