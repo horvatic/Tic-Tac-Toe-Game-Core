@@ -32,7 +32,7 @@ let bestMove ( ticTacToeBox : array<string>)
         
         if putPostion >= 9 then
             putPostion <- 0
-            while not (ticTacToeBox.[putPostion] = "X" || ticTacToeBox.[putPostion] = "@") do
+            while ticTacToeBox.[putPostion] = "X" || ticTacToeBox.[putPostion] = "@" do
                 putPostion <- putPostion + 1
             alreadyPlaces <- true
     putPostion
