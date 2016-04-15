@@ -8,8 +8,10 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
         moveVal <- 8
     moveVal
 
-let bestMove ( ticTacToeBox : array<string>) : int =
-    let mutable putPostion = 0
+let bestMove ( ticTacToeBox : array<string>)
+             (userPos : int)
+             : int =
+    let mutable putPostion = userPos
     let mutable alreadyPlaces = false
     while not alreadyPlaces do
         if putPostion + 3 < 9  && ticTacToeBox.[putPostion] = "X" then
@@ -131,6 +133,7 @@ let moveBeHorzontail ( ticTacToeBox : array<string>)
     freePostion
 
 let whichMove( ticTacToeBox : array<string>) 
+             ( userPos : int )
              ( firstMove: bool )
              : int =
     let mutable moveVal = 0
@@ -147,13 +150,14 @@ let whichMove( ticTacToeBox : array<string>)
         if moveVal = -1 then
             moveVal <- moveBeVertical(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
-            moveVal <- bestMove (ticTacToeBox)
+            moveVal <- bestMove (ticTacToeBox)(userPos)
     else
         moveVal <- firstAIMove(ticTacToeBox)
     moveVal
 
 let AIMove( ticTacToeBox : array<string>) 
+          ( userPos : int )
           ( firstMove : bool )
           : array<string> =
-    ticTacToeBox.[whichMove(ticTacToeBox)(firstMove)] <- "@"
+    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)] <- "@"
     ticTacToeBox
