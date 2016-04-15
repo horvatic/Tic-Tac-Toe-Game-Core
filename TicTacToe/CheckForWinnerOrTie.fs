@@ -8,7 +8,7 @@ type Result =
 let hasTie ( ticTacToeBox : array<string>) : bool =
     let mutable tie = true
     for i = 0 to 8 do
-        if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "O") then
+        if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
             tie <- false
     tie
 
@@ -100,17 +100,17 @@ let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
     let mutable AiWinner = false
     let mutable HumanWinner = false
     let mutable resultsOfTest = int Result.NoWinner
-    AiWinner <- hasHorzontail(ticTacToeBox) ("O") ("X")
+    AiWinner <- hasHorzontail(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        AiWinner <- hasVertical(ticTacToeBox) ("O") ("X")
+        AiWinner <- hasVertical(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        AiWinner <- hasDiangle(ticTacToeBox) ("O") ("X")
+        AiWinner <- hasDiangle(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        HumanWinner <- hasHorzontail(ticTacToeBox) ("X") ("O")
+        HumanWinner <- hasHorzontail(ticTacToeBox) ("X") ("@")
     if not HumanWinner then
-        HumanWinner <- hasVertical(ticTacToeBox) ("X") ("O")
+        HumanWinner <- hasVertical(ticTacToeBox) ("X") ("@")
     if not HumanWinner then
-        HumanWinner <- hasDiangle(ticTacToeBox) ("X") ("O")
+        HumanWinner <- hasDiangle(ticTacToeBox) ("X") ("@")
 
     if AiWinner then
         resultsOfTest <- int Result.AiWins
