@@ -9,10 +9,20 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
     moveVal
 
 let bestMove ( ticTacToeBox : array<string>) : int =
-    let mutable freePostion = 0
-    while (ticTacToeBox.[freePostion] = "X" || ticTacToeBox.[freePostion] = "O") do
-        freePostion <- freePostion + 1
-    freePostion
+    let mutable putPostion = 0
+    let mutable alreadyPlaces = false
+    while (ticTacToeBox.[putPostion] = "X" || ticTacToeBox.[putPostion] = "O") && not alreadyPlaces do
+        if putPostion + 3 < 9 then
+            if not (ticTacToeBox.[putPostion + 3] = "X" || ticTacToeBox.[putPostion + 3] = "O") then
+                putPostion <- putPostion + 3
+                alreadyPlaces <- true
+        else
+            if not (ticTacToeBox.[putPostion - 3] = "X" || ticTacToeBox.[putPostion - 3] = "O") then
+                putPostion <- putPostion - 3
+                alreadyPlaces <- true
+        if not alreadyPlaces then
+           putPostion <- putPostion + 1    
+    putPostion
 
 let moveBeDiangle ( ticTacToeBox : array<string>)
                   ( search : string)
