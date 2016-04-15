@@ -33,7 +33,7 @@ let startGame () =
                 if not (endResult = int Result.NoWinner) then
                     gameNotOver <- false
 
-            if not (endResult = int Result.NoWinner) then
+            if not gameNotOver then
                 if endResult = int Result.AiWins then
                     message <- "AI Won"
                 elif endResult = int Result.HumanWins then
