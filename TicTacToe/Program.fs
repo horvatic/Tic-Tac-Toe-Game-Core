@@ -5,6 +5,7 @@ open AI
 [<EntryPoint>]
 let main argv =
     let mutable nonLost = true
+    let mutable firstMove = true
     let mutable userInput = 0
     let mutable ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
     let mutable message = ""
@@ -23,7 +24,8 @@ let main argv =
             userInput <- Sanitize (System.Console.ReadLine())
             System.Console.Clear()
             ticTacToeBox <- InsertUserOption (ticTacToeBox) (userInput)
-            ticTacToeBox <- AIMove (ticTacToeBox)
+            ticTacToeBox <- AIMove (ticTacToeBox) (firstMove)
+            firstMove <- false
             message <- ""
         with
             | :? NonIntError -> message <- "Invaild Number"
