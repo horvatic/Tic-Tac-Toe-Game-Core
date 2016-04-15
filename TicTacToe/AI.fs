@@ -9,10 +9,30 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
     moveVal
 
 let bestMove ( ticTacToeBox : array<string>) : int =
-    let mutable freePostion = 0
-    while (ticTacToeBox.[freePostion] = "X" || ticTacToeBox.[freePostion] = "O") do
-        freePostion <- freePostion + 1
-    freePostion
+    let mutable putPostion = 0
+    let mutable alreadyPlaces = false
+    while not alreadyPlaces do
+        if putPostion + 3 < 9  && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion + 3] = "X" || ticTacToeBox.[putPostion + 3] = "@") then
+                putPostion <- putPostion + 3
+                alreadyPlaces <- true
+            else
+                putPostion <- putPostion + 1
+        elif putPostion - 3 > 0 && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion - 3] = "X" || ticTacToeBox.[putPostion - 3] = "@") then
+                putPostion <- putPostion - 3
+                alreadyPlaces <- true
+            else
+                putPostion <- putPostion + 1
+        else
+           putPostion <- putPostion + 1
+        if putPostion = 8 then
+            putPostion <- 0
+            while not (ticTacToeBox.[putPostion - 3] = "X" || ticTacToeBox.[putPostion - 3] = "@") do
+                putPostion <- putPostion + 1
+            alreadyPlaces <- true
+    putPostion
+
 let moveBeDiangle ( ticTacToeBox : array<string>)
                   ( search : string)
                   ( notSearching : string)
@@ -113,17 +133,17 @@ let whichMove( ticTacToeBox : array<string>)
              : int =
     let mutable moveVal = 0
     if not firstMove then
-        moveVal <- moveBeHorzontail(ticTacToeBox) ("O") ("X")
+        moveVal <- moveBeHorzontail(ticTacToeBox) ("@") ("X")
         if moveVal = -1 then
-            moveVal <- moveBeVertical(ticTacToeBox) ("O") ("X")
+            moveVal <- moveBeVertical(ticTacToeBox) ("@") ("X")
         if moveVal = -1 then
-            moveVal <- moveBeDiangle(ticTacToeBox) ("O") ("X")
+            moveVal <- moveBeDiangle(ticTacToeBox) ("@") ("X")
         if moveVal = -1 then
-            moveVal <- moveBeHorzontail(ticTacToeBox) ("X") ("O")
+            moveVal <- moveBeHorzontail(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
-            moveVal <- moveBeDiangle(ticTacToeBox) ("X") ("O")
+            moveVal <- moveBeDiangle(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
-            moveVal <- moveBeVertical(ticTacToeBox) ("X") ("O")
+            moveVal <- moveBeVertical(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
             moveVal <- bestMove (ticTacToeBox)
     else
@@ -133,5 +153,5 @@ let whichMove( ticTacToeBox : array<string>)
 let AIMove( ticTacToeBox : array<string>) 
           ( firstMove : bool )
           : array<string> =
-    ticTacToeBox.[whichMove(ticTacToeBox)(firstMove)] <- "O"
+    ticTacToeBox.[whichMove(ticTacToeBox)(firstMove)] <- "@"
     ticTacToeBox
