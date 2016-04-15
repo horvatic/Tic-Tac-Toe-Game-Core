@@ -13,6 +13,7 @@ let bestMove ( ticTacToeBox : array<string>) : int =
     while (ticTacToeBox.[freePostion] = "X" || ticTacToeBox.[freePostion] = "O") do
         freePostion <- freePostion + 1
     freePostion
+
 let moveBeDiangle ( ticTacToeBox : array<string>)
                   ( search : string)
                   ( notSearching : string)
