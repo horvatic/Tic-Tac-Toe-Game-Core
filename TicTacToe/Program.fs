@@ -1,16 +1,18 @@
 ﻿open CleanInput
 open TicTacToeBoxEdit
+open AI
 
 [<EntryPoint>]
 let main argv =
     let mutable nonLost = true
+    let mutable firstMove = true
     let mutable userInput = 0
     let mutable ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-    let mutable error = ""
+    let mutable message = ""
     while nonLost do
         try
             System.Console.Clear()
-            printfn "%s" error
+            printfn "%s" message
             printfn "------------------------"
             printfn "|  %s   |   %s   |   %s   |" (string ticTacToeBox.[0]) (string ticTacToeBox.[1]) (string ticTacToeBox.[2])
             printfn "------------------------"
@@ -22,11 +24,13 @@ let main argv =
             userInput <- Sanitize (System.Console.ReadLine())
             System.Console.Clear()
             ticTacToeBox <- InsertUserOption (ticTacToeBox) (userInput)
-            error <- ""
+            ticTacToeBox <- AIMove (ticTacToeBox) (firstMove)
+            firstMove <- false
+            message <- ""
         with
-            | :? NonIntError -> error <- "Invaild Number"
-            | :? OutOfBoundsOverFlow ->  error <- "Value to large"
-            | :? OutOfBoundsUnderFlow -> error <- "Value to small"
-            | :? SpotAlreayTaken -> error <- "Spot Taken"
+            | :? NonIntError -> message <- "Invaild Number"
+            | :? OutOfBoundsOverFlow ->  message <- "Value to large"
+            | :? OutOfBoundsUnderFlow -> message <- "Value to small"
+            | :? SpotAlreayTaken -> message <- "Spot Taken"
     
     0 // return an integer exit code

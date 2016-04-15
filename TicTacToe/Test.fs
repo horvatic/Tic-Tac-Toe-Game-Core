@@ -3,6 +3,7 @@ open Xunit
 open FsUnit
 open CleanInput
 open TicTacToeBoxEdit
+open AI
 
 [<Fact>]   // test
 let Sanitize_5_String_To_5() =
@@ -36,3 +37,96 @@ let input_Is_UnSucessfulWithX() =
 let input_Is_UnSucessfulWithO() =
     let ticTacToeBox = [|"O"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
     (fun () -> InsertUserOption ticTacToeBox 1 |> ignore) |> should throw typeof<SpotAlreayTaken>
+
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Horzontail_Row_One() =
+    let ticTacToeBox = [|"O"; "O"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(2, moveBeHorzontail ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Horzontail_Row_Two() =
+    let ticTacToeBox = [|"1"; "2"; "3"; "O"; "O"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(5, moveBeHorzontail ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Horzontail_Row_Three() =
+    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "O"; "O"; "9"|]
+    Assert.Equal(8, moveBeHorzontail ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Vertical_Row_One() =
+    let ticTacToeBox = [|"O"; "2"; "3"; "O"; "5"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(6, moveBeVertical ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Vertical_Row_Two() =
+    let ticTacToeBox = [|"1"; "O"; "3"; "4"; "O"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(7, moveBeVertical ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Vertical_Row_Three() =
+    let ticTacToeBox = [|"1"; "2"; "O"; "4"; "5"; "O"; "7"; "8"; "9"|]
+    Assert.Equal(8, moveBeVertical ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Horzontail_Row_One() =
+    let ticTacToeBox = [|"X"; "X"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(2, moveBeHorzontail ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Horzontail_Row_Two() =
+    let ticTacToeBox = [|"1"; "2"; "3"; "X"; "X"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(5, moveBeHorzontail ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Horzontail_Row_Three() =
+    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "X"; "X"; "9"|]
+    Assert.Equal(8, moveBeHorzontail ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Vertical_Row_One() =
+    let ticTacToeBox = [|"X"; "2"; "3"; "X"; "5"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(6, moveBeVertical ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Vertical_Row_Two() =
+    let ticTacToeBox = [|"1"; "X"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(7, moveBeVertical ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Vertical_Row_Three() =
+    let ticTacToeBox = [|"1"; "2"; "X"; "4"; "5"; "X"; "7"; "8"; "9"|]
+    Assert.Equal(8, moveBeVertical ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Human_First_Move_Center() =
+    let mutable ticTacToeBoxEdit = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
+    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "O"|]
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox) (true) )
+
+[<Fact>]   // test
+let AI_Human_First_Move_Conner() =
+    let mutable ticTacToeBoxEdit = [|"X"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
+    let ticTacToeBox = [|"X"; "2"; "3"; "4"; "O"; "6"; "7"; "8"; "9"|]
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox) (true) )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Diangle_Going_Right() =
+    let ticTacToeBox = [|"O"; "2"; "3"; "4"; "O"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(8, moveBeDiangle ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Diangle_Going_Right() =
+    let ticTacToeBox = [|"X"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(8, moveBeDiangle ticTacToeBox "X" "O" )
+
+[<Fact>]   // test
+let AI_Picks_Winning_Move_Diangle_Going_Left() =
+    let ticTacToeBox = [|"1"; "2"; "O"; "4"; "O"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(6, moveBeDiangle ticTacToeBox "O" "X" )
+
+[<Fact>]   // test
+let AI_Picks_Blocking_Move_Diangle_Going_Left() =
+    let ticTacToeBox = [|"1"; "2"; "X"; "4"; "X"; "6"; "7"; "8"; "9"|]
+    Assert.Equal(6, moveBeDiangle ticTacToeBox "X" "O" )
