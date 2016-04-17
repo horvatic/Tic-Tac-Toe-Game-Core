@@ -20,7 +20,7 @@ let bestMove ( ticTacToeBox : array<string>)
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion - 6 < 9  && ticTacToeBox.[putPostion] = "X" then
+        elif putPostion - 6 > 9  && ticTacToeBox.[putPostion] = "X" then
             if not (ticTacToeBox.[putPostion - 6] = "X" || ticTacToeBox.[putPostion - 6] = "@") then
                     putPostion <- putPostion - 6
                     alreadyPlaces <- true
