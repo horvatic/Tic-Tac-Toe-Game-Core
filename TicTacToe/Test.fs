@@ -224,6 +224,20 @@ let Check_If_Tie() =
    Assert.Equal(int Result.Tie, checkForWinnerOrTie ticTacToeBox )
 
 [<Fact>]   // test
-let Check_If_Block_Conners() =
-   let ticTacToeBox = [|"1"; "X"; "3"; "X"; "5"; "6"; "7"; "8"; "9"|]
-   Assert.Equal(0, blockTwoOnEdge ticTacToeBox "X" "@" )
+let Check_If_Block_Conners_1_And_6() =
+   let ticTacToeBox = [|"X"; "2"; "3"; "4"; "5"; "X"; "7"; "8"; "9"|]
+   Assert.Equal(2, blockTwoOnEdge ticTacToeBox "X" "@" )
+
+[<Fact>]   // test
+let Check_If_Block_Conners_1_And_8() =
+   let ticTacToeBox = [|"X"; "2"; "3"; "4"; "5"; "6"; "7"; "X"; "9"|]
+   Assert.Equal(6, blockTwoOnEdge ticTacToeBox "X" "@" )
+
+[<Fact>]   // test
+let Check_If_Block_Conners_2_And_6() =
+   let ticTacToeBox = [|"1"; "X"; "3"; "4"; "5"; "X"; "7"; "8"; "9"|]
+   Assert.Equal(2, blockTwoOnEdge ticTacToeBox "X" "@" )
+[<Fact>]   // test
+let Check_If_Block_Conners_2_And_9() =
+   let ticTacToeBox = [|"1"; "X"; "3"; "4"; "5"; "6"; "7"; "8"; "X"|]
+   Assert.Equal(2, blockTwoOnEdge ticTacToeBox "X" "@" )
