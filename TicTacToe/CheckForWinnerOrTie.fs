@@ -12,10 +12,10 @@ let hasTie ( ticTacToeBox : array<string>) : bool =
             tie <- false
     tie
 
-let hasDiangle ( ticTacToeBox : array<string>) 
-               ( search : string)
-               ( notSearching : string)
-               : bool =
+let hasDiangleWin ( ticTacToeBox : array<string>) 
+                  ( search : string)
+                  ( notSearching : string)
+                  : bool =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
@@ -44,10 +44,10 @@ let hasDiangle ( ticTacToeBox : array<string>)
         winner <- true
     winner
 
-let hasVertical ( ticTacToeBox : array<string>) 
-                ( search : string)
-                ( notSearching : string)
-                : bool =
+let hasVerticalWin ( ticTacToeBox : array<string>) 
+                   ( search : string)
+                   ( notSearching : string)
+                   : bool =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
@@ -70,10 +70,10 @@ let hasVertical ( ticTacToeBox : array<string>)
         x <- x+1
     winner
 
-let hasHorzontail ( ticTacToeBox : array<string>) 
-                  ( search : string)
-                  ( notSearching : string)
-                  : bool =
+let hasHorzontailWin ( ticTacToeBox : array<string>) 
+                     ( search : string)
+                     ( notSearching : string)
+                     : bool =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
@@ -100,17 +100,17 @@ let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
     let mutable AiWinner = false
     let mutable HumanWinner = false
     let mutable resultsOfTest = int Result.NoWinner
-    AiWinner <- hasHorzontail(ticTacToeBox) ("@") ("X")
+    AiWinner <- hasHorzontailWin(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        AiWinner <- hasVertical(ticTacToeBox) ("@") ("X")
+        AiWinner <- hasVerticalWin(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        AiWinner <- hasDiangle(ticTacToeBox) ("@") ("X")
+        AiWinner <- hasDiangleWin(ticTacToeBox) ("@") ("X")
     if not AiWinner then
-        HumanWinner <- hasHorzontail(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasHorzontailWin(ticTacToeBox) ("X") ("@")
     if not HumanWinner then
-        HumanWinner <- hasVertical(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasVerticalWin(ticTacToeBox) ("X") ("@")
     if not HumanWinner then
-        HumanWinner <- hasDiangle(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasDiangleWin(ticTacToeBox) ("X") ("@")
 
     if AiWinner then
         resultsOfTest <- int Result.AiWins

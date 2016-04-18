@@ -65,6 +65,7 @@
     <Compile Include="AI.fs" />
     <Compile Include="CheckForWinnerOrTie.fs" />
     <Compile Include="Test.fs" />
+    <Compile Include="Game.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
