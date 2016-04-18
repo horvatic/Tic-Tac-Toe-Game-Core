@@ -50,10 +50,10 @@ let bestMoveLittleInformation ( ticTacToeBox : array<string>)
             alreadyPlaces <- true
     putPostion
 
-let bestMoveBeDiangle ( ticTacToeBox : array<string>)
-                  ( search : string)
-                  ( notSearching : string)
-                  : int =
+let bestMoveBeDiangle ( ticTacToeBox : array<string> )
+                      ( search : string )
+                      ( notSearching : string )
+                      : int =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable freePostion = -1
@@ -85,10 +85,10 @@ let bestMoveBeDiangle ( ticTacToeBox : array<string>)
         freePostion <- -1
     freePostion
 
-let bestMoveBeVertical ( ticTacToeBox : array<string>)
-                   ( search : string)
-                   ( notSearching : string)
-                   : int =
+let bestMoveBeVertical ( ticTacToeBox : array<string> )
+                       ( search : string )
+                       ( notSearching : string )
+                       : int =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable freePostion = -1
@@ -115,10 +115,10 @@ let bestMoveBeVertical ( ticTacToeBox : array<string>)
         x <- x+1
     freePostion
 
-let bestMoveBeHorzontail ( ticTacToeBox : array<string>) 
-                     ( search : string)
-                     ( notSearching : string)
-                     : int =
+let bestMoveBeHorzontail ( ticTacToeBox : array<string> ) 
+                         ( search : string )
+                         ( notSearching : string )
+                         : int =
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable freePostion = -1

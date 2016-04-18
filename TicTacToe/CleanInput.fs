@@ -9,9 +9,9 @@ let Sanitize ( input : string ) : int32 =
     try
         userInput <- int input
         if userInput > 9 then
-            raise(OutOfBoundsOverFlow("Value to large"))
+            raise(OutOfBoundsOverFlow(""))
         elif userInput < 1 then
-            raise(OutOfBoundsUnderFlow("Value to small"))
+            raise(OutOfBoundsUnderFlow(""))
     with
         | :? System.FormatException -> raise(NonIntError("Not an Int"))
         | :? OutOfBoundsOverFlow -> raise(OutOfBoundsOverFlow("Value to large"))
