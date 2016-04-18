@@ -10,17 +10,18 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
 
 let bestMove ( ticTacToeBox : array<string>)
              (userPos : int)
+             (startConnor : bool)
              : int =
     let mutable putPostion = userPos
     let mutable alreadyPlaces = false
     while not alreadyPlaces do
-        if putPostion + 6 < 9  && ticTacToeBox.[putPostion] = "X" then
+        if putPostion + 6 < 9  && ticTacToeBox.[putPostion] = "X" && not startConnor then
             if not (ticTacToeBox.[putPostion + 6] = "X" || ticTacToeBox.[putPostion + 6] = "@") then
                     putPostion <- putPostion + 6
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion - 6 > 0  && ticTacToeBox.[putPostion] = "X" then
+        elif putPostion - 6 > 0  && ticTacToeBox.[putPostion] = "X" && not startConnor then
             if not (ticTacToeBox.[putPostion - 6] = "X" || ticTacToeBox.[putPostion - 6] = "@") then
                     putPostion <- putPostion - 6
                     alreadyPlaces <- true
@@ -147,6 +148,7 @@ let moveBeHorzontail ( ticTacToeBox : array<string>)
 let whichMove( ticTacToeBox : array<string>) 
              ( userPos : int )
              ( firstMove: bool )
+             (startConnor : bool)
              : int =
     let mutable moveVal = 0
     if not firstMove then
@@ -162,7 +164,7 @@ let whichMove( ticTacToeBox : array<string>)
         if moveVal = -1 then
             moveVal <- moveBeVertical(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
-            moveVal <- bestMove (ticTacToeBox)(userPos)
+            moveVal <- bestMove (ticTacToeBox)(userPos)(startConnor)
     else
         moveVal <- firstAIMove(ticTacToeBox)
     moveVal
@@ -170,6 +172,7 @@ let whichMove( ticTacToeBox : array<string>)
 let AIMove( ticTacToeBox : array<string>) 
           ( userPos : int )
           ( firstMove : bool )
+          (startConnor : bool)
           : array<string> =
-    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)] <- "@"
+    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)(startConnor)] <- "@"
     ticTacToeBox

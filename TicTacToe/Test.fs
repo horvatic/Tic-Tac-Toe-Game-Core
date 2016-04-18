@@ -104,13 +104,13 @@ let AI_Picks_Blocking_Move_Vertical_Row_Three() =
 let AI_Human_First_Move_Center() =
     let mutable ticTacToeBoxEdit = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
     let ticTacToeBox = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "@"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(0)(true) )
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(0)(true)(false) )
 
 [<Fact>]   // test
 let AI_Human_First_Move_Conner() =
     let mutable ticTacToeBoxEdit = [|"X"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
     let ticTacToeBox = [|"X"; "2"; "3"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(0)(true) )
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(0)(true)(false) )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Diangle_Going_Right() =
