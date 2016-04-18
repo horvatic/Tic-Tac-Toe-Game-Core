@@ -14,7 +14,19 @@ let bestMove ( ticTacToeBox : array<string>)
     let mutable putPostion = userPos
     let mutable alreadyPlaces = false
     while not alreadyPlaces do
-        if putPostion + 3 < 9  && ticTacToeBox.[putPostion] = "X" then
+        if putPostion + 6 < 9  && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion + 6] = "X" || ticTacToeBox.[putPostion + 6] = "@") then
+                    putPostion <- putPostion + 6
+                    alreadyPlaces <- true
+                else
+                    putPostion <- putPostion + 1
+        elif putPostion - 6 > 0  && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion - 6] = "X" || ticTacToeBox.[putPostion - 6] = "@") then
+                    putPostion <- putPostion - 6
+                    alreadyPlaces <- true
+                else
+                    putPostion <- putPostion + 1
+        elif putPostion + 3 < 9  && ticTacToeBox.[putPostion] = "X" then
             if not (ticTacToeBox.[putPostion + 3] = "X" || ticTacToeBox.[putPostion + 3] = "@") then
                 putPostion <- putPostion + 3
                 alreadyPlaces <- true
