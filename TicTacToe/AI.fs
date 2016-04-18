@@ -15,13 +15,25 @@ let blockTwoOnEdge( ticTacToeBox : array<string> )
     if ticTacToeBox.[1] = "X" && ticTacToeBox.[3] = "X"
         && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
         moveVal <- 0
+    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[6] = "X"
+        && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
+        moveVal <- 0
     elif ticTacToeBox.[1] = "X" && ticTacToeBox.[5] = "X"
+        && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
+        moveVal <- 2
+    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[8] = "X"
         && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
         moveVal <- 2
     elif ticTacToeBox.[3] = "X" && ticTacToeBox.[7] = "X"
         && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
         moveVal <- 6
+    elif ticTacToeBox.[3] = "X" && ticTacToeBox.[8] = "X"
+        && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
+        moveVal <- 6
     elif ticTacToeBox.[5] = "X" && ticTacToeBox.[7] = "X"
+        && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
+        moveVal <- 8
+    elif ticTacToeBox.[5] = "X" && ticTacToeBox.[6] = "X"
         && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
         moveVal <- 8
     moveVal
