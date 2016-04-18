@@ -11,32 +11,48 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
 let bestMoveLittleInformation ( ticTacToeBox : array<string>)
              (userPos : int)
              (startConnor : bool)
+             (startEdge : bool)
              : int =
     let mutable putPostion = userPos
     let mutable alreadyPlaces = false
+    let mutable largeShift = 6
+    let mutable smallShift = 3
+    if startEdge then
+        largeShift <- largeShift - 1
+        smallShift <- smallShift - 1
     while not alreadyPlaces do
-        if putPostion + 6 < 9  && ticTacToeBox.[putPostion] = "X" && not startConnor then
-            if not (ticTacToeBox.[putPostion + 6] = "X" || ticTacToeBox.[putPostion + 6] = "@") then
-                    putPostion <- putPostion + 6
+        if putPostion + largeShift < 9  
+            && ticTacToeBox.[putPostion] = "X" 
+            && not startConnor then
+            if not (ticTacToeBox.[putPostion + largeShift] = "X" 
+                || ticTacToeBox.[putPostion + largeShift] = "@") then
+                    putPostion <- putPostion + largeShift
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion - 6 > 0  && ticTacToeBox.[putPostion] = "X" && not startConnor then
-            if not (ticTacToeBox.[putPostion - 6] = "X" || ticTacToeBox.[putPostion - 6] = "@") then
-                    putPostion <- putPostion - 6
+        elif putPostion - largeShift > 0  
+            && ticTacToeBox.[putPostion] = "X" 
+            && not startConnor then
+            if not (ticTacToeBox.[putPostion - largeShift] = "X" 
+                || ticTacToeBox.[putPostion - largeShift] = "@") then
+                    putPostion <- putPostion - largeShift
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion + 3 < 9  && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion + 3] = "X" || ticTacToeBox.[putPostion + 3] = "@") then
-                putPostion <- putPostion + 3
+        elif putPostion + smallShift < 9  
+            && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion + smallShift] = "X" 
+                || ticTacToeBox.[putPostion + smallShift] = "@") then
+                putPostion <- putPostion + smallShift
                 alreadyPlaces <- true
             else
                 putPostion <- putPostion + 1
         
-        elif putPostion - 3 > 0 && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion - 3] = "X" || ticTacToeBox.[putPostion - 3] = "@") then
-                putPostion <- putPostion - 3
+        elif putPostion - smallShift > 0 
+            && ticTacToeBox.[putPostion] = "X" then
+            if not (ticTacToeBox.[putPostion - smallShift] = "X" 
+                || ticTacToeBox.[putPostion - smallShift] = "@") then
+                putPostion <- putPostion - smallShift
                 alreadyPlaces <- true
             else
                 putPostion <- putPostion + 1
@@ -45,7 +61,8 @@ let bestMoveLittleInformation ( ticTacToeBox : array<string>)
         
         if putPostion >= 9 then
             putPostion <- 0
-            while ticTacToeBox.[putPostion] = "X" || ticTacToeBox.[putPostion] = "@" do
+            while ticTacToeBox.[putPostion] = "X" 
+                || ticTacToeBox.[putPostion] = "@" do
                 putPostion <- putPostion + 1
             alreadyPlaces <- true
     putPostion
@@ -149,6 +166,7 @@ let whichMove( ticTacToeBox : array<string>)
              ( userPos : int )
              ( firstMove: bool )
              (startConnor : bool)
+             (startEdge : bool)
              : int =
     let mutable moveVal = 0
     if not firstMove then
@@ -164,7 +182,7 @@ let whichMove( ticTacToeBox : array<string>)
         if moveVal = -1 then
             moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
-            moveVal <- bestMoveLittleInformation (ticTacToeBox)(userPos)(startConnor)
+            moveVal <- bestMoveLittleInformation (ticTacToeBox)(userPos)(startConnor)(startEdge)
     else
         moveVal <- firstAIMove(ticTacToeBox)
     moveVal
@@ -173,6 +191,7 @@ let AIMove( ticTacToeBox : array<string>)
           ( userPos : int )
           ( firstMove : bool )
           ( startConnor : bool)
+          ( startEdge : bool)
           : array<string> =
-    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)(startConnor)] <- "@"
+    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)(startConnor)(startEdge)] <- "@"
     ticTacToeBox
