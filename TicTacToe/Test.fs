@@ -43,62 +43,62 @@ let input_Is_UnSucessfulWithO() =
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Horzontail_Row_One() =
     let ticTacToeBox = [|"@"; "@"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(2, moveBeHorzontail ticTacToeBox "@" "X" )
+    Assert.Equal(2, bestMoveBeHorzontail ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Horzontail_Row_Two() =
     let ticTacToeBox = [|"1"; "2"; "3"; "@"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(5, moveBeHorzontail ticTacToeBox "@" "X" )
+    Assert.Equal(5, bestMoveBeHorzontail ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Horzontail_Row_Three() =
     let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "@"; "@"; "9"|]
-    Assert.Equal(8, moveBeHorzontail ticTacToeBox "@" "X" )
+    Assert.Equal(8, bestMoveBeHorzontail ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Vertical_Row_One() =
     let ticTacToeBox = [|"@"; "2"; "3"; "@"; "5"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(6, moveBeVertical ticTacToeBox "@" "X" )
+    Assert.Equal(6, bestMoveBeVertical ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Vertical_Row_Two() =
     let ticTacToeBox = [|"1"; "@"; "3"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(7, moveBeVertical ticTacToeBox "@" "X" )
+    Assert.Equal(7, bestMoveBeVertical ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Vertical_Row_Three() =
     let ticTacToeBox = [|"1"; "2"; "@"; "4"; "5"; "@"; "7"; "8"; "9"|]
-    Assert.Equal(8, moveBeVertical ticTacToeBox "@" "X" )
+    Assert.Equal(8, bestMoveBeVertical ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Horzontail_Row_One() =
     let ticTacToeBox = [|"X"; "X"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(2, moveBeHorzontail ticTacToeBox "X" "@" )
+    Assert.Equal(2, bestMoveBeHorzontail ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Horzontail_Row_Two() =
     let ticTacToeBox = [|"1"; "2"; "3"; "X"; "X"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(5, moveBeHorzontail ticTacToeBox "X" "@" )
+    Assert.Equal(5, bestMoveBeHorzontail ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Horzontail_Row_Three() =
     let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "X"; "X"; "9"|]
-    Assert.Equal(8, moveBeHorzontail ticTacToeBox "X" "@" )
+    Assert.Equal(8, bestMoveBeHorzontail ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Vertical_Row_One() =
     let ticTacToeBox = [|"X"; "2"; "3"; "X"; "5"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(6, moveBeVertical ticTacToeBox "X" "@" )
+    Assert.Equal(6, bestMoveBeVertical ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Vertical_Row_Two() =
     let ticTacToeBox = [|"1"; "X"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(7, moveBeVertical ticTacToeBox "X" "@" )
+    Assert.Equal(7, bestMoveBeVertical ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Vertical_Row_Three() =
     let ticTacToeBox = [|"1"; "2"; "X"; "4"; "5"; "X"; "7"; "8"; "9"|]
-    Assert.Equal(8, moveBeVertical ticTacToeBox "X" "@" )
+    Assert.Equal(8, bestMoveBeVertical ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Human_First_Move_Center() =
@@ -121,22 +121,22 @@ let AI_Human_First_Move_Conner_Second_Move_Conner() =
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Diangle_Going_Right() =
     let ticTacToeBox = [|"@"; "2"; "3"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(8, moveBeDiangle ticTacToeBox "@" "X" )
+    Assert.Equal(8, bestMoveBeDiangle ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Diangle_Going_Right() =
     let ticTacToeBox = [|"X"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(8, moveBeDiangle ticTacToeBox "X" "@" )
+    Assert.Equal(8, bestMoveBeDiangle ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let AI_Picks_Winning_Move_Diangle_Going_Left() =
     let ticTacToeBox = [|"1"; "2"; "@"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(6, moveBeDiangle ticTacToeBox "@" "X" )
+    Assert.Equal(6, bestMoveBeDiangle ticTacToeBox "@" "X" )
 
 [<Fact>]   // test
 let AI_Picks_Blocking_Move_Diangle_Going_Left() =
     let ticTacToeBox = [|"1"; "2"; "X"; "4"; "X"; "6"; "7"; "8"; "9"|]
-    Assert.Equal(6, moveBeDiangle ticTacToeBox "X" "@" )
+    Assert.Equal(6, bestMoveBeDiangle ticTacToeBox "X" "@" )
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_First() =
