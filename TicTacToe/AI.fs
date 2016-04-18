@@ -172,7 +172,7 @@ let whichMove( ticTacToeBox : array<string>)
 let AIMove( ticTacToeBox : array<string>) 
           ( userPos : int )
           ( firstMove : bool )
-          (startConnor : bool)
+          ( startConnor : bool)
           : array<string> =
     ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)(startConnor)] <- "@"
     ticTacToeBox
