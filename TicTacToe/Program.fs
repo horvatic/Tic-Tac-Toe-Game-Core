@@ -7,6 +7,7 @@ let startGame () =
     let mutable gameNotOver = true
     let mutable endResult = -1
     let mutable firstMove = true
+    let mutable startConnor = false
     let mutable userInput = 0
     let mutable ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
     let mutable message = ""
@@ -28,7 +29,11 @@ let startGame () =
             if not (endResult = int Result.NoWinner) then
                 gameNotOver <- false
             else
-                ticTacToeBox <- AIMove (ticTacToeBox) (userInput-1) (firstMove)
+                if firstMove then
+                    if ticTacToeBox.[0] = "X" || ticTacToeBox.[2] = "X" 
+                    || ticTacToeBox.[6] = "X"  || ticTacToeBox.[8] = "X" then
+                        startConnor <- true
+                ticTacToeBox <- AIMove (ticTacToeBox) (userInput-1) (firstMove) ( startConnor )
                 endResult <- checkForWinnerOrTie(ticTacToeBox)
                 if not (endResult = int Result.NoWinner) then
                     gameNotOver <- false
