@@ -222,3 +222,8 @@ let Check_If_Human_Won_Left_Diangle() =
 let Check_If_Tie() =
    let ticTacToeBox = [|"X"; "X"; "@"; "@"; "@"; "X"; "X"; "X"; "@"|]
    Assert.Equal(int Result.Tie, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_Block_Conners() =
+   let ticTacToeBox = [|"1"; "X"; "3"; "X"; "5"; "6"; "7"; "8"; "9"|]
+   Assert.Equal(0, blockTwoOnEdge ticTacToeBox "X" "@" )

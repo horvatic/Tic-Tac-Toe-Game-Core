@@ -7,6 +7,24 @@ let firstAIMove ( ticTacToeBox : array<string>) : int =
     else
         moveVal <- 8
     moveVal
+let blockTwoOnEdge( ticTacToeBox : array<string> )
+                  ( search : string )
+                  ( notSearching : string )
+                  : int =
+    let mutable moveVal = -1
+    if ticTacToeBox.[1] = "X" && ticTacToeBox.[3] = "X"
+        && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
+        moveVal <- 0
+    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[5] = "X"
+        && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
+        moveVal <- 2
+    elif ticTacToeBox.[3] = "X" && ticTacToeBox.[7] = "X"
+        && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
+        moveVal <- 6
+    elif ticTacToeBox.[5] = "X" && ticTacToeBox.[7] = "X"
+        && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
+        moveVal <- 8
+    moveVal
 
 let bestMoveLittleInformation ( ticTacToeBox : array<string>)
              (userPos : int)
@@ -15,44 +33,48 @@ let bestMoveLittleInformation ( ticTacToeBox : array<string>)
              : int =
     let mutable putPostion = userPos
     let mutable alreadyPlaces = false
-    let mutable largeShift = 6
-    let mutable smallShift = 3
+    let mutable largeShiftPos = 6
+    let mutable smallShiftPos = 3
+    let mutable largeShiftNeg = 6
+    let mutable smallShiftNeg = 3
     if startEdge then
-        largeShift <- largeShift - 1
-        smallShift <- smallShift - 1
+        largeShiftPos <- largeShiftPos - 1
+        smallShiftPos <- smallShiftPos - 1
+        largeShiftNeg <- largeShiftNeg + 1
+        smallShiftNeg <- smallShiftNeg + 1
     while not alreadyPlaces do
-        if putPostion + largeShift < 9  
+        if putPostion + largeShiftPos < 9  
             && ticTacToeBox.[putPostion] = "X" 
             && not startConnor then
-            if not (ticTacToeBox.[putPostion + largeShift] = "X" 
-                || ticTacToeBox.[putPostion + largeShift] = "@") then
-                    putPostion <- putPostion + largeShift
+            if not (ticTacToeBox.[putPostion + largeShiftPos] = "X" 
+                || ticTacToeBox.[putPostion + largeShiftPos] = "@") then
+                    putPostion <- putPostion + largeShiftPos
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion - largeShift > 0  
+        elif putPostion - largeShiftNeg > 0  
             && ticTacToeBox.[putPostion] = "X" 
             && not startConnor then
-            if not (ticTacToeBox.[putPostion - largeShift] = "X" 
-                || ticTacToeBox.[putPostion - largeShift] = "@") then
-                    putPostion <- putPostion - largeShift
+            if not (ticTacToeBox.[putPostion - largeShiftNeg] = "X" 
+                || ticTacToeBox.[putPostion - largeShiftNeg] = "@") then
+                    putPostion <- putPostion - largeShiftNeg
                     alreadyPlaces <- true
                 else
                     putPostion <- putPostion + 1
-        elif putPostion + smallShift < 9  
+        elif putPostion + smallShiftPos < 9  
             && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion + smallShift] = "X" 
-                || ticTacToeBox.[putPostion + smallShift] = "@") then
-                putPostion <- putPostion + smallShift
+            if not (ticTacToeBox.[putPostion + smallShiftPos] = "X" 
+                || ticTacToeBox.[putPostion + smallShiftPos] = "@") then
+                putPostion <- putPostion + smallShiftPos
                 alreadyPlaces <- true
             else
                 putPostion <- putPostion + 1
         
-        elif putPostion - smallShift > 0 
+        elif putPostion - smallShiftNeg > 0 
             && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion - smallShift] = "X" 
-                || ticTacToeBox.[putPostion - smallShift] = "@") then
-                putPostion <- putPostion - smallShift
+            if not (ticTacToeBox.[putPostion - smallShiftNeg] = "X" 
+                || ticTacToeBox.[putPostion - smallShiftNeg] = "@") then
+                putPostion <- putPostion - smallShiftNeg
                 alreadyPlaces <- true
             else
                 putPostion <- putPostion + 1
@@ -181,6 +203,8 @@ let whichMove( ticTacToeBox : array<string>)
             moveVal <- bestMoveBeDiangle(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
             moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
+        if moveVal = -1 then
+            moveVal <- blockTwoOnEdge(ticTacToeBox) ("X") ("@")
         if moveVal = -1 then
             moveVal <- bestMoveLittleInformation (ticTacToeBox)(userPos)(startConnor)(startEdge)
     else
