@@ -164,6 +164,15 @@ let blockMove( ticTacToeBox : array<string>) : int =
         moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
     moveVal
 
+let winMove( ticTacToeBox : array<string>) : int =
+    let mutable moveVal = -1
+    moveVal <- bestMoveBeHorzontail(ticTacToeBox) ("@") ("X")
+    if moveVal = -1 then
+        moveVal <- bestMoveBeDiangle(ticTacToeBox) ("@") ("X")
+    if moveVal = -1 then
+        moveVal <- bestMoveBeVertical(ticTacToeBox) ("@") ("X")
+    moveVal
+
 let AIMove( ticTacToeBox : array<string>)( firstMove : bool )
           : array<string> =
     
@@ -171,7 +180,9 @@ let AIMove( ticTacToeBox : array<string>)( firstMove : bool )
     if firstMove then
         move <- firstAIMove(ticTacToeBox)
     else
-        move <- computerMove(ticTacToeBox)
+        move <- winMove(ticTacToeBox)
+        if move = -1 then
+            move <- computerMove(ticTacToeBox)
         if move = -1 then
             move <- blockMove(ticTacToeBox)
         if move = -1 then
