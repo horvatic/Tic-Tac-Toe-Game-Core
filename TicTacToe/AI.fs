@@ -1,117 +1,56 @@
 ﻿module AI
+open CheckForWinnerOrTie
+type playerVals =
+    | AI = 1
+    | Human = -1
 
-let firstAIMove ( ticTacToeBox : array<string>) : int =
-    let mutable moveVal = 0
-    if not (ticTacToeBox.[4] = "X") then
-        moveVal <- 4
-    else
-        moveVal <- 8
-    moveVal
-let blockTwoOnEdge( ticTacToeBox : array<string> )
-                  ( search : string )
-                  ( notSearching : string )
-                  : int =
-    let mutable moveVal = -1
-    if ticTacToeBox.[0] = "X" && ticTacToeBox.[5] = "X"
-        && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
-        moveVal <- 2
-    elif ticTacToeBox.[0] = "X" && ticTacToeBox.[7] = "X"
-        && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
-        moveVal <- 6
-    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[3] = "X"
-        && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
-        moveVal <- 0
-    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[5] = "X"
-        && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
-        moveVal <- 2
-    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[6] = "X"
-        && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
-        moveVal <- 0
-    elif ticTacToeBox.[1] = "X" && ticTacToeBox.[8] = "X"
-        && not (ticTacToeBox.[2] = "@") && not (ticTacToeBox.[2] = "X") then 
-        moveVal <- 2
-    elif ticTacToeBox.[2] = "X" && ticTacToeBox.[3] = "X"
-        && not (ticTacToeBox.[0] = "@") && not (ticTacToeBox.[0] = "X") then 
-        moveVal <- 0
-    elif ticTacToeBox.[2] = "X" && ticTacToeBox.[7] = "X"
-        && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
-        moveVal <- 8
-    elif ticTacToeBox.[3] = "X" && ticTacToeBox.[7] = "X"
-        && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
-        moveVal <- 6
-    elif ticTacToeBox.[3] = "X" && ticTacToeBox.[8] = "X"
-        && not (ticTacToeBox.[6] = "@") && not (ticTacToeBox.[6] = "X") then 
-        moveVal <- 6
-    elif ticTacToeBox.[5] = "X" && ticTacToeBox.[6] = "X"
-        && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
-        moveVal <- 8
-    elif ticTacToeBox.[5] = "X" && ticTacToeBox.[7] = "X"
-        && not (ticTacToeBox.[8] = "@") && not (ticTacToeBox.[8] = "X") then 
-        moveVal <- 8
-    moveVal
-
-let bestMoveLittleInformation ( ticTacToeBox : array<string>)
-             (userPos : int)
-             (startConnor : bool)
-             (startEdge : bool)
+let rec minimax( ticTacToeBox : array<string>)(player : int)
              : int =
-    let mutable putPostion = userPos
-    let mutable alreadyPlaces = false
-    let mutable largeShiftPos = 6
-    let mutable smallShiftPos = 3
-    let mutable largeShiftNeg = 6
-    let mutable smallShiftNeg = 3
-    if startEdge then
-        largeShiftPos <- largeShiftPos - 1
-        smallShiftPos <- smallShiftPos - 1
-        largeShiftNeg <- largeShiftNeg + 1
-        smallShiftNeg <- smallShiftNeg + 1
-    while not alreadyPlaces do
-        if putPostion + largeShiftPos < 9  
-            && ticTacToeBox.[putPostion] = "X" 
-            && not startConnor then
-            if not (ticTacToeBox.[putPostion + largeShiftPos] = "X" 
-                || ticTacToeBox.[putPostion + largeShiftPos] = "@") then
-                    putPostion <- putPostion + largeShiftPos
-                    alreadyPlaces <- true
+    let winner = checkForWinnerOrTie(ticTacToeBox)
+    let mutable score = -2
+    if not (winner = int Result.NoWinner) then 
+        if winner = int Result.AiWins then 
+            score <- int playerVals.AI
+        elif winner = int Result.AiWins then 
+            score <- int playerVals.Human
+    else
+        let mutable move = -1
+        let mutable tempScore = -999
+        let mutable ticTacToeBoxTemp = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+        for i = 0 to 8 do
+            ticTacToeBoxTemp.[i] <- ticTacToeBox.[i]
+        for i = 0 to 8 do
+            if not (ticTacToeBoxTemp.[i] = "X" || ticTacToeBoxTemp.[i] = "@") then
+                if player = int playerVals.AI then
+                    ticTacToeBoxTemp.[i] <- "@"
                 else
-                    putPostion <- putPostion + 1
-        elif putPostion - largeShiftNeg > 0  
-            && ticTacToeBox.[putPostion] = "X" 
-            && not startConnor then
-            if not (ticTacToeBox.[putPostion - largeShiftNeg] = "X" 
-                || ticTacToeBox.[putPostion - largeShiftNeg] = "@") then
-                    putPostion <- putPostion - largeShiftNeg
-                    alreadyPlaces <- true
-                else
-                    putPostion <- putPostion + 1
-        elif putPostion + smallShiftPos < 9  
-            && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion + smallShiftPos] = "X" 
-                || ticTacToeBox.[putPostion + smallShiftPos] = "@") then
-                putPostion <- putPostion + smallShiftPos
-                alreadyPlaces <- true
-            else
-                putPostion <- putPostion + 1
-        
-        elif putPostion - smallShiftNeg > 0 
-            && ticTacToeBox.[putPostion] = "X" then
-            if not (ticTacToeBox.[putPostion - smallShiftNeg] = "X" 
-                || ticTacToeBox.[putPostion - smallShiftNeg] = "@") then
-                putPostion <- putPostion - smallShiftNeg
-                alreadyPlaces <- true
-            else
-                putPostion <- putPostion + 1
-        else
-           putPostion <- putPostion + 1
-        
-        if putPostion >= 9 then
-            putPostion <- 0
-            while ticTacToeBox.[putPostion] = "X" 
-                || ticTacToeBox.[putPostion] = "@" do
-                putPostion <- putPostion + 1
-            alreadyPlaces <- true
-    putPostion
+                    ticTacToeBoxTemp.[i] <- "X"
+                tempScore <- -1 * minimax(ticTacToeBoxTemp) (player * -1)
+                if tempScore > score then
+                    score <- tempScore
+                    move <- i
+                ticTacToeBoxTemp.[i] <- "5"
+        if move = -1 then
+            score <- 0
+    score
+
+let computerMove( ticTacToeBox : array<string>)
+             : int =
+    let mutable move = -1
+    let mutable score = -2
+    let mutable tempScore = -999
+    let mutable ticTacToeBoxTemp = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    for i = 0 to 8 do
+        ticTacToeBoxTemp.[i] <- ticTacToeBox.[i]
+    for i = 0 to 8 do
+        if not (ticTacToeBoxTemp.[i] = "X" || ticTacToeBoxTemp.[i] = "@") then
+            ticTacToeBoxTemp.[i] <- "@"
+            tempScore <- -1 * minimax(ticTacToeBoxTemp) (int playerVals.Human)
+            ticTacToeBoxTemp.[i] <- "5"
+            if tempScore > score then
+                score <- tempScore
+                move <- i
+    move
 
 let bestMoveBeDiangle ( ticTacToeBox : array<string> )
                       ( search : string )
@@ -208,38 +147,23 @@ let bestMoveBeHorzontail ( ticTacToeBox : array<string> )
         offset <- offset + 3
     freePostion
 
-let whichMove( ticTacToeBox : array<string>) 
-             ( userPos : int )
-             ( firstMove: bool )
-             (startConnor : bool)
-             (startEdge : bool)
-             : int =
-    let mutable moveVal = 0
-    if not firstMove then
-        moveVal <- bestMoveBeHorzontail(ticTacToeBox) ("@") ("X")
-        if moveVal = -1 then
-            moveVal <- bestMoveBeVertical(ticTacToeBox) ("@") ("X")
-        if moveVal = -1 then
-            moveVal <- bestMoveBeDiangle(ticTacToeBox) ("@") ("X")
-        if moveVal = -1 then
-            moveVal <- bestMoveBeHorzontail(ticTacToeBox) ("X") ("@")
-        if moveVal = -1 then
-            moveVal <- bestMoveBeDiangle(ticTacToeBox) ("X") ("@")
-        if moveVal = -1 then
-            moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
-        if moveVal = -1 then
-            moveVal <- blockTwoOnEdge(ticTacToeBox) ("X") ("@")
-        if moveVal = -1 then
-            moveVal <- bestMoveLittleInformation (ticTacToeBox)(userPos)(startConnor)(startEdge)
-    else
-        moveVal <- firstAIMove(ticTacToeBox)
+let blockMove( ticTacToeBox : array<string>) : int =
+    let mutable moveVal = -1
+    moveVal <- bestMoveBeHorzontail(ticTacToeBox) ("X") ("@")
+    if moveVal = -1 then
+        moveVal <- bestMoveBeDiangle(ticTacToeBox) ("X") ("@")
+    if moveVal = -1 then
+        moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
     moveVal
 
-let AIMove( ticTacToeBox : array<string>) 
-          ( userPos : int )
-          ( firstMove : bool )
-          ( startConnor : bool)
-          ( startEdge : bool)
+let AIMove( ticTacToeBox : array<string>)
           : array<string> =
-    ticTacToeBox.[whichMove(ticTacToeBox)(userPos)(firstMove)(startConnor)(startEdge)] <- "@"
+    let mutable move = computerMove(ticTacToeBox)
+    if move = -1 then
+        move <- blockMove(ticTacToeBox)
+    if move = -1 then
+        for i = 0 to 8 do
+            if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+                move <- i
+    ticTacToeBox.[move] <- "@"
     ticTacToeBox

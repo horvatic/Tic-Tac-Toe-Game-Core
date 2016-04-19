@@ -1,9 +1,9 @@
 ﻿module CheckForWinnerOrTie
 type Result =
-   | Tie = 0
-   | AiWins = 1
-   | HumanWins = 2
-   | NoWinner = 3
+   | Tie = 5
+   | AiWins = 10
+   | HumanWins = -10
+   | NoWinner = 0
 
 let hasTie ( ticTacToeBox : array<string>) : bool =
     let mutable tie = true
