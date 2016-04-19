@@ -35,7 +35,7 @@ let startGame () =
                     || ticTacToeBox.[6] = "X"  || ticTacToeBox.[8] = "X"
                     || ticTacToeBox.[4] = "X" ) then
                         startEdge <- false
-                ticTacToeBox <- AIMove (ticTacToeBox)
+                ticTacToeBox <- AIMove (ticTacToeBox)(firstMove)
                 endResult <- checkForWinnerOrTie(ticTacToeBox)
                 if not (endResult = int Result.NoWinner) then
                     gameNotOver <- false

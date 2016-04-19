@@ -4,6 +4,14 @@ type playerVals =
     | AI = 1
     | Human = -1
 
+let firstAIMove ( ticTacToeBox : array<string>) : int =
+    let mutable moveVal = 0
+    if not (ticTacToeBox.[4] = "X") then
+        moveVal <- 4
+    else
+        moveVal <- 8
+    moveVal
+
 let rec minimax( ticTacToeBox : array<string>)(player : int)
              : int =
     let winner = checkForWinnerOrTie(ticTacToeBox)
@@ -156,14 +164,19 @@ let blockMove( ticTacToeBox : array<string>) : int =
         moveVal <- bestMoveBeVertical(ticTacToeBox) ("X") ("@")
     moveVal
 
-let AIMove( ticTacToeBox : array<string>)
+let AIMove( ticTacToeBox : array<string>)( firstMove : bool )
           : array<string> =
-    let mutable move = computerMove(ticTacToeBox)
-    if move = -1 then
-        move <- blockMove(ticTacToeBox)
-    if move = -1 then
-        for i = 0 to 8 do
-            if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
-                move <- i
+    
+    let mutable move = 0
+    if firstMove then
+        move <- firstAIMove(ticTacToeBox)
+    else
+        move <- computerMove(ticTacToeBox)
+        if move = -1 then
+            move <- blockMove(ticTacToeBox)
+        if move = -1 then
+            for i = 0 to 8 do
+                if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+                    move <- i
     ticTacToeBox.[move] <- "@"
     ticTacToeBox
