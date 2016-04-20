@@ -5,57 +5,66 @@ type playerVals =
     | Human = -1
 
 let rec minimax( ticTacToeBox : array<string>)(player : int)
-             : array<int> =
-    let mutable bestScoreAndPlace = [|0; 0|]
-    let mutable moveSpace = 1
-    let mutable score = checkForWinnerOrTie(ticTacToeBox) 
+             : int =
+    
+    let mutable currentPlayer = player
+    let mutable score = 0
+    let mutable moves = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    
+    for i = 0 to 8 do
+        moves.[i] <- ticTacToeBox.[i]
+
+    score <- checkForWinnerOrTie(moves)
     if score = int Result.NoWinner then
-        score <- 0
-        let mutable scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
-        let mutable moves = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-        for i = 0 to 8 do
-            moves.[i] <- ticTacToeBox.[i]
+        while score = int Result.NoWinner do
+            let mutable scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
+            for i = 0 to 8 do
+                if not (moves.[i] = "X" || moves.[i] = "@") then
+                    if currentPlayer = int playerVals.AI then
+                        moves.[i] <- "@"
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)
+                    else
+                        moves.[i] <- "X"
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)
+                    moves.[i] <- string (i+1)
+                    printfn "%i %i %i %i %i %i %i %i %i %i" currentPlayer scores.[0] scores.[1] scores.[2] scores.[3] scores.[4] scores.[5] scores.[6] scores.[7] scores.[8]
         
-        let mutable bestScoreAndPlaceCans = [|0; 0|]
-        for i = 0 to 8 do
-            if not (moves.[i] = "X" || moves.[i] = "@") then
-                if player = int playerVals.AI then
-                    moves.[i] <- "@"
-                else
-                    moves.[i] <- "X"
-                bestScoreAndPlaceCans <- minimax( ticTacToeBox )(player * -1)
-                scores.[i] <- bestScoreAndPlaceCans.[0]
-                moves.[i] <- string i
-            else 
-                scores.[i] <- 99999
-
-        moveSpace <- -1
-        if player = int playerVals.AI then
-            for i = 0 to 8 do
-                if scores.[i] > score && score < 99999 then
-                    score <- scores.[i]
-                    moveSpace <- i
-        else
-            for i = 0 to 8 do
-                if scores.[i] < score && score < 99999 then
-                    score <- scores.[i]
-                    moveSpace <- i
-            
-        if player = int playerVals.AI && moveSpace > -1 then
-            moves.[moveSpace] <- "@"
-        elif player = int playerVals.Human && moveSpace > -1 then
-            moves.[moveSpace] <- "X"
-
-    elif score = int Result.Tie then
-        score <- 0
-    bestScoreAndPlace.[0] <- score
-    bestScoreAndPlace.[1] <- moveSpace
-    bestScoreAndPlace
+            if currentPlayer = int playerVals.AI then
+                let mutable bestScore = 0
+                let mutable place = 0
+                for i = 0 to 8 do
+                    if bestScore < scores.[i] then
+                        bestScore <- scores.[i]
+                        place <- i
+                moves.[place] <- "@"
+            else
+                let mutable bestScore = 0
+                let mutable place = 0
+                for i = 0 to 8 do
+                    if bestScore > scores.[i] then
+                        bestScore <- scores.[i]
+                        place <- i
+                moves.[place] <- "X"
+            currentPlayer <- currentPlayer * -1
+            score <- checkForWinnerOrTie(moves)   
+    score
 
 let computerMove( ticTacToeBox : array<string>)
              : int =
-    let mutable bestScoreAndPlace = minimax(ticTacToeBox)(int playerVals.AI)
-    bestScoreAndPlace.[1]
+    let mutable scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
+    for i = 0 to 8 do
+        if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+            ticTacToeBox.[i] <- "@"
+            scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)
+            ticTacToeBox.[i] <- string (i+1)
+    
+    let mutable bestScore = 0
+    let mutable place = 0
+    for i = 0 to 8 do
+        if bestScore < scores.[i] then
+            bestScore <- scores.[i]
+            place <- i
+    place
 
 let AIMove( ticTacToeBox : array<string>)( firstMove : bool )
           : array<string> =
