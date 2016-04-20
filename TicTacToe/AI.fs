@@ -4,7 +4,7 @@ type playerVals =
     | AI = 1
     | Human = -1
 
-let rec minimax( ticTacToeBox : array<string>)(player : int)
+let rec minimax( ticTacToeBox : array<string>)(player : int)(depth : int)
              : int =
     
     let mutable currentPlayer = player
@@ -22,10 +22,10 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                 if not (moves.[i] = "X" || moves.[i] = "@") then
                     if currentPlayer = int playerVals.AI then
                         moves.[i] <- "@"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)
                     else
                         moves.[i] <- "X"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)
                     moves.[i] <- string (i+1)
             if currentPlayer = int playerVals.AI then
                 let mutable bestScore = 0
@@ -43,8 +43,12 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                         bestScore <- scores.[i]
                         place <- i
                         moves.[place] <- "X"
+
+            if currentPlayer = int playerVals.AI then
+                score <- ( checkForWinnerOrTie(moves) - depth )
+            else
+                score <- ( depth + checkForWinnerOrTie(moves) )
             currentPlayer <- currentPlayer * -1
-            score <- checkForWinnerOrTie(moves)   
     score
 
 let computerMove( ticTacToeBox : array<string>)
@@ -53,7 +57,7 @@ let computerMove( ticTacToeBox : array<string>)
     for i = 0 to 8 do
         if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
             ticTacToeBox.[i] <- "@"
-            scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)
+            scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(0)
             ticTacToeBox.[i] <- string (i+1)
     
     let mutable bestScore = 0
