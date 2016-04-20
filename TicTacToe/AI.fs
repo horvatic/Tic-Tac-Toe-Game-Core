@@ -27,8 +27,6 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                         moves.[i] <- "X"
                         scores.[i] <- minimax(moves)(currentPlayer * -1)
                     moves.[i] <- string (i+1)
-                    printfn "%i %i %i %i %i %i %i %i %i %i" currentPlayer scores.[0] scores.[1] scores.[2] scores.[3] scores.[4] scores.[5] scores.[6] scores.[7] scores.[8]
-        
             if currentPlayer = int playerVals.AI then
                 let mutable bestScore = 0
                 let mutable place = 0
@@ -36,7 +34,7 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                     if bestScore < scores.[i] then
                         bestScore <- scores.[i]
                         place <- i
-                moves.[place] <- "@"
+                        moves.[place] <- "@"
             else
                 let mutable bestScore = 0
                 let mutable place = 0
@@ -44,7 +42,7 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                     if bestScore > scores.[i] then
                         bestScore <- scores.[i]
                         place <- i
-                moves.[place] <- "X"
+                        moves.[place] <- "X"
             currentPlayer <- currentPlayer * -1
             score <- checkForWinnerOrTie(moves)   
     score
