@@ -28,27 +28,29 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)(depth : int)
                         scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)
                     moves.[i] <- string (i+1)
             if currentPlayer = int playerVals.AI then
-                let mutable bestScore = 0
-                let mutable place = 0
+                let mutable bestScore = -999
+                let mutable place = -1
                 for i = 0 to 8 do
-                    if bestScore < scores.[i] then
+                    if bestScore < scores.[i] && not (moves.[i] = "X" || moves.[i] = "@") then
                         bestScore <- scores.[i]
                         place <- i
-                        moves.[place] <- "@"
+                moves.[place] <- "@"
             else
-                let mutable bestScore = 0
-                let mutable place = 0
+                let mutable bestScore = 999
+                let mutable place = -1
                 for i = 0 to 8 do
-                    if bestScore > scores.[i] then
+                    if bestScore > scores.[i] && not (moves.[i] = "X" || moves.[i] = "@") then
                         bestScore <- scores.[i]
                         place <- i
-                        moves.[place] <- "X"
+                moves.[place] <- "X"
 
             if currentPlayer = int playerVals.AI then
-                score <- ( checkForWinnerOrTie(moves) - depth )
+                score <- ( checkForWinnerOrTie(moves) )
             else
-                score <- ( depth + checkForWinnerOrTie(moves) )
+                score <- ( checkForWinnerOrTie(moves) )
             currentPlayer <- currentPlayer * -1
+    if score = int Result.Tie then
+        score <- 0
     score
 
 let computerMove( ticTacToeBox : array<string>)
@@ -60,10 +62,10 @@ let computerMove( ticTacToeBox : array<string>)
             scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(0)
             ticTacToeBox.[i] <- string (i+1)
     
-    let mutable bestScore = 0
-    let mutable place = 0
+    let mutable bestScore = -999
+    let mutable place = -1
     for i = 0 to 8 do
-        if bestScore < scores.[i] then
+        if bestScore < scores.[i] && not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
             bestScore <- scores.[i]
             place <- i
     place
