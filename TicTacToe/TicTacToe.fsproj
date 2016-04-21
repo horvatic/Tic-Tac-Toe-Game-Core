@@ -63,8 +63,8 @@
     <Compile Include="CleanInput.fs" />
     <Compile Include="TicTacToeBoxEdit.fs" />
     <Compile Include="ScreenEdit.fs" />
-    <Compile Include="AI.fs" />
     <Compile Include="CheckForWinnerOrTie.fs" />
+    <Compile Include="AI.fs" />
     <Compile Include="Game.fs" />
     <Compile Include="Test.fs" />
     <Compile Include="Program.fs" />
