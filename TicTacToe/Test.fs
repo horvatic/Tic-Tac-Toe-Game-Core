@@ -139,3 +139,23 @@ let Check_If_Tie() =
    let ticTacToeBox = [|"X"; "X"; "@"; "@"; "@"; "X"; "X"; "X"; "@"|]
    Assert.Equal(int Result.Tie, checkForWinnerOrTie ticTacToeBox )
 
+[<Fact>]   // test
+let Check_If_Unbeatable() =
+   let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+   let mutable place = -1
+   let mutable currentPlayer = int playerVals.Human
+   let mutable matchResult = int Result.NoWinner
+   let mutable gameOver = false
+   for i = 0 to 8 do
+    if not gameOver then
+        place <- computerMove(ticTacToeBox)
+        if currentPlayer = int playerVals.Human then
+            ticTacToeBox.[place] <- "X"
+        else
+            ticTacToeBox.[place] <- "@"
+        currentPlayer <- currentPlayer * -1
+        matchResult <- checkForWinnerOrTie(ticTacToeBox)
+        if not (matchResult = int Result.NoWinner) then
+            gameOver <- true
+
+   Assert.Equal(int Result.Tie, int matchResult )
