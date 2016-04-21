@@ -1,6 +1,6 @@
 # TicTacToe
 
 Packages: 
-	Xunit
-	Xunit Test Runner
-	FsUnit
+	Xunit,
+	Xunit Test Runner,
+	FsUnit,
