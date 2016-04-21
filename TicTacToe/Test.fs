@@ -39,21 +39,6 @@ let input_Is_UnSucessfulWithO() =
     let ticTacToeBox = [|"@"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
     (fun () -> InsertUserOption ticTacToeBox 1 |> ignore) |> should throw typeof<SpotAlreayTaken>
 
-
-[<Fact>]   // test
-let AI_Human_First_Move_Center() =
-    let mutable ticTacToeBoxEdit = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "@"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox))
-
-[<Fact>]   // test
-let AI_Human_First_Move_Conner() =
-    let mutable ticTacToeBoxEdit = [|"X"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-    let ticTacToeBox = [|"X"; "2"; "3"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox))
-
-
-
 [<Fact>]   // test
 let Check_If_AI_Won_Row_First() =
     let ticTacToeBox = [|"@"; "@"; "@"; "4"; "X"; "6"; "7"; "8"; "9"|]
