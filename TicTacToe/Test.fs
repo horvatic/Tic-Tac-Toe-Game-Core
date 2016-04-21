@@ -154,10 +154,21 @@ let Check_If_Unbeatable() =
         ticTacToeBox.[i] <- "X"
         for i = 0 to 8 do
             if not gameOver then
-                place <- computerMove(ticTacToeBox)
                 if currentPlayer = int playerVals.Human then
+                    for i = 0 to 8 do
+                        if ticTacToeBox.[i] = "X" then
+                            ticTacToeBox.[i] <- "@"
+                        elif ticTacToeBox.[i] = "@" then
+                            ticTacToeBox.[i] <- "X"
+                    place <- computerMove(ticTacToeBox)
+                    for i = 0 to 8 do
+                        if ticTacToeBox.[i] = "X" then
+                            ticTacToeBox.[i] <- "@"
+                        elif ticTacToeBox.[i] = "@" then
+                            ticTacToeBox.[i] <- "X"
                     ticTacToeBox.[place] <- "X"
                 else
+                    place <- computerMove(ticTacToeBox)
                     ticTacToeBox.[place] <- "@"
                 currentPlayer <- currentPlayer * -1
                 matchResult <- checkForWinnerOrTie(ticTacToeBox)
