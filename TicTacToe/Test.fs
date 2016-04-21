@@ -44,13 +44,13 @@ let input_Is_UnSucessfulWithO() =
 let AI_Human_First_Move_Center() =
     let mutable ticTacToeBoxEdit = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "9"|]
     let ticTacToeBox = [|"1"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "@"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(true) )
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox))
 
 [<Fact>]   // test
 let AI_Human_First_Move_Conner() =
     let mutable ticTacToeBoxEdit = [|"X"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
     let ticTacToeBox = [|"X"; "2"; "3"; "4"; "@"; "6"; "7"; "8"; "9"|]
-    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox)(true) )
+    Assert.Equal<string>(ticTacToeBox, AIMove (ticTacToeBox))
 
 
 
