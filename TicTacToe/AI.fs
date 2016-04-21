@@ -99,7 +99,7 @@ let bestMoveBeHorzontail ( ticTacToeBox : array<string> )
         offset <- offset + 3
     freePostion
 
-let rec minimax( ticTacToeBox : array<string>)(player : int)(depth : int)
+let rec minimax( ticTacToeBox : array<string>)(player : int)
              : int =
     
     let mutable currentPlayer = player
@@ -117,10 +117,10 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)(depth : int)
                 if not (moves.[i] = "X" || moves.[i] = "@") then
                     if currentPlayer = int playerVals.AI then
                         moves.[i] <- "@"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)
                     else
                         moves.[i] <- "X"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)
                     moves.[i] <- string (i+1)
             if currentPlayer = int playerVals.AI then
                 let mutable bestScore = -999
@@ -162,7 +162,7 @@ let computerMove( ticTacToeBox : array<string>)
         for i = 0 to 8 do
             if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
                 ticTacToeBox.[i] <- "@"
-                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(0)
+                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)
                 ticTacToeBox.[i] <- string (i+1)
     
         let mutable bestScore = -999
