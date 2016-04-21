@@ -72,7 +72,7 @@ let computerMove( ticTacToeBox : array<string>)
             place <- i
     place
 
-let AIMove( ticTacToeBox : array<string>)( firstMove : bool )
+let AIMove( ticTacToeBox : array<string>)
           : array<string> =
    
     ticTacToeBox.[computerMove(ticTacToeBox)] <- "@"
