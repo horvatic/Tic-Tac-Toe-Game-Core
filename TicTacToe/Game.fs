@@ -6,6 +6,7 @@ open CheckForWinnerOrTie
 open ScreenEdit
 open GameSettings
 open GameStatusCodes
+open userInputException
 
 exception GameStillInSession of string
 
@@ -51,7 +52,7 @@ let startGame (gameOption : gameSetting) : int =
             if not game.aIvAI then
                 writeToScreen(game.ticTacToeBox) (message)
                 printf "Input: "
-                game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (Sanitize (System.Console.ReadLine()))           
+                game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (SanitizeHumanPickedPlace (System.Console.ReadLine()))           
             else
                 game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox)(aIPlayer(game.ticTacToeBox) + 1)
             

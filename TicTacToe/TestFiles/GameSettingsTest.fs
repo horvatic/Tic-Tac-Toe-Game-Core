@@ -3,6 +3,7 @@ open GameSettings
 open Xunit 
 open FsUnit
 open PlayerValues
+open userInputException
 
 
 [<Fact>]   // test

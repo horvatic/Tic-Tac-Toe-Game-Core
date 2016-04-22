@@ -1,8 +1,6 @@
 ﻿module GameSettings
 open PlayerValues
-exception InvaildSizeOfBox of string
-exception InvaildPlayer of string
-exception InvaildGlyph of string
+open userInputException
 
 type gameSetting =
     struct 
