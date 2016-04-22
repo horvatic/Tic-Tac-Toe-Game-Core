@@ -2,6 +2,7 @@
 open Xunit 
 open FsUnit
 open CheckForWinnerOrTie
+open GameStatusCodes
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_First() =

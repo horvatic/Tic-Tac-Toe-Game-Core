@@ -4,7 +4,8 @@ open TicTacToeBoxEdit
 open AI
 open CheckForWinnerOrTie
 open ScreenEdit
-open UserSettings
+open GameSettings
+open GameStatusCodes
 
 exception GameStillInSession of string
 
@@ -27,19 +28,19 @@ let gameEndingMessage(ticTacToeBox : array<string>) : string =
         raise(GameStillInSession("Game is still going"))
     message
 
-let startGame () = 
-    let mutable userOption = userSetting([|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|])
+let startGame (gameOption : gameSetting) = 
+    let mutable game = gameOption
     let mutable message = ""
-    while not (isGameOver(userOption.ticTacToeBox)) do
+    while not (isGameOver(game.ticTacToeBox)) do
         try
-            writeToScreen(userOption.ticTacToeBox) (message)
+            writeToScreen(game.ticTacToeBox) (message)
             printf "Input: "
-            userOption.ticTacToeBox <- InsertUserOption (userOption.ticTacToeBox) (Sanitize (System.Console.ReadLine()))           
+            game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (Sanitize (System.Console.ReadLine()))           
             
-            if not (isGameOver(userOption.ticTacToeBox)) then
-                userOption.ticTacToeBox <- AIMove (userOption.ticTacToeBox)
-            if isGameOver(userOption.ticTacToeBox) then
-                writeToScreen(userOption.ticTacToeBox) (gameEndingMessage(userOption.ticTacToeBox))
+            if not (isGameOver(game.ticTacToeBox)) then
+                game.ticTacToeBox <- AIMove (game.ticTacToeBox)
+            if isGameOver(game.ticTacToeBox) then
+                writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
             message <- ""
         with
             | :? NonIntError -> message <- "Invaild Number"

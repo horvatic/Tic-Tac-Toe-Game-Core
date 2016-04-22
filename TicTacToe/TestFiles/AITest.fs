@@ -3,6 +3,8 @@ open Xunit
 open FsUnit
 open AI
 open CheckForWinnerOrTie
+open PlayerValues
+open GameStatusCodes
 
 [<Fact>]   // test
 let Check_If_Unbeatable() =

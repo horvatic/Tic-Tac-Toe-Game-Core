@@ -1,8 +1,7 @@
 ﻿module AI
 open CheckForWinnerOrTie
-type playerVals =
-    | AI = 1
-    | Human = -1
+open PlayerValues
+open GameStatusCodes
 
 let rec minimax( ticTacToeBox : array<string>)(player : int)( depth : int)
              : int =
