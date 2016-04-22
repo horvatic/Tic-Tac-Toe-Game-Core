@@ -9,6 +9,21 @@ open GameStatusCodes
 
 exception GameStillInSession of string
 
+let aIPlayer(ticTacToeBox : array<string>) : int =
+    let mutable place = 0
+    for i = 0 to 8 do
+        if ticTacToeBox.[i] = "X" then
+            ticTacToeBox.[i] <- "@"
+        elif ticTacToeBox.[i] = "@" then
+            ticTacToeBox.[i] <- "X"
+    place <- computerMove(ticTacToeBox)
+    for i = 0 to 8 do
+        if ticTacToeBox.[i] = "X" then
+            ticTacToeBox.[i] <- "@"
+        elif ticTacToeBox.[i] = "@" then
+            ticTacToeBox.[i] <- "X"
+    place
+
 let isGameOver(ticTacToeBox : array<string>) : bool =
     if checkForWinnerOrTie(ticTacToeBox) = int Result.NoWinner then
         false
@@ -28,22 +43,28 @@ let gameEndingMessage(ticTacToeBox : array<string>) : string =
         raise(GameStillInSession("Game is still going"))
     message
 
-let startGame (gameOption : gameSetting) = 
+let startGame (gameOption : gameSetting) : int = 
     let mutable game = gameOption
     let mutable message = ""
     while not (isGameOver(game.ticTacToeBox)) do
         try
-            writeToScreen(game.ticTacToeBox) (message)
-            printf "Input: "
-            game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (Sanitize (System.Console.ReadLine()))           
+            if not game.aIvAI then
+                writeToScreen(game.ticTacToeBox) (message)
+                printf "Input: "
+                game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (Sanitize (System.Console.ReadLine()))           
+            else
+                game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox)(aIPlayer(game.ticTacToeBox) + 1)
             
             if not (isGameOver(game.ticTacToeBox)) then
                 game.ticTacToeBox <- AIMove (game.ticTacToeBox)
             if isGameOver(game.ticTacToeBox) then
-                writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
+                if not game.aIvAI then
+                    writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
             message <- ""
         with
             | :? NonIntError -> message <- "Invaild Number"
             | :? OutOfBoundsOverFlow ->  message <- "Value to large"
             | :? OutOfBoundsUnderFlow -> message <- "Value to small"
             | :? SpotAlreayTaken -> message <- "Spot Taken"
+    
+    checkForWinnerOrTie(game.ticTacToeBox)

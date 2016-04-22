@@ -2,7 +2,10 @@
 open Xunit 
 open FsUnit
 open Game
+open GameSettings
+open PlayerValues
 open CheckForWinnerOrTie
+open GameStatusCodes
 
 [<Fact>]    // test
 let Game_Is_Over_AI_Won() =
@@ -59,3 +62,9 @@ let Game_Still_In_Session_Exception() =
                          "4"; "5"; "6"; 
                          "7"; "8"; "9"|]
     (fun () -> gameEndingMessage ticTacToeBox |> ignore) |> should throw typeof<GameStillInSession>
+
+[<Fact>]   // test
+let Make_Sure_Game_Playable() =
+    let gameTestCreate = craftGameSetting ([|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]) 
+                                          ("X") ("O") (int playerVals.Human)(false)(true)
+    Assert.Equal(int Result.Tie, startGame gameTestCreate)
