@@ -7,6 +7,7 @@ open ScreenEdit
 open GameSettings
 open GameStatusCodes
 open userInputException
+open PlayerValues
 
 exception GameStillInSession of string
 
@@ -46,18 +47,31 @@ let gameEndingMessage(ticTacToeBox : array<string>) : string =
 
 let startGame (gameOption : gameSetting) : int = 
     let mutable game = gameOption
+    let mutable currentPlayer = game.firstPlayer
     let mutable message = ""
     while not (isGameOver(game.ticTacToeBox)) do
         try
             if not game.aIvAI then
-                writeToScreen(game.ticTacToeBox) (message)
-                printf "Input: "
-                game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) (SanitizeHumanPickedPlace (System.Console.ReadLine()))           
+                if game.firstPlayer = int playerVals.Human then
+                    writeToScreen(game.ticTacToeBox) (message)
+                    printf "Input: "
+                    game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
+                                            (SanitizeHumanPickedPlace 
+                                            (System.Console.ReadLine()))   
+                 else
+                    game.ticTacToeBox <- AIMove (game.ticTacToeBox)
             else
                 game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox)(aIPlayer(game.ticTacToeBox) + 1)
             
             if not (isGameOver(game.ticTacToeBox)) then
-                game.ticTacToeBox <- AIMove (game.ticTacToeBox)
+                if game.firstPlayer = int playerVals.Human then
+                    game.ticTacToeBox <- AIMove (game.ticTacToeBox)
+                else
+                    writeToScreen(game.ticTacToeBox) (message)
+                    printf "Input: "
+                    game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
+                                            (SanitizeHumanPickedPlace 
+                                            (System.Console.ReadLine()))
             if isGameOver(game.ticTacToeBox) then
                 if not game.aIvAI then
                     writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
