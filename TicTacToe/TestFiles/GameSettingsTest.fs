@@ -13,9 +13,23 @@ let Make_A_Corrct_User_Setting() =
     let gameTestCreate = craftGameSetting ([|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]) 
                                           ("X") ("O") (int playerVals.Human)(false)(false)
     Assert.Equal<gameSetting>(gameTest, gameTestCreate)
+
+[<Fact>]   // test
+let Make_A_Corrct_User_4X4_Setting() =
+    let gameTest = gameSetting([|"1"; "2"; "3"; "4"; 
+                                 "5"; "6"; "7"; "8"; 
+                                 "9"; "10"; "11"; "12";
+                                 "13"; "14"; "15"; "16"|],
+                                  "X", "O", int playerVals.Human, false, false)
+    let gameTestCreate = craftGameSetting ([|"1"; "2"; "3"; "4"; 
+                                             "5"; "6"; "7"; "8"; 
+                                             "9"; "10"; "11"; "12";
+                                             "13"; "14"; "15"; "16"|]) 
+                                          ("X") ("O") (int playerVals.Human)(false)(false)
+    Assert.Equal<gameSetting>(gameTest, gameTestCreate)
     
 [<Fact>]   // test
-let Make_A_Incorrect_User_Setting() =
+let Make_A_Incorrect_Box_Size_Setting() =
     let TicTacToeInccorectBox = [|"1"; "2"; "3"; "4"|]
     let playerOneGlyph = "X"
     let playerTwoGlyph = "1"

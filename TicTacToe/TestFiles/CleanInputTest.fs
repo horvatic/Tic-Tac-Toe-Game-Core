@@ -5,20 +5,32 @@ open CleanInput
 open userInputException
 
 [<Fact>]   // test
-let Sanitize_5_String_To_5() =
-    Assert.Equal(5, SanitizeHumanPickedPlace "5" )
+let Sanitize_5_String_To_5_4X4() =
+    Assert.Equal(5, SanitizeHumanPickedPlace "5" 16 )
 
 [<Fact>]   // test
-let Sanitize_fail_String_To_Exception() =
-    (fun () -> SanitizeHumanPickedPlace "fe" |> ignore) |> should throw typeof<NonIntError>
+let Sanitize_fail_String_To_Exception_4X4() =
+    (fun () -> SanitizeHumanPickedPlace "fe" 16 |> ignore) |> should throw typeof<NonIntError>
 
 [<Fact>]   // test
-let Sanitize_fail_val_high_To_Exception() =
-    (fun () -> SanitizeHumanPickedPlace "12" |> ignore) |> should throw typeof<OutOfBoundsOverFlow>
+let Sanitize_fail_val_high_To_Exception_4X4() =
+    (fun () -> SanitizeHumanPickedPlace "22" 16 |> ignore) |> should throw typeof<OutOfBoundsOverFlow>
 
 [<Fact>]   // test
-let Sanitize_fail_val_low_To_Exception() =
-    (fun () -> SanitizeHumanPickedPlace "0" |> ignore) |> should throw typeof<OutOfBoundsUnderFlow>
+let Sanitize_fail_val_low_To_Exception_4X4() =
+    (fun () -> SanitizeHumanPickedPlace "0" 16 |> ignore) |> should throw typeof<OutOfBoundsUnderFlow>
+
+[<Fact>]   // test
+let Sanitize_fail_String_To_Exception_3X3() =
+    (fun () -> SanitizeHumanPickedPlace "fe" 9 |> ignore) |> should throw typeof<NonIntError>
+
+[<Fact>]   // test
+let Sanitize_fail_val_high_To_Exception_3X3() =
+    (fun () -> SanitizeHumanPickedPlace "12" 9 |> ignore) |> should throw typeof<OutOfBoundsOverFlow>
+
+[<Fact>]   // test
+let Sanitize_fail_val_low_To_Exception_3X3() =
+    (fun () -> SanitizeHumanPickedPlace "0" 9 |> ignore) |> should throw typeof<OutOfBoundsUnderFlow>
 
 [<Fact>]   // test
 let Sanitize_Player_Picked_Glyph() =

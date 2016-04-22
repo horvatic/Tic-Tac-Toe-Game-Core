@@ -57,7 +57,8 @@ let startGame (gameOption : gameSetting) : int =
                     printf "Input: "
                     game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
                                             (SanitizeHumanPickedPlace 
-                                            (System.Console.ReadLine()))   
+                                            (System.Console.ReadLine())
+                                            (game.ticTacToeBox.Length))   
                  else
                     game.ticTacToeBox <- AIMove (game.ticTacToeBox)
             else
@@ -71,7 +72,8 @@ let startGame (gameOption : gameSetting) : int =
                     printf "Input: "
                     game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
                                             (SanitizeHumanPickedPlace 
-                                            (System.Console.ReadLine()))
+                                            (System.Console.ReadLine())
+                                            (game.ticTacToeBox.Length))
             if isGameOver(game.ticTacToeBox) then
                 if not game.aIvAI then
                     writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))

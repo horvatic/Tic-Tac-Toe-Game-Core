@@ -4,13 +4,13 @@ open userInputException
 exception NonIntError of string
 exception InvaildOption of string
 
-let SanitizeHumanPickedPlace ( input : string ) : int32 =
+let SanitizeHumanPickedPlace ( input : string ) ( textBoxSize : int ) : int32 =
     let mutable userInput = 0
     try
         userInput <- int input
     with
         | :? System.FormatException -> raise(NonIntError("Not an Int"))
-    if userInput > 9 then
+    if userInput > textBoxSize then
         raise(OutOfBoundsOverFlow("Value to large"))
     elif userInput < 1 then
         raise(OutOfBoundsUnderFlow("Value to small"))

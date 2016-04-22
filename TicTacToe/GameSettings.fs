@@ -25,7 +25,7 @@ let craftGameSetting
     (inverted : bool) 
     (aIvAI : bool)
     : gameSetting =
-    if not (ticTacToeBox.Length = 9) then
+    if not (ticTacToeBox.Length = 9) && not (ticTacToeBox.Length = 16) then
         raise(InvaildSizeOfBox("Invaild TicTacToe Box Size"))
     if not (playerOneGlyph.Length = 1) || not (playerTwoGlyph.Length = 1) then
         raise(InvaildGlyph("Glyph must be one Char"))
