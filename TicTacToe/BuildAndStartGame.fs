@@ -105,7 +105,7 @@ let getBoxSize() : int =
         System.Console.Clear()
         try 
             printfn "%s" message
-            printfn "Would you like to play on a 3x3 or 4x4 Board"
+            printfn "Would you like to play on a 3x3 or 4x4 Board, 4x4 Not coded"
             printf "3 or 4: "
             boxSize <- SanitizeBoxSize(System.Console.ReadLine())
             invaildBoxSize <- false
