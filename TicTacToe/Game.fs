@@ -46,6 +46,8 @@ let gameEndingMessage(ticTacToeBox : array<string>) : string =
     message
 
 let startGame (gameOption : gameSetting) : int = 
+    System.Console.Clear()
+    printfn "Starting game..."
     let mutable game = gameOption
     let mutable currentPlayer = game.firstPlayer
     let mutable message = ""
