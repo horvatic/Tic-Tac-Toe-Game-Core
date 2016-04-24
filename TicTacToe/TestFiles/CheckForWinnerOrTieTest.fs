@@ -95,6 +95,38 @@ let Check_If_AI_Won_3X3_Coulmn_Three() =
     Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
 
 [<Fact>]   // test
+let Check_If_AI_Won_4X4_Coulmn_One() =
+    let ticTacToeBox = [|"@"; "2"; "3"; "4"; 
+                        "@"; "6"; "7"; "8"; 
+                        "@"; "10"; "11"; "12";
+                        "@"; "14"; "15"; "16"|]
+    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_AI_Won_4X4_Coulmn_Two() =
+    let ticTacToeBox = [|"1"; "@"; "3"; "4"; 
+                        "5"; "@"; "7"; "8"; 
+                        "9"; "@"; "11"; "12";
+                        "13"; "@"; "15"; "16"|]
+    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_AI_Won_4X4_Coulmn_Three() =
+    let ticTacToeBox = [|"1"; "2"; "@"; "4"; 
+                        "5"; "6"; "@"; "8"; 
+                        "9"; "10"; "@"; "12";
+                        "13"; "14"; "@"; "16"|]
+    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_AI_Won_4X4_Coulmn_Four() =
+    let ticTacToeBox = [|"1"; "2"; "3"; "@"; 
+                        "5"; "6"; "7"; "@"; 
+                        "9"; "10"; "11"; "@";
+                        "13"; "14"; "15"; "@"|]
+    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
 let Check_If_Human_Won_3X3_Coulmn_One() =
     let ticTacToeBox = [|"X"; "2"; "3"; "X"; "5"; "6"; "X"; "8"; "9"|]
     Assert.Equal(int Result.HumanWins, checkForWinnerOrTie ticTacToeBox )
@@ -120,6 +152,22 @@ let Check_If_Ai_Won_Left_3X3_Diangle() =
    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
 
 [<Fact>]   // test
+let Check_If_Ai_Won_Right_4X4_Diangle() =
+    let ticTacToeBox = [|"@"; "2"; "3"; "4"; 
+                        "5"; "@"; "4"; "8"; 
+                        "9"; "10"; "@"; "12";
+                        "13"; "14"; "15"; "@"|]
+    Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_Ai_Won_Left_4X4_Diangle() =
+   let ticTacToeBox = [|"1"; "2"; "3"; "@"; 
+                        "5"; "6"; "@"; "8"; 
+                        "9"; "@"; "11"; "12";
+                        "@"; "14"; "15"; "16"|]
+   Assert.Equal(int Result.AiWins, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
 let Check_If_Human_Won_Right_3X3_Diangle() =
     let ticTacToeBox = [|"X"; "2"; "3"; "4"; "X"; "6"; "7"; "8"; "X"|]
     Assert.Equal(int Result.HumanWins, checkForWinnerOrTie ticTacToeBox )
@@ -130,6 +178,14 @@ let Check_If_Human_Won_Left_3X3_Diangle() =
    Assert.Equal(int Result.HumanWins, checkForWinnerOrTie ticTacToeBox )
 
 [<Fact>]   // test
-let Check_If_Tie() =
+let Check_If_Tie_3X3() =
    let ticTacToeBox = [|"X"; "X"; "@"; "@"; "@"; "X"; "X"; "X"; "@"|]
+   Assert.Equal(int Result.Tie, checkForWinnerOrTie ticTacToeBox )
+
+[<Fact>]   // test
+let Check_If_Tie_4X4() =
+   let ticTacToeBox = [|"@"; "X"; "@"; "@"; 
+                        "X"; "X"; "@"; "@"; 
+                        "@"; "X"; "X"; "X";
+                        "@"; "@"; "@"; "X"|]
    Assert.Equal(int Result.Tie, checkForWinnerOrTie ticTacToeBox )

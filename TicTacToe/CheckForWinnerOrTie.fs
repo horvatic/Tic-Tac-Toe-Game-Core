@@ -16,31 +16,32 @@ let hasDiangleWin ( ticTacToeBox : array<string>)
                   ( search : string)
                   ( notSearching : string)
                   : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable offset = 0
     //going right
-    while offset < 9 do
+    while offset < ticTacToeBox.Length do
             if ticTacToeBox.[offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 4
+            offset <- offset + boxLength + 1
     //going left
-    if not (searchCnt = 3 && nonSearchCnt = 0) then
+    if not (searchCnt = boxLength && nonSearchCnt = 0) then
         searchCnt <- 0
         nonSearchCnt <- 0
-        offset <- 2
-        while offset < 8 do
+        offset <- boxLength - 1
+        while offset < ticTacToeBox.Length - 1 do
             if ticTacToeBox.[offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 2
+            offset <- offset + boxLength - 1
     else
         winner <- true
-    if searchCnt = 3 && nonSearchCnt = 0 then
+    if searchCnt = boxLength && nonSearchCnt = 0 then
         winner <- true
     winner
 
@@ -48,22 +49,23 @@ let hasVerticalWin ( ticTacToeBox : array<string>)
                    ( search : string)
                    ( notSearching : string)
                    : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable x = 0
     let mutable offset = 0
-    while x < 3 do
+    while x < boxLength do
         offset <- 0
         nonSearchCnt <- 0
         searchCnt <- 0
-        while offset < 7 do
+        while offset < (boxLength*boxLength) - 2 do
             if ticTacToeBox.[x+offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[x+offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 3
-        if searchCnt = 3 && nonSearchCnt = 0 then
+            offset <- offset + boxLength
+        if searchCnt = boxLength && nonSearchCnt = 0 then
             x <- 99
             offset <- 99
             winner <- true
