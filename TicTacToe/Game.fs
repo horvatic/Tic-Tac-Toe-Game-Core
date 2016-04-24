@@ -46,11 +46,13 @@ let gameEndingMessage(ticTacToeBox : array<string>) : string =
     message
 
 let startGame (gameOption : gameSetting) : int = 
-    System.Console.Clear()
-    printfn "Starting game..."
     let mutable game = gameOption
     let mutable currentPlayer = game.firstPlayer
     let mutable message = ""
+    let mutable userError = false
+    if not game.aIvAI then
+        System.Console.Clear()
+        printfn "Starting game..."
     while not (isGameOver(game.ticTacToeBox)) do
         try
             if not game.aIvAI then
@@ -62,12 +64,13 @@ let startGame (gameOption : gameSetting) : int =
                                             (System.Console.ReadLine())
                                             (game.ticTacToeBox.Length))   
                  else
-                    game.ticTacToeBox <- AIMove (game.ticTacToeBox)
+                    if not userError then
+                        game.ticTacToeBox <- AIMove (game.ticTacToeBox)
             else
                 game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox)(aIPlayer(game.ticTacToeBox) + 1)
             
             if not (isGameOver(game.ticTacToeBox)) then
-                if game.firstPlayer = int playerVals.Human then
+                if game.firstPlayer = int playerVals.Human && not userError then
                     game.ticTacToeBox <- AIMove (game.ticTacToeBox)
                 else
                     writeToScreen(game.ticTacToeBox) (message)
@@ -80,10 +83,11 @@ let startGame (gameOption : gameSetting) : int =
                 if not game.aIvAI then
                     writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
             message <- ""
+            userError <- false
         with
-            | :? NonIntError -> message <- "Invaild Number"
-            | :? OutOfBoundsOverFlow ->  message <- "Value to large"
-            | :? OutOfBoundsUnderFlow -> message <- "Value to small"
-            | :? SpotAlreayTaken -> message <- "Spot Taken"
+            | :? NonIntError -> message <- "Invaild Number"; userError <- true
+            | :? OutOfBoundsOverFlow ->  message <- "Value to large"; userError <- true
+            | :? OutOfBoundsUnderFlow -> message <- "Value to small"; userError <- true
+            | :? SpotAlreayTaken -> message <- "Spot Taken"; userError <- true
     
     checkForWinnerOrTie(game.ticTacToeBox)

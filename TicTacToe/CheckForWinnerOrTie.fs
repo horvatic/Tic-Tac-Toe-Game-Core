@@ -1,6 +1,10 @@
 ﻿module CheckForWinnerOrTie
 open GameStatusCodes
 
+let findBoxLength( ticTacToeBox : array<string>) : int =
+    let result = sqrt(float ticTacToeBox.Length)
+    int result
+
 let hasTie ( ticTacToeBox : array<string>) : bool =
     let mutable tie = true
     for i = 0 to 8 do
@@ -70,26 +74,27 @@ let hasHorzontailWin ( ticTacToeBox : array<string>)
                      ( search : string)
                      ( notSearching : string)
                      : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable x = -1
     let mutable offset = 0
-    while offset < 7 do
+    while offset < (boxLength*boxLength) - 2 do
         x <- 0
         nonSearchCnt <- 0
         searchCnt <- 0
-        while x < 3 do
+        while x < boxLength do
             if ticTacToeBox.[x+offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[x+offset] = search then
                 searchCnt <- searchCnt + 1
             x <- x+1
-        if searchCnt = 3 && nonSearchCnt = 0 then
+        if searchCnt = boxLength && nonSearchCnt = 0 then
             x <- 99
             offset <- 99
             winner <- true
-        offset <- offset + 3
+        offset <- offset + boxLength
     winner
 
 let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
