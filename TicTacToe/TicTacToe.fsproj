@@ -60,20 +60,25 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
-    <Compile Include="UserSettings.fs" />
+    <Compile Include="userInputException.fs" />
+    <Compile Include="GameStatusCodes.fs" />
+    <Compile Include="PlayerValues.fs" />
+    <Compile Include="GameSettings.fs" />
     <Compile Include="CleanInput.fs" />
     <Compile Include="TicTacToeBoxEdit.fs" />
     <Compile Include="ScreenEdit.fs" />
     <Compile Include="CheckForWinnerOrTie.fs" />
     <Compile Include="AI.fs" />
     <Compile Include="Game.fs" />
+    <Compile Include="BuildAndStartGame.fs" />
     <Compile Include="TestFiles\CleanInputTest.fs" />
     <Compile Include="TestFiles\TicTacToeBoxEditTest.fs" />
     <Compile Include="TestFiles\CheckForWinnerOrTieTest.fs" />
     <Compile Include="TestFiles\AITest.fs" />
     <Compile Include="TestFiles\GameTest.fs" />
-    <Compile Include="TestFiles\UserSettingsTest.fs" />
+    <Compile Include="TestFiles\GameSettingsTest.fs" />
     <Compile Include="TestFiles\ScreenEditTest.fs" />
+    <Compile Include="TestFiles\BuildAndStartGameTest.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

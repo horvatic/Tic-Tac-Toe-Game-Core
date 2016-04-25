@@ -1,13 +1,13 @@
 ﻿module CheckForWinnerOrTie
-type Result =
-   | Tie = 0
-   | AiWins = 10
-   | HumanWins = -10
-   | NoWinner = -9999
+open GameStatusCodes
+
+let findBoxLength( ticTacToeBox : array<string>) : int =
+    let result = sqrt(float ticTacToeBox.Length)
+    int result
 
 let hasTie ( ticTacToeBox : array<string>) : bool =
     let mutable tie = true
-    for i = 0 to 8 do
+    for i = 0 to ticTacToeBox.Length - 1 do
         if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
             tie <- false
     tie
@@ -16,31 +16,32 @@ let hasDiangleWin ( ticTacToeBox : array<string>)
                   ( search : string)
                   ( notSearching : string)
                   : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable offset = 0
     //going right
-    while offset < 9 do
+    while offset < ticTacToeBox.Length do
             if ticTacToeBox.[offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 4
+            offset <- offset + boxLength + 1
     //going left
-    if not (searchCnt = 3 && nonSearchCnt = 0) then
+    if not (searchCnt = boxLength && nonSearchCnt = 0) then
         searchCnt <- 0
         nonSearchCnt <- 0
-        offset <- 2
-        while offset < 8 do
+        offset <- boxLength - 1
+        while offset < ticTacToeBox.Length - 1 do
             if ticTacToeBox.[offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 2
+            offset <- offset + boxLength - 1
     else
         winner <- true
-    if searchCnt = 3 && nonSearchCnt = 0 then
+    if searchCnt = boxLength && nonSearchCnt = 0 then
         winner <- true
     winner
 
@@ -48,22 +49,23 @@ let hasVerticalWin ( ticTacToeBox : array<string>)
                    ( search : string)
                    ( notSearching : string)
                    : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable x = 0
     let mutable offset = 0
-    while x < 3 do
+    while x < boxLength do
         offset <- 0
         nonSearchCnt <- 0
         searchCnt <- 0
-        while offset < 7 do
+        while offset < (boxLength*boxLength) - 2 do
             if ticTacToeBox.[x+offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[x+offset] = search then
                 searchCnt <- searchCnt + 1
-            offset <- offset + 3
-        if searchCnt = 3 && nonSearchCnt = 0 then
+            offset <- offset + boxLength
+        if searchCnt = boxLength && nonSearchCnt = 0 then
             x <- 99
             offset <- 99
             winner <- true
@@ -74,32 +76,33 @@ let hasHorzontailWin ( ticTacToeBox : array<string>)
                      ( search : string)
                      ( notSearching : string)
                      : bool =
+    let boxLength = findBoxLength(ticTacToeBox)
     let mutable nonSearchCnt = 0
     let mutable searchCnt = 0
     let mutable winner = false
     let mutable x = -1
     let mutable offset = 0
-    while offset < 7 do
+    while offset < (boxLength*boxLength) - 2 do
         x <- 0
         nonSearchCnt <- 0
         searchCnt <- 0
-        while x < 3 do
+        while x < boxLength do
             if ticTacToeBox.[x+offset] = notSearching then
                 nonSearchCnt <- nonSearchCnt + 1
             elif ticTacToeBox.[x+offset] = search then
                 searchCnt <- searchCnt + 1
             x <- x+1
-        if searchCnt = 3 && nonSearchCnt = 0 then
+        if searchCnt = boxLength && nonSearchCnt = 0 then
             x <- 99
             offset <- 99
             winner <- true
-        offset <- offset + 3
+        offset <- offset + boxLength
     winner
 
 let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
     let mutable AiWinner = false
     let mutable HumanWinner = false
-    let mutable resultsOfTest = int Result.NoWinner
+    let mutable resultsOfTest = int GenResult.NoWinner
     AiWinner <- hasHorzontailWin(ticTacToeBox) ("@") ("X")
     if not AiWinner then
         AiWinner <- hasVerticalWin(ticTacToeBox) ("@") ("X")
@@ -113,12 +116,12 @@ let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
         HumanWinner <- hasDiangleWin(ticTacToeBox) ("X") ("@")
 
     if AiWinner then
-        resultsOfTest <- int Result.AiWins
+        resultsOfTest <- getWinningAIValue(ticTacToeBox)
     elif HumanWinner then
-        resultsOfTest <- int Result.HumanWins
+        resultsOfTest <- getWinningHumanValue(ticTacToeBox)
     else
         if hasTie(ticTacToeBox) then
-            resultsOfTest <- int Result.Tie
+            resultsOfTest <- int GenResult.Tie
         else
-            resultsOfTest <- int Result.NoWinner
+            resultsOfTest <- int GenResult.NoWinner
     resultsOfTest

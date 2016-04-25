@@ -1,11 +1,11 @@
-﻿open Game
+﻿open BuildAndStartGame
 
 [<EntryPoint>]
 let main argv =
     let mutable playgame = true
     let mutable input = ""
     while playgame do
-        startGame()
+        buildAndStartGame()
         printf "Another Game? Y/N: "
         input <- System.Console.ReadLine()
         if not (input = "Y" || input = "y") then
