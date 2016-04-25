@@ -7,7 +7,7 @@ let findBoxLength( ticTacToeBox : array<string>) : int =
 
 let hasTie ( ticTacToeBox : array<string>) : bool =
     let mutable tie = true
-    for i = 0 to 8 do
+    for i = 0 to ticTacToeBox.Length - 1 do
         if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
             tie <- false
     tie
@@ -102,7 +102,7 @@ let hasHorzontailWin ( ticTacToeBox : array<string>)
 let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
     let mutable AiWinner = false
     let mutable HumanWinner = false
-    let mutable resultsOfTest = int Result.NoWinner
+    let mutable resultsOfTest = int GenResult.NoWinner
     AiWinner <- hasHorzontailWin(ticTacToeBox) ("@") ("X")
     if not AiWinner then
         AiWinner <- hasVerticalWin(ticTacToeBox) ("@") ("X")
@@ -116,12 +116,12 @@ let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
         HumanWinner <- hasDiangleWin(ticTacToeBox) ("X") ("@")
 
     if AiWinner then
-        resultsOfTest <- int Result.AiWins
+        resultsOfTest <- getWinningAIValue(ticTacToeBox)
     elif HumanWinner then
-        resultsOfTest <- int Result.HumanWins
+        resultsOfTest <- getWinningHumanValue(ticTacToeBox)
     else
         if hasTie(ticTacToeBox) then
-            resultsOfTest <- int Result.Tie
+            resultsOfTest <- int GenResult.Tie
         else
-            resultsOfTest <- int Result.NoWinner
+            resultsOfTest <- int GenResult.NoWinner
     resultsOfTest

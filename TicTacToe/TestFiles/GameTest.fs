@@ -67,4 +67,4 @@ let Game_Still_In_Session_Exception() =
 let Make_Sure_Game_Playable() =
     let gameTestCreate = craftGameSetting ([|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]) 
                                           ("X") ("O") (int playerVals.Human)(false)(true)
-    Assert.Equal(int Result.Tie, startGame gameTestCreate)
+    Assert.Equal(int GenResult.Tie, startGame gameTestCreate)

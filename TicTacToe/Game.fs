@@ -27,7 +27,7 @@ let aIPlayer(ticTacToeBox : array<string>) : int =
     place
 
 let isGameOver(ticTacToeBox : array<string>) : bool =
-    if checkForWinnerOrTie(ticTacToeBox) = int Result.NoWinner then
+    if checkForWinnerOrTie(ticTacToeBox) = int GenResult.NoWinner then
         false
     else
         true
@@ -35,17 +35,17 @@ let isGameOver(ticTacToeBox : array<string>) : bool =
 let gameEndingMessage(ticTacToeBox : array<string>) : string =
     let mutable message = ""
     let endResult = checkForWinnerOrTie(ticTacToeBox)
-    if endResult = int Result.AiWins then
+    if endResult = getWinningAIValue(ticTacToeBox) then
         message <- "AI Won"
-    elif endResult = int Result.HumanWins then
+    elif endResult = getWinningHumanValue(ticTacToeBox) then
         message <- "Human Won"
-    elif endResult = int Result.Tie then
+    elif endResult = int GenResult.Tie then
         message <- "Tie" 
     else
         raise(GameStillInSession("Game is still going"))
     message
 
-let startGame (gameOption : gameSetting) : int = 
+let startGame (gameOption : gameSetting) : int =
     let mutable game = gameOption
     let mutable currentPlayer = game.firstPlayer
     let mutable message = ""
