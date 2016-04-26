@@ -34,6 +34,21 @@ let Make_Empty_Tic_Tac_Toe_Box_4X4() =
     Assert.Equal<string>(ticTacToeBox, makeEmptyTicTacToeBox ticTacToeBox.Length )
 
 [<Fact>] //test
+let AI_Take_Wining_Move_3X3() =
+    let ticTacToeBox = [|"X"; "X"; "3"; 
+                         "4"; "5"; "6"; 
+                         "@"; "@"; "9"|]
+    Assert.Equal(8, computerMove ticTacToeBox )
+
+[<Fact>] //test
+let AI_Take_Wining_Move_4X4() =
+    let ticTacToeBox = [|"X"; "X"; "X"; "4"; 
+                        "5"; "6"; "7"; "8"; 
+                        "9"; "10"; "11"; "12";
+                        "@"; "@"; "@"; "16"|]
+    Assert.Equal(15, computerMove ticTacToeBox )
+
+[<Fact>] //test
 let Make_Empty_Score_3X3() =
     let scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
     Assert.Equal<int>(scores, makeEmptyScore scores.Length )

@@ -231,13 +231,13 @@ let computerMove( ticTacToeBox : array<string>)
 
     if isFirstThreeMoves(ticTacToeBox) && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)
+
     else
         let mutable place = -1
-        if ticTacToeBox.Length = 9 then
-            place <- winningMoveBeHorzontail(ticTacToeBox) ("@") ("X")
-        if place = -1 && ticTacToeBox.Length = 9 then
+        place <- winningMoveBeHorzontail(ticTacToeBox) ("@") ("X")
+        if place = -1 then
             place <- winningMoveBeVertical(ticTacToeBox) ("@") ("X")
-        if place = -1 && ticTacToeBox.Length = 9 then
+        if place = -1 then
             place <- winningMoveBeDiangle(ticTacToeBox) ("@") ("X")
         if place = -1 then
             let oldTrees = new Dictionary<string, int>()
