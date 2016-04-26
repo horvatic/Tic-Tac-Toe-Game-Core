@@ -71,15 +71,15 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                         moves.[i] <- "@"
                         scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)(oldTrees)
                         if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
-                        if scores.[i] = int (getWinningAIValue(ticTacToeBox)) - (depth + 1) then
+                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i] + depth)
+                        if scores.[i] = int (getWinningAIValue(ticTacToeBox)) then
                             skip <- true
                     else
                         moves.[i] <- "X"
                         scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)(oldTrees)
                         if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
-                        if scores.[i] = (depth + 1) + (getWinningHumanValue(ticTacToeBox)) then
+                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i] - depth)
+                        if scores.[i] = (getWinningHumanValue(ticTacToeBox)) then
                             skip <- true
                     moves.[i] <- string (i+1)
             if currentPlayer = int playerVals.AI then
@@ -143,16 +143,16 @@ let computerMove( ticTacToeBox : array<string>)
     for i = 0 to ticTacToeBox.Length - 1 do
         if (not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@")) && not skip then
             ticTacToeBox.[i] <- "@"
-            scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(1)(oldTrees)
+            scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(0)(oldTrees)
             ticTacToeBox.[i] <- string (i+1)
             if scores.[i] = 9 then
                 skip <- true
     
-        let mutable bestScore = -999
-        for i = 0 to ticTacToeBox.Length - 1 do
-            if bestScore < scores.[i] && not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
-                bestScore <- scores.[i]
-                place <- i
+    let mutable bestScore = -999
+    for i = 0 to ticTacToeBox.Length - 1 do
+        if bestScore < scores.[i] && not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+            bestScore <- scores.[i]
+            place <- i
     place
 
 let AIMove( ticTacToeBox : array<string>)
