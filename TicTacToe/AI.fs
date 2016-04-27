@@ -132,11 +132,6 @@ let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
 
     if movesCount(ticTacToeBox)(game) < 4 && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)(game)
-    elif movesCount(ticTacToeBox)(game) = 1 && ticTacToeBox.Length = 9 then
-        if (not (ticTacToeBox.[4] = game.playerGlyph || ticTacToeBox.[4] = game.aIGlyph)) then
-            4
-        else
-            8
     else
         let mutable place = -1
         let oldTrees = new Dictionary<string, int>()
