@@ -4,101 +4,6 @@ open PlayerValues
 open GameStatusCodes
 open System.Collections.Generic
 
-let winningMoveBeDiangle ( ticTacToeBox : array<string> )
-                      ( search : string )
-                      ( notSearching : string )
-                      : int =
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable freePostion = -1
-    let mutable offset = 0
-    //going right
-    while offset < 9 do
-            if ticTacToeBox.[offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[offset] = search then
-                searchCnt <- searchCnt + 1
-            else
-                freePostion <- offset
-            offset <- offset + 4
-    //going left
-    if not (searchCnt = 2 && nonSearchCnt = 0) then
-        freePostion <- -1
-        searchCnt <- 0
-        nonSearchCnt <- 0
-        offset <- 2
-        while offset < 8 do
-            if ticTacToeBox.[offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[offset] = search then
-                searchCnt <- searchCnt + 1
-            else
-                freePostion <- offset
-            offset <- offset + 2
-    if not (searchCnt = 2 && nonSearchCnt = 0) then
-        freePostion <- -1
-    freePostion
-
-let winningMoveBeVertical ( ticTacToeBox : array<string> )
-                       ( search : string )
-                       ( notSearching : string )
-                       : int =
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable freePostion = -1
-    let mutable x = 0
-    let mutable offset = 0
-    while x < 3 do
-        offset <- 0
-        freePostion <- -1
-        nonSearchCnt <- 0
-        searchCnt <- 0
-        while offset < 7 do
-            if ticTacToeBox.[x+offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[x+offset] = search then
-                searchCnt <- searchCnt + 1
-            else
-                freePostion <- x+offset
-            offset <- offset + 3
-        if searchCnt = 2 && nonSearchCnt = 0 then
-            x <- 99
-            offset <- 99
-        else
-            freePostion <- -1
-        x <- x+1
-    freePostion
-
-let winningMoveBeHorzontail ( ticTacToeBox : array<string> ) 
-                         ( search : string )
-                         ( notSearching : string )
-                         : int =
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable freePostion = -1
-    let mutable x = -1
-    let mutable offset = 0
-    while offset < 7 do
-        x <- 0
-        freePostion <- -1
-        nonSearchCnt <- 0
-        searchCnt <- 0
-        while x < 3 do
-            if ticTacToeBox.[x+offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[x+offset] = search then
-                searchCnt <- searchCnt + 1
-            else
-                freePostion <- x+offset
-            x <- x+1
-        if searchCnt = 2 && nonSearchCnt = 0 then
-            x <- 99
-            offset <- 99
-        else
-            freePostion <- -1
-        offset <- offset + 3
-    freePostion
-
 
 let ticTacToeBoxToString( ticTacToeBox : array<string>) : string =
     ticTacToeBox |> String.concat ""
@@ -142,13 +47,14 @@ let makeEmptyTicTacToeBox( length : int ) : array<string> =
         ticTacToeBox
 
 let rec minimax( ticTacToeBox : array<string>)(player : int)
-               ( depth : int)(oldTrees : Dictionary<string, int>)
+               (oldTrees : Dictionary<string, int>)
              : int =
     
     let boxSide = getBoxLength(ticTacToeBox.Length)
     let mutable currentPlayer = player
-    let mutable score = 0
+    let mutable score = -9999
     let mutable moves = makeEmptyTicTacToeBox(ticTacToeBox.Length)
+    let mutable searchDepth = 0
     
     for i = 0 to ticTacToeBox.Length - 1 do
         moves.[i] <- ticTacToeBox.[i]
@@ -157,27 +63,24 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
             (ticTacToeBoxToString(moves))
     if score = -9999 then
         score <- checkForWinnerOrTie(moves)
+    
     if score = int GenResult.NoWinner then
         while score = int GenResult.NoWinner do
             let mutable scores = makeEmptyScore(ticTacToeBox.Length)
-            let mutable skip = false
             for i = 0 to ticTacToeBox.Length - 1 do
-                if (not (moves.[i] = "X" || moves.[i] = "@")) && not skip then
+                if (not (moves.[i] = "X" || moves.[i] = "@")) then
                     if currentPlayer = int playerVals.AI then
                         moves.[i] <- "@"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)(oldTrees)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)
                         if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i] + (depth + 1))
-                        if scores.[i] = int (getWinningAIValue(ticTacToeBox)) then
-                            skip <- true
+                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
                     else
                         moves.[i] <- "X"
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(depth + 1)(oldTrees)
+                        scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)
                         if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i] - (depth + 1))
-                        if scores.[i] = (getWinningHumanValue(ticTacToeBox)) then
-                            skip <- true
+                           oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
                     moves.[i] <- string (i+1)
+            
             if currentPlayer = int playerVals.AI then
                 let mutable bestScore = -999
                 let mutable place = -1
@@ -186,6 +89,7 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                         bestScore <- scores.[i]
                         place <- i
                 moves.[place] <- "@"
+            
             else
                 let mutable bestScore = 999
                 let mutable place = -1
@@ -196,24 +100,20 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                 moves.[place] <- "X"
 
             score <- checkForWinnerOrTie(moves)
-            if currentPlayer = int playerVals.AI then
-                if not (score = int GenResult.NoWinner) then
-                    score <- ( score - depth)
-            else
-                if not (score = int GenResult.NoWinner) then
-                    score <- ( depth + score )
-            currentPlayer <- currentPlayer * -1
+            searchDepth <- searchDepth + 1 
+    
+    if player = int playerVals.AI then
+        score <- ( score - searchDepth)
+    else
+        score <- ( searchDepth + score )
     score
 
-let isFirstThreeMoves ( ticTacToeBox : array<string>) : bool =
+let movesCount ( ticTacToeBox : array<string>) : int =
     let mutable count = 0
     for i = 0 to ticTacToeBox.Length - 1 do
         if ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@" then
             count <- count + 1
-    if count < 4 then
-        true
-    else
-        false
+    count
 
 let moveHere( ticTacToeBox : array<string>)
              : int =
@@ -229,33 +129,28 @@ let moveHere( ticTacToeBox : array<string>)
 let computerMove( ticTacToeBox : array<string>)
              : int =
 
-    if isFirstThreeMoves(ticTacToeBox) && ticTacToeBox.Length = 16 then
+    if movesCount(ticTacToeBox) < 4 && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)
+    elif movesCount(ticTacToeBox) = 1 && ticTacToeBox.Length = 9 then
+        if (not (ticTacToeBox.[4] = "X" || ticTacToeBox.[4] = "@")) then
+            4
+        else
+            8
     else
         let mutable place = -1
-        if ticTacToeBox.Length = 9 then
-            place <- winningMoveBeHorzontail(ticTacToeBox) ("@") ("X")
-        if place = -1 && ticTacToeBox.Length = 9 then
-            place <- winningMoveBeVertical(ticTacToeBox) ("@") ("X")
-        if place = -1 && ticTacToeBox.Length = 9 then
-            place <- winningMoveBeDiangle(ticTacToeBox) ("@") ("X")
-        if place = -1 then
-            let oldTrees = new Dictionary<string, int>()
-            let mutable skip = false
-            let mutable scores = makeEmptyScore(ticTacToeBox.Length)
-            for i = 0 to ticTacToeBox.Length - 1 do
-                if (not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@")) && not skip then
-                    ticTacToeBox.[i] <- "@"
-                    scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(0)(oldTrees)
-                    ticTacToeBox.[i] <- string (i+1)
-                    if scores.[i] = 9 then
-                        skip <- true
+        let oldTrees = new Dictionary<string, int>()
+        let mutable scores = makeEmptyScore(ticTacToeBox.Length)
+        for i = 0 to ticTacToeBox.Length - 1 do
+            if (not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@")) then
+                ticTacToeBox.[i] <- "@"
+                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(oldTrees)
+                ticTacToeBox.[i] <- string (i+1)
     
-            let mutable bestScore = -999
-            for i = 0 to ticTacToeBox.Length - 1 do
-                if bestScore < scores.[i] && not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
-                    bestScore <- scores.[i]
-                    place <- i
+        let mutable bestScore = -999
+        for i = 0 to ticTacToeBox.Length - 1 do
+            if bestScore < scores.[i] && not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+                bestScore <- scores.[i]
+                place <- i
         place
 
 let AIMove( ticTacToeBox : array<string>)

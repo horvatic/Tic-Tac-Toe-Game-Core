@@ -57,7 +57,7 @@ let startGame (gameOption : gameSetting) : int =
         try
             if not game.aIvAI then
                 if game.firstPlayer = int playerVals.Human then
-                    writeToScreen(game.ticTacToeBox) (message)
+                    writeToScreen(game) (message)
                     printf "Input: "
                     game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
                                             (SanitizeHumanPickedPlace 
@@ -73,7 +73,7 @@ let startGame (gameOption : gameSetting) : int =
                 if game.firstPlayer = int playerVals.Human && not userError then
                     game.ticTacToeBox <- AIMove (game.ticTacToeBox)
                 else
-                    writeToScreen(game.ticTacToeBox) (message)
+                    writeToScreen(game) (message)
                     printf "Input: "
                     game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox) 
                                             (SanitizeHumanPickedPlace 
@@ -81,7 +81,7 @@ let startGame (gameOption : gameSetting) : int =
                                             (game.ticTacToeBox.Length))
             if isGameOver(game.ticTacToeBox) then
                 if not game.aIvAI then
-                    writeToScreen(game.ticTacToeBox) (gameEndingMessage(game.ticTacToeBox))
+                    writeToScreen(game) (gameEndingMessage(game.ticTacToeBox))
             message <- ""
             userError <- false
         with
