@@ -45,7 +45,7 @@ let getFirstPlayer() : int =
     else
         int playerVals.AI
 
-let getPlayerTwoGlyph(playerOneglyph : string) : string =
+let getaIGlyph(playerGlyph : string) : string =
     let mutable invaildGlyph = true
     let mutable glyph = ""
     let mutable message = ""
@@ -53,10 +53,10 @@ let getPlayerTwoGlyph(playerOneglyph : string) : string =
         System.Console.Clear()
         try 
             printfn "%s" message
-            printfn "What glyph would you like for player two?"
+            printfn "What glyph would you like the AI?"
             printf "glyph: "
             glyph <- SanitizeGlyph(System.Console.ReadLine())
-            if playerOneglyph = glyph then
+            if playerGlyph = glyph then
                 message <- "Must be diffent, pick another glyph"
             else
                 invaildGlyph <- false
@@ -64,7 +64,7 @@ let getPlayerTwoGlyph(playerOneglyph : string) : string =
             | :? InvaildGlyph -> message <- "Length Must be one"
     glyph
 
-let getPlayerOneGlyph() : string =
+let getplayerGlyph() : string =
     let mutable invaildGlyph = true
     let mutable glyph = ""
     let mutable message = ""
@@ -72,7 +72,7 @@ let getPlayerOneGlyph() : string =
         System.Console.Clear()
         try 
             printfn "%s" message
-            printfn "What glyph would you like for player one?"
+            printfn "What glyph would you like?"
             printf "glyph: "
             glyph <- SanitizeGlyph(System.Console.ReadLine())
             invaildGlyph <- false
@@ -82,15 +82,15 @@ let getPlayerOneGlyph() : string =
 
 let makeTicTacToeBox(size : int) : array<string> =
     if size = 3 then
-        let ticTacToeBox = [|"1"; "2"; "3"; 
-                         "4"; "5"; "6"; 
-                         "7"; "8"; "9"|]
+        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
+                         "-4-"; "-5-"; "-6-"; 
+                         "-7-"; "-8-"; "-9-"|]
         ticTacToeBox
     elif size =  4 then 
-        let ticTacToeBox = [|"1"; "2"; "3"; "4"; 
-                         "5"; "6"; "7"; "8"; 
-                         "9"; "10"; "11"; "12";
-                         "13"; "14"; "15"; "16"|]
+        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                         "-5-"; "-6-"; "-7-"; "-8-"; 
+                         "-9-"; "-10-"; "-11-"; "-12-";
+                         "-13-"; "-14-"; "-15-"; "-16-"|]
         ticTacToeBox
     elif size < 3 then
         raise(OutOfBoundsUnderFlow("Invaild Box Size"))
@@ -118,12 +118,12 @@ let getBoxSize() : int =
 let builder() : gameSetting =
     let ticTacToeBox = makeTicTacToeBox(getBoxSize())
     let whoFirst = getFirstPlayer()
-    let playerOneGlyph = getPlayerOneGlyph()
-    let playerTwoGlyph = getPlayerTwoGlyph(playerOneGlyph)
+    let playerGlyph = getplayerGlyph()
+    let aIGlyph = getaIGlyph(playerGlyph)
     let inverted = invertedGame()
 
-    craftGameSetting (ticTacToeBox)(playerOneGlyph)
-                (playerTwoGlyph)(whoFirst)(inverted)(false)
+    craftGameSetting (ticTacToeBox)(playerGlyph)
+                (aIGlyph)(whoFirst)(inverted)(false)
 
 let buildGame() : gameSetting =
     let mutable invaildOption = true
@@ -143,8 +143,8 @@ let buildGame() : gameSetting =
                 printfn "You are Player One, and going first"
             else
                 printfn "You are Player Two, and going second"
-            printfn "Player One Glyph %s " builtGame.playerOneGlyph
-            printfn "Player Two Glyph %s " builtGame.playerTwoGlyph
+            printfn "Player One Glyph %s " builtGame.playerGlyph
+            printfn "Player Two Glyph %s " builtGame.aIGlyph
             if builtGame.inverted then
                 printfn "Board Inverted"
             else

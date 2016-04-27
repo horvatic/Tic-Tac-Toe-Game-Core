@@ -1,14 +1,15 @@
 ﻿module CheckForWinnerOrTie
 open GameStatusCodes
+open GameSettings
 
 let findBoxLength( ticTacToeBox : array<string>) : int =
     let result = sqrt(float ticTacToeBox.Length)
     int result
 
-let hasTie ( ticTacToeBox : array<string>) : bool =
+let hasTie ( ticTacToeBox : array<string>)(game : gameSetting) : bool =
     let mutable tie = true
     for i = 0 to ticTacToeBox.Length - 1 do
-        if not (ticTacToeBox.[i] = "X" || ticTacToeBox.[i] = "@") then
+        if not (ticTacToeBox.[i] = game.playerGlyph || ticTacToeBox.[i] = game.aIGlyph) then
             tie <- false
     tie
 
@@ -99,28 +100,28 @@ let hasHorzontailWin ( ticTacToeBox : array<string>)
         offset <- offset + boxLength
     winner
 
-let checkForWinnerOrTie( ticTacToeBox : array<string>) : int =
+let checkForWinnerOrTie( ticTacToeBox : array<string>)(game : gameSetting) : int =
     let mutable AiWinner = false
     let mutable HumanWinner = false
     let mutable resultsOfTest = int GenResult.NoWinner
-    AiWinner <- hasHorzontailWin(ticTacToeBox) ("@") ("X")
+    AiWinner <- hasHorzontailWin(ticTacToeBox) (game.aIGlyph) (game.playerGlyph)
     if not AiWinner then
-        AiWinner <- hasVerticalWin(ticTacToeBox) ("@") ("X")
+        AiWinner <- hasVerticalWin(ticTacToeBox) (game.aIGlyph) (game.playerGlyph)
     if not AiWinner then
-        AiWinner <- hasDiangleWin(ticTacToeBox) ("@") ("X")
+        AiWinner <- hasDiangleWin(ticTacToeBox) (game.aIGlyph) (game.playerGlyph)
     if not AiWinner then
-        HumanWinner <- hasHorzontailWin(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasHorzontailWin(ticTacToeBox) (game.playerGlyph) (game.aIGlyph)
     if not HumanWinner then
-        HumanWinner <- hasVerticalWin(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasVerticalWin(ticTacToeBox) (game.playerGlyph) (game.aIGlyph)
     if not HumanWinner then
-        HumanWinner <- hasDiangleWin(ticTacToeBox) ("X") ("@")
+        HumanWinner <- hasDiangleWin(ticTacToeBox) (game.playerGlyph) (game.aIGlyph)
 
     if AiWinner then
         resultsOfTest <- getWinningAIValue(ticTacToeBox)
     elif HumanWinner then
         resultsOfTest <- getWinningHumanValue(ticTacToeBox)
     else
-        if hasTie(ticTacToeBox) then
+        if hasTie(ticTacToeBox)(game) then
             resultsOfTest <- int GenResult.Tie
         else
             resultsOfTest <- int GenResult.NoWinner
