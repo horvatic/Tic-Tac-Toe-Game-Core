@@ -6,17 +6,17 @@ open userInputException
 
 [<Fact>]
 let Make_Tic_Tac_Toe_Box_3X3_Correct() =
-    let ticTacToeBox = [|"1"; "2"; "3"; 
-                         "4"; "5"; "6"; 
-                         "7"; "8"; "9"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
+                         "-4-"; "-5-"; "-6-"; 
+                         "-7-"; "-8-"; "-9-"|]
     Assert.Equal<string>(ticTacToeBox, makeTicTacToeBox 3)
 
 [<Fact>]
 let Make_Tic_Tac_Toe_Box_4X4_Correct() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; 
-                         "5"; "6"; "7"; "8"; 
-                         "9"; "10"; "11"; "12";
-                         "13"; "14"; "15"; "16"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                         "-5-"; "-6-"; "-7-"; "-8-"; 
+                         "-9-"; "-10-"; "-11-"; "-12-";
+                         "-13-"; "-14-"; "-15-"; "-16-"|]
     Assert.Equal<string>(ticTacToeBox, makeTicTacToeBox 4)
 
 [<Fact>]   // test

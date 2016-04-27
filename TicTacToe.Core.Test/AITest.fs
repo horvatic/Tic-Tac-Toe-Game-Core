@@ -6,47 +6,75 @@ open CheckForWinnerOrTie
 open PlayerValues
 open GameStatusCodes
 open System.Collections.Generic
+open GameSettings
+
+let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
 
 [<Fact>] //test
 let Get_Box_Legnth_3x3() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
     Assert.Equal(3, getBoxLength ticTacToeBox.Length )
 
 [<Fact>] //test
 let Get_Box_Legnth_4x4() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; 
-                        "5"; "6"; "7"; "8"; 
-                        "9"; "10"; "11"; "12";
-                        "13"; "14"; "15"; "16"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                        "-5-"; "-6-"; "-7-"; "-8-"; 
+                        "-9-"; "-10-"; "-11-"; "-12-";
+                        "-13-"; "-14-"; "-15-"; "-16-"|]
     Assert.Equal(4, getBoxLength ticTacToeBox.Length )
 
 [<Fact>] //test
 let Make_Empty_Tic_Tac_Toe_Box_3X3() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
     Assert.Equal<string>(ticTacToeBox, makeEmptyTicTacToeBox ticTacToeBox.Length )
 
 [<Fact>] //test
 let Make_Empty_Tic_Tac_Toe_Box_4X4() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; 
-                        "5"; "6"; "7"; "8"; 
-                        "9"; "10"; "11"; "12";
-                        "13"; "14"; "15"; "16"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                        "-5-"; "-6-"; "-7-"; "-8-"; 
+                        "-9-"; "-10-"; "-11-"; "-12-";
+                        "-13-"; "-14-"; "-15-"; "-16-"|]
     Assert.Equal<string>(ticTacToeBox, makeEmptyTicTacToeBox ticTacToeBox.Length )
 
 [<Fact>] //test
+let AI_Block_Wining_Move_3X3() =
+    let ticTacToeBox = [|"@"; "-2-"; "-3-"; 
+                         "@"; "-5-"; "-6-"; 
+                         "X"; "X"; "-9-"|]
+    Assert.Equal(8, computerMove ticTacToeBox gameTestCreate)
+
+[<Fact>] //test
+let AI_Takes_Center_3X3() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("O") (int playerVals.Human)(false)(false)
+    let ticTacToeBox = [|"X"; "-2-"; "-3-"; 
+                         "-4-"; "-5-"; "-6-"; 
+                         "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(4, computerMove ticTacToeBox gameTestCreate)
+
+[<Fact>] //test
+let AI_Block_Wining_Move_4X4() =
+    let ticTacToeBox = [|"@"; "X"; "X"; "-4-"; 
+                        "@"; "-6-"; "-7-"; "-8-"; 
+                        "@"; "-10-"; "-11-"; "-12-";
+                        "X"; "X"; "X"; "-16-"|]
+    Assert.Equal(15, computerMove ticTacToeBox gameTestCreate)
+
+[<Fact>] //test
 let AI_Take_Wining_Move_3X3() =
-    let ticTacToeBox = [|"X"; "X"; "3"; 
-                         "4"; "5"; "6"; 
-                         "@"; "@"; "9"|]
-    Assert.Equal(8, computerMove ticTacToeBox )
+    let ticTacToeBox = [|"X"; "X"; "-3-"; 
+                         "-4-"; "-5-"; "-6-"; 
+                         "@"; "@"; "-9-"|]
+    Assert.Equal(8, computerMove ticTacToeBox gameTestCreate)
 
 [<Fact>] //test
 let AI_Take_Wining_Move_4X4() =
-    let ticTacToeBox = [|"X"; "X"; "X"; "4"; 
-                        "5"; "6"; "7"; "8"; 
-                        "9"; "10"; "11"; "12";
-                        "@"; "@"; "@"; "16"|]
-    Assert.Equal(15, computerMove ticTacToeBox )
+    let ticTacToeBox = [|"X"; "X"; "X"; "-4-"; 
+                        "-5-"; "-6-"; "-7-"; "-8-"; 
+                        "-9-"; "-10-"; "-11-"; "-12-";
+                        "@"; "@"; "@"; "-16-"|]
+    Assert.Equal(15, computerMove ticTacToeBox gameTestCreate)
 
 [<Fact>] //test
 let Make_Empty_Score_3X3() =
@@ -68,7 +96,7 @@ let Check_If_Unbeatable_3x3() =
     let mutable matchResult = int GenResult.NoWinner
     let mutable gameOver = false
     for i = 0 to 8 do
-        let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
+        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
         place <- -1
         currentPlayer <- int playerVals.AI
         matchResult <- int GenResult.NoWinner
@@ -82,7 +110,7 @@ let Check_If_Unbeatable_3x3() =
                             ticTacToeBox.[i] <- "@"
                         elif ticTacToeBox.[i] = "@" then
                             ticTacToeBox.[i] <- "X"
-                    place <- computerMove(ticTacToeBox)
+                    place <- computerMove(ticTacToeBox)(gameTestCreate)
                     for i = 0 to 8 do
                         if ticTacToeBox.[i] = "X" then
                             ticTacToeBox.[i] <- "@"
@@ -90,10 +118,10 @@ let Check_If_Unbeatable_3x3() =
                             ticTacToeBox.[i] <- "X"
                     ticTacToeBox.[place] <- "X"
                 else
-                    place <- computerMove(ticTacToeBox)
+                    place <- computerMove(ticTacToeBox)(gameTestCreate)
                     ticTacToeBox.[place] <- "@"
                 currentPlayer <- currentPlayer * -1
-                matchResult <- checkForWinnerOrTie(ticTacToeBox)
+                matchResult <- checkForWinnerOrTie(ticTacToeBox)(gameTestCreate)
                 if not (matchResult = int GenResult.NoWinner) then
                     gameOver <- true
         Assert.Equal(int GenResult.Tie, int matchResult )
@@ -118,8 +146,8 @@ let Test_Scan_For_NoValue_In_None_Made_Trees() =
 
 [<Fact>] //test
 let TicTacToeBox_To_String() =
-    let ticTacToeBox = [|"1"; "2"; "3"; "4"; "5"; "6"; "7"; "8"; "9"|]
-    Assert.Equal("123456789", 
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal("-1--2--3--4--5--6--7--8--9-", 
         ticTacToeBoxToString ticTacToeBox )
 
 [<Fact>]   // test
@@ -129,10 +157,10 @@ let Check_If_Unbeatable_4X4() =
     let mutable matchResult = int GenResult.NoWinner
     let mutable gameOver = false
     for i = 0 to 15 do
-        let ticTacToeBox = [|"1"; "2"; "3"; "4"; 
-                            "5"; "6"; "7"; "8"; 
-                            "9"; "10"; "11"; "12";
-                            "13"; "14"; "15"; "16"|]
+        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                            "-5-"; "-6-"; "-7-"; "-8-"; 
+                            "-9-"; "-10-"; "-11-"; "-12-";
+                            "-13-"; "-14-"; "-15-"; "-16-"|]
         place <- -1
         currentPlayer <- int playerVals.AI
         matchResult <- int GenResult.NoWinner
@@ -146,7 +174,7 @@ let Check_If_Unbeatable_4X4() =
                             ticTacToeBox.[i] <- "@"
                         elif ticTacToeBox.[i] = "@" then
                             ticTacToeBox.[i] <- "X"
-                    place <- computerMove(ticTacToeBox)
+                    place <- computerMove(ticTacToeBox)(gameTestCreate)
                     for i = 0 to 15 do
                         if ticTacToeBox.[i] = "X" then
                             ticTacToeBox.[i] <- "@"
@@ -154,10 +182,10 @@ let Check_If_Unbeatable_4X4() =
                             ticTacToeBox.[i] <- "X"
                     ticTacToeBox.[place] <- "X"
                 else
-                    place <- computerMove(ticTacToeBox)
+                    place <- computerMove(ticTacToeBox)(gameTestCreate)
                     ticTacToeBox.[place] <- "@"
                 currentPlayer <- currentPlayer * -1
-                matchResult <- checkForWinnerOrTie(ticTacToeBox)
+                matchResult <- checkForWinnerOrTie(ticTacToeBox)(gameTestCreate)
                 if not (matchResult = int GenResult.NoWinner) then
                     gameOver <- true
         Assert.Equal(int GenResult.Tie, int matchResult )
