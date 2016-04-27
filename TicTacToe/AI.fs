@@ -103,7 +103,7 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
             score <- checkForWinnerOrTie(moves)(game)
             searchDepth <- searchDepth + 1 
     
-    if player = int playerVals.AI then
+    if currentPlayer = int playerVals.AI then
         score <- ( score - searchDepth)
     else
         score <- ( searchDepth + score )
