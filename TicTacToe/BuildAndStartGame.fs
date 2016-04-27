@@ -148,7 +148,7 @@ let buildGame() : gameSetting =
             if builtGame.inverted then
                 printfn "Board Inverted"
             else
-                printfn "Board Inverted"
+                printfn "Board is not inverted"
             printfn ""
             printfn "Would you like to change anything?"
             printf "Y/N: "
