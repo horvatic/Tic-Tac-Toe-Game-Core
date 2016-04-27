@@ -65,14 +65,16 @@ let startGame (gameOption : gameSetting) : int =
                                             (game.ticTacToeBox.Length))(gameOption)   
                  else
                     if not userError then
-                        writeToScreen(game) ("AI is thinking...")
+                        if not game.aIvAI then
+                            writeToScreen(game) ("AI is thinking...")
                         game.ticTacToeBox <- AIMove (game.ticTacToeBox)(gameOption)   
             else
                 game.ticTacToeBox <- InsertUserOption (game.ticTacToeBox)(aIPlayer(game.ticTacToeBox)(gameOption) + 1)(gameOption)
             
             if not (isGameOver(game.ticTacToeBox)(gameOption)) then
                 if game.firstPlayer = int playerVals.Human && not userError then
-                    writeToScreen(game) ("AI is thinking...")
+                    if not game.aIvAI then
+                        writeToScreen(game) ("AI is thinking...")
                     game.ticTacToeBox <- AIMove (game.ticTacToeBox)(gameOption)   
                 else
                     writeToScreen(game) (message)
