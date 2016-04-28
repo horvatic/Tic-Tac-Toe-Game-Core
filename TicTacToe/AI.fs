@@ -129,7 +129,7 @@ let moveHere( ticTacToeBox : array<string>)(game : gameSetting)
 let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
              : int =
 
-    if movesCount(ticTacToeBox)(game) < 3 && ticTacToeBox.Length = 16 then
+    if movesCount(ticTacToeBox)(game) < 2 && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)(game)
     else
         let mutable place = -1
