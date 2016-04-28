@@ -56,7 +56,6 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
     let mutable currentPlayer = player
     let mutable score = 0
     let mutable moves = makeEmptyTicTacToeBox(ticTacToeBox.Length)
-    let mutable searchDepth = 0
     
     for i = 0 to ticTacToeBox.Length - 1 do
         moves.[i] <- ticTacToeBox.[i]
@@ -101,8 +100,6 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
                     score <- bestScore
                     place <- i
             moves.[place] <- game.playerGlyph
-
-        searchDepth <- searchDepth + 1 
    
     currentPlayer <- currentPlayer * -1
     if currentPlayer = int playerVals.AI then
@@ -132,7 +129,7 @@ let moveHere( ticTacToeBox : array<string>)(game : gameSetting)
 let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
              : int =
 
-    if movesCount(ticTacToeBox)(game) < 4 && ticTacToeBox.Length = 16 then
+    if movesCount(ticTacToeBox)(game) < 3 && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)(game)
     else
         let mutable place = -1
