@@ -45,15 +45,6 @@ let AI_Block_Wining_Move_3X3() =
     Assert.Equal(8, computerMove ticTacToeBox gameTestCreate)
 
 [<Fact>] //test
-let AI_Takes_Center_3X3() =
-    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
-                                          ("X") ("O") (int playerVals.Human)(false)(false)
-    let ticTacToeBox = [|"X"; "-2-"; "-3-"; 
-                         "-4-"; "-5-"; "-6-"; 
-                         "-7-"; "-8-"; "-9-"|]
-    Assert.Equal(4, computerMove ticTacToeBox gameTestCreate)
-
-[<Fact>] //test
 let AI_Block_Wining_Move_4X4() =
     let ticTacToeBox = [|"@"; "X"; "X"; "-4-"; 
                         "@"; "-6-"; "-7-"; "-8-"; 

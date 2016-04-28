@@ -49,13 +49,13 @@ let makeEmptyTicTacToeBox( length : int ) : array<string> =
 
 let rec minimax( ticTacToeBox : array<string>)(player : int)
                (oldTrees : Dictionary<string, int>)(game : gameSetting)
+               ( depth : int )
              : int =
     
     let boxSide = getBoxLength(ticTacToeBox.Length)
     let mutable currentPlayer = player
-    let mutable score = -9999
+    let mutable score = 0
     let mutable moves = makeEmptyTicTacToeBox(ticTacToeBox.Length)
-    let mutable searchDepth = 0
     
     for i = 0 to ticTacToeBox.Length - 1 do
         moves.[i] <- ticTacToeBox.[i]
@@ -66,47 +66,46 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
         score <- checkForWinnerOrTie(moves)(game)
     
     if score = int GenResult.NoWinner then
-        while score = int GenResult.NoWinner do
-            let mutable scores = makeEmptyScore(ticTacToeBox.Length)
+        let mutable scores = makeEmptyScore(ticTacToeBox.Length)
+        for i = 0 to ticTacToeBox.Length - 1 do
+            if (not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph)) then
+                if currentPlayer = int playerVals.AI then
+                    moves.[i] <- game.aIGlyph
+                    scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)(game)(depth + 1)
+                    if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
+                        oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
+                else
+                    moves.[i] <- game.playerGlyph
+                    scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)(game)(depth + 1)
+                    if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
+                        oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
+                moves.[i] <- string (i+1)
+            
+        if currentPlayer = int playerVals.AI then
+            let mutable bestScore = -999
+            let mutable place = -1
             for i = 0 to ticTacToeBox.Length - 1 do
-                if (not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph)) then
-                    if currentPlayer = int playerVals.AI then
-                        moves.[i] <- game.aIGlyph
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)(game)
-                        if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                            oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
-                    else
-                        moves.[i] <- game.playerGlyph
-                        scores.[i] <- minimax(moves)(currentPlayer * -1)(oldTrees)(game)
-                        if not (oldTrees.ContainsKey(ticTacToeBoxToString(moves))) then
-                           oldTrees.Add(ticTacToeBoxToString(moves), scores.[i])
-                    moves.[i] <- string (i+1)
+                if bestScore < scores.[i] && not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph) then
+                    bestScore <- scores.[i]
+                    score <- bestScore
+                    place <- i
+            moves.[place] <- game.aIGlyph
             
-            if currentPlayer = int playerVals.AI then
-                let mutable bestScore = -999
-                let mutable place = -1
-                for i = 0 to ticTacToeBox.Length - 1 do
-                    if bestScore < scores.[i] && not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph) then
-                        bestScore <- scores.[i]
-                        place <- i
-                moves.[place] <- game.aIGlyph
-            
-            else
-                let mutable bestScore = 999
-                let mutable place = -1
-                for i = 0 to ticTacToeBox.Length - 1 do
-                    if bestScore > scores.[i] && not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph) then
-                        bestScore <- scores.[i]
-                        place <- i
-                moves.[place] <- game.playerGlyph
-
-            score <- checkForWinnerOrTie(moves)(game)
-            searchDepth <- searchDepth + 1 
-    
-    if player = int playerVals.AI then
-        score <- ( score - searchDepth)
+        else
+            let mutable bestScore = 999
+            let mutable place = -1
+            for i = 0 to ticTacToeBox.Length - 1 do
+                if bestScore > scores.[i] && not (moves.[i] = game.playerGlyph || moves.[i] = game.aIGlyph) then
+                    bestScore <- scores.[i]
+                    score <- bestScore
+                    place <- i
+            moves.[place] <- game.playerGlyph
+   
+    currentPlayer <- currentPlayer * -1
+    if currentPlayer = int playerVals.AI then
+        score <- ( score - depth)
     else
-        score <- ( searchDepth + score )
+        score <- ( depth + score )
     score
 
 let movesCount ( ticTacToeBox : array<string>)(game : gameSetting) : int =
@@ -130,13 +129,8 @@ let moveHere( ticTacToeBox : array<string>)(game : gameSetting)
 let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
              : int =
 
-    if movesCount(ticTacToeBox)(game) < 4 && ticTacToeBox.Length = 16 then
+    if movesCount(ticTacToeBox)(game) < 3 && ticTacToeBox.Length = 16 then
         moveHere(ticTacToeBox)(game)
-    elif movesCount(ticTacToeBox)(game) = 1 && ticTacToeBox.Length = 9 then
-        if (not (ticTacToeBox.[4] = game.playerGlyph || ticTacToeBox.[4] = game.aIGlyph)) then
-            4
-        else
-            8
     else
         let mutable place = -1
         let oldTrees = new Dictionary<string, int>()
@@ -144,7 +138,7 @@ let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
         for i = 0 to ticTacToeBox.Length - 1 do
             if (not (ticTacToeBox.[i] = game.playerGlyph || ticTacToeBox.[i] = game.aIGlyph)) then
                 ticTacToeBox.[i] <- game.aIGlyph
-                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(oldTrees)(game)
+                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(oldTrees)(game)(1)
                 let stringOffset = i + 1
                 ticTacToeBox.[i] <- string ("-"+string stringOffset+"-")
     

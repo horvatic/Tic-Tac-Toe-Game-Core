@@ -13,13 +13,13 @@ exception GameStillInSession of string
 
 let aIPlayer(ticTacToeBox : array<string>)(gameOption : gameSetting) : int =
     let mutable place = 0
-    for i = 0 to 8 do
+    for i = 0 to ticTacToeBox.Length - 1 do
         if ticTacToeBox.[i] = gameOption.playerGlyph then
             ticTacToeBox.[i] <- gameOption.aIGlyph
         elif ticTacToeBox.[i] = gameOption.aIGlyph then
             ticTacToeBox.[i] <- gameOption.playerGlyph
     place <- computerMove(ticTacToeBox)(gameOption)
-    for i = 0 to 8 do
+    for i = 0 to ticTacToeBox.Length - 1 do
         if ticTacToeBox.[i] = gameOption.playerGlyph then
             ticTacToeBox.[i] <- gameOption.aIGlyph
         elif ticTacToeBox.[i] = gameOption.aIGlyph then
