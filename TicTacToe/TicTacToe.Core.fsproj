@@ -59,6 +59,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
+    <Compile Include="IInputOutPut.fs" />
+    <Compile Include="InputOutPut.fs" />
     <Compile Include="userInputException.fs" />
     <Compile Include="GameStatusCodes.fs" />
     <Compile Include="PlayerValues.fs" />

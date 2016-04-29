@@ -4,6 +4,7 @@ open GameSettings
 open PlayerValues
 open CleanInput
 open userInputException
+open InputOutPut
 
 let invertedGame() : bool =
     let mutable invaildOption = true
@@ -143,8 +144,8 @@ let buildGame() : gameSetting =
                 printfn "You are Player One, and going first"
             else
                 printfn "You are Player Two, and going second"
-            printfn "Player One Glyph: %s " builtGame.playerGlyph
-            printfn "Player Two Glyph: %s " builtGame.aIGlyph
+            printfn "Player One Glyph: %s" builtGame.playerGlyph
+            printfn "Player Two Glyph: %s" builtGame.aIGlyph
             if builtGame.inverted then
                 printfn "Board Inverted"
             else
@@ -166,4 +167,5 @@ let buildGame() : gameSetting =
 let buildAndStartGame() = 
 
     let game = buildGame()
-    startGame(game) |> ignore
+    let io = new InputOut()
+    startGame(game)(io) |> ignore

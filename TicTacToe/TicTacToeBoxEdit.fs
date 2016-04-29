@@ -2,8 +2,9 @@
 open GameSettings
 exception SpotAlreayTaken of string
 
-let InsertUserOption ( ticTacToeBox : array<string>) (userInput: int32)(game : gameSetting) : array<string> =
-    if ticTacToeBox.[userInput-1] = game.playerGlyph || ticTacToeBox.[userInput-1] = game.aIGlyph then
+let insertUserOption (ticTacToeBox : array<string>) 
+                     (userInput: int)(playerGlyph : string )
+                     (aIGlyph : string ) =
+    if ticTacToeBox.[userInput-1] = playerGlyph || ticTacToeBox.[userInput-1] = aIGlyph then
         raise(SpotAlreayTaken("Spot Taken"))
-    ticTacToeBox.[userInput-1] <- game.playerGlyph
-    ticTacToeBox
+    ticTacToeBox.[userInput-1] <- playerGlyph
