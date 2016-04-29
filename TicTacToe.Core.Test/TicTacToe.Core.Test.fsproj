@@ -59,13 +59,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
+    <Compile Include="InputOutPutTest.fs" />
     <Compile Include="CleanInputTest.fs" />
     <Compile Include="TicTacToeBoxEditTest.fs" />
     <Compile Include="CheckForWinnerOrTieTest.fs" />
     <Compile Include="AITest.fs" />
     <Compile Include="GameTest.fs" />
     <Compile Include="GameSettingsTest.fs" />
-    <Compile Include="ScreenEditTest.fs" />
     <Compile Include="BuildAndStartGameTest.fs" />
     <Content Include="packages.config" />
   </ItemGroup>

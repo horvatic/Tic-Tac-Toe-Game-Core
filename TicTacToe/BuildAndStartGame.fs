@@ -143,8 +143,8 @@ let buildGame() : gameSetting =
                 printfn "You are Player One, and going first"
             else
                 printfn "You are Player Two, and going second"
-            printfn "Player One Glyph: %s " builtGame.playerGlyph
-            printfn "Player Two Glyph: %s " builtGame.aIGlyph
+            printfn "Player One Glyph: %s" builtGame.playerGlyph
+            printfn "Player Two Glyph: %s" builtGame.aIGlyph
             if builtGame.inverted then
                 printfn "Board Inverted"
             else

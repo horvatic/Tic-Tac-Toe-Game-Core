@@ -63,7 +63,7 @@ let rec minimax( ticTacToeBox : array<string>)(player : int)
     score <- checkForAlreadyMadeTree(oldTrees) 
             (ticTacToeBoxToString(moves))
     if score = -9999 then
-        score <- checkForWinnerOrTie(moves)(game)
+        score <- checkForWinnerOrTie(moves)(game.playerGlyph)(game.aIGlyph)
     
     if score = int GenResult.NoWinner then
         let mutable scores = makeEmptyScore(ticTacToeBox.Length)
@@ -126,31 +126,29 @@ let moveHere( ticTacToeBox : array<string>)(game : gameSetting)
             i <- i + 1
     place
 
-let computerMove( ticTacToeBox : array<string>)(game : gameSetting)
+let computerMove(game : gameSetting)
              : int =
 
-    if movesCount(ticTacToeBox)(game) < 2 && ticTacToeBox.Length = 16 then
-        moveHere(ticTacToeBox)(game)
+    if movesCount(game.ticTacToeBox)(game) < 2 && game.ticTacToeBox.Length = 16 then
+        moveHere(game.ticTacToeBox)(game)
     else
         let mutable place = -1
         let oldTrees = new Dictionary<string, int>()
-        let mutable scores = makeEmptyScore(ticTacToeBox.Length)
-        for i = 0 to ticTacToeBox.Length - 1 do
-            if (not (ticTacToeBox.[i] = game.playerGlyph || ticTacToeBox.[i] = game.aIGlyph)) then
-                ticTacToeBox.[i] <- game.aIGlyph
-                scores.[i] <- minimax(ticTacToeBox)(int playerVals.Human)(oldTrees)(game)(1)
+        let mutable scores = makeEmptyScore(game.ticTacToeBox.Length)
+        for i = 0 to game.ticTacToeBox.Length - 1 do
+            if (not (game.ticTacToeBox.[i] = game.playerGlyph || game.ticTacToeBox.[i] = game.aIGlyph)) then
+                game.ticTacToeBox.[i] <- game.aIGlyph
+                scores.[i] <- minimax(game.ticTacToeBox)(int playerVals.Human)(oldTrees)(game)(1)
                 let stringOffset = i + 1
-                ticTacToeBox.[i] <- string ("-"+string stringOffset+"-")
+                game.ticTacToeBox.[i] <- string ("-"+string stringOffset+"-")
     
         let mutable bestScore = -999
-        for i = 0 to ticTacToeBox.Length - 1 do
-            if bestScore < scores.[i] && not (ticTacToeBox.[i] = game.playerGlyph || ticTacToeBox.[i] = game.aIGlyph) then
+        for i = 0 to game.ticTacToeBox.Length - 1 do
+            if bestScore < scores.[i] && not (game.ticTacToeBox.[i] = game.playerGlyph || game.ticTacToeBox.[i] = game.aIGlyph) then
                 bestScore <- scores.[i]
                 place <- i
         place
 
-let AIMove( ticTacToeBox : array<string>)(game : gameSetting)
-          : array<string> =
+let aIMove(game : gameSetting) =
    
-    ticTacToeBox.[computerMove(ticTacToeBox)(game)] <- game.aIGlyph
-    ticTacToeBox
+    game.ticTacToeBox.[computerMove(game)] <- game.aIGlyph

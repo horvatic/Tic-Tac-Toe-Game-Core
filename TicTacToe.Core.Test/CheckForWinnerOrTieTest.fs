@@ -29,7 +29,7 @@ let Check_If_AI_Won_4X4_Row_First() =
                         "-9-"; "-10-"; "-11-"; "-12-";
                         "-13-"; "-14-"; "-15-"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_4X4_Second() =
@@ -38,7 +38,7 @@ let Check_If_AI_Won_Row_4X4_Second() =
                         "-9-"; "-10-"; "-11-"; "-12-";
                         "-13-"; "-14-"; "-15-"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_4X4_Thrid() =
@@ -47,7 +47,7 @@ let Check_If_AI_Won_Row_4X4_Thrid() =
                         "@"; "@"; "@"; "@";
                         "-13-"; "-14-"; "-15-"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_4X4_Fourth() =
@@ -56,62 +56,62 @@ let Check_If_AI_Won_Row_4X4_Fourth() =
                         "-9-"; "-10-"; "-11-"; "-12-";
                         "@"; "@"; "@"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_3X3_Row_First() =
     let ticTacToeBox = [|"@"; "@"; "@"; "-4-"; "X"; "-6-"; "-7-"; "-8-"; "-9-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_3X3_Second() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "@"; "@"; "@"; "-7-"; "-8-"; "-9-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_Row_3X3_Thrid() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "@"; "@"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_Row_3X3_First() =
     let ticTacToeBox = [|"X"; "X"; "X"; "-4-"; "@"; "-6-"; "-7-"; "-8-"; "-9-"|]
     
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_Row_3X3_Second() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "X"; "X"; "X"; "-7-"; "-8-"; "-9-"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_Row_3X3_Thrid() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "X"; "X"; "X"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_3X3_Coulmn_One() =
     let ticTacToeBox = [|"@"; "-2-"; "-3-"; "@"; "-5-"; "-6-"; "@"; "-8-"; "-9-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won__3X3_Coulmn_Two() =
     let ticTacToeBox = [|"-1-"; "@"; "-3-"; "-4-"; "@"; "-6-"; "-7-"; "@"; "-9-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_3X3_Coulmn_Three() =
     let ticTacToeBox = [|"-1-"; "-2-"; "@"; "-4-"; "-5-"; "@"; "-7-"; "-8-"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_4X4_Coulmn_One() =
@@ -120,7 +120,7 @@ let Check_If_AI_Won_4X4_Coulmn_One() =
                         "@"; "-10-"; "-11-"; "-12-";
                         "@"; "-14-"; "-15-"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_4X4_Coulmn_Two() =
@@ -129,7 +129,7 @@ let Check_If_AI_Won_4X4_Coulmn_Two() =
                         "-9-"; "@"; "-11-"; "-12-";
                         "-13-"; "@"; "-15-"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_4X4_Coulmn_Three() =
@@ -138,7 +138,7 @@ let Check_If_AI_Won_4X4_Coulmn_Three() =
                         "-9-"; "-10-"; "@"; "-12-";
                         "-13-"; "-14-"; "@"; "-16-"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_AI_Won_4X4_Coulmn_Four() =
@@ -147,37 +147,37 @@ let Check_If_AI_Won_4X4_Coulmn_Four() =
                         "-9-"; "-10-"; "-11-"; "@";
                         "-13-"; "-14-"; "-15-"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_3X3_Coulmn_One() =
     let ticTacToeBox = [|"X"; "-2-"; "-3-"; "X"; "-5-"; "-6-"; "X"; "-8-"; "-9-"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_3X3_Coulmn_Two() =
     let ticTacToeBox = [|"-1-"; "X"; "-3-"; "-4-"; "X"; "-6-"; "-7-"; "X"; "-9-"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_3X3_Coulmn_Three() =
     let ticTacToeBox = [|"-1-"; "-2-"; "X"; "-4-"; "-5-"; "X"; "-7-"; "-8-"; "X"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Ai_Won_Right_3X3_Diangle() =
     let ticTacToeBox = [|"@"; "-2-"; "-3-"; "-4-"; "@"; "-6-"; "-7-"; "-8-"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Ai_Won_Left_3X3_Diangle() =
    let ticTacToeBox = [|"-1-"; "-2-"; "@"; "-4-"; "@"; "-6-"; "@"; "-8-"; "-9-"|]
    let winningValue = int (getWinningAIValue(ticTacToeBox))
-   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Ai_Won_Right_4X4_Diangle() =
@@ -186,7 +186,7 @@ let Check_If_Ai_Won_Right_4X4_Diangle() =
                         "-9-"; "-10-"; "@"; "-12-";
                         "-13-"; "-14-"; "-15-"; "@"|]
     let winningValue = int (getWinningAIValue(ticTacToeBox))
-    Assert.Equal(winningValue,checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue,checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Ai_Won_Left_4X4_Diangle() =
@@ -195,24 +195,24 @@ let Check_If_Ai_Won_Left_4X4_Diangle() =
                         "-9-"; "@"; "-11-"; "-12-";
                         "@"; "-14-"; "-15-"; "-16-"|]
    let winningValue = int (getWinningAIValue(ticTacToeBox))
-   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_Right_3X3_Diangle() =
     let ticTacToeBox = [|"X"; "-2-"; "-3-"; "-4-"; "X"; "-6-"; "-7-"; "-8-"; "X"|]
     let winningValue = int (getWinningHumanValue(ticTacToeBox))
-    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+    Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Human_Won_Left_3X3_Diangle() =
    let ticTacToeBox = [|"-1-"; "-2-"; "X"; "-4-"; "X"; "-6-"; "X"; "-8-"; "-9-"|]
    let winningValue = int (getWinningHumanValue(ticTacToeBox))
-   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+   Assert.Equal(winningValue, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Tie_3X3() =
    let ticTacToeBox = [|"X"; "X"; "@"; "@"; "@"; "X"; "X"; "X"; "@"|]
-   Assert.Equal(int GenResult.Tie, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+   Assert.Equal(int GenResult.Tie, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]   // test
 let Check_If_Tie_4X4() =
@@ -220,4 +220,4 @@ let Check_If_Tie_4X4() =
                         "X"; "X"; "@"; "@"; 
                         "@"; "X"; "X"; "X";
                         "@"; "@"; "@"; "X"|]
-   Assert.Equal(int GenResult.Tie, checkForWinnerOrTie ticTacToeBox gameTestCreate)
+   Assert.Equal(int GenResult.Tie, checkForWinnerOrTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
