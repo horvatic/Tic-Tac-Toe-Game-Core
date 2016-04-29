@@ -10,7 +10,64 @@ open GameSettings
 open InputOutPutTest
 
 [<Fact>]    // test
-let game_Human_Vs_Ai_Ai_Doesnt_Stall() =
+let Human_Won_The_Game() =
+    
+    let gameTestCreate = craftGameSetting ([|"-1-"; "X"; "-3-"; 
+                                             "-4-"; "X"; "-6-"; 
+                                             "-7-"; "X"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.AI)(false)(false)
+
+    Assert.Equal("Human Won"
+                    , gameEndingMessage 
+                    gameTestCreate.ticTacToeBox 
+                    gameTestCreate.playerGlyph 
+                    gameTestCreate.aIGlyph)
+
+[<Fact>]    // test
+let AI_Won_The_Game() =
+    let gameTestCreate = craftGameSetting ([|"@"; "-2-"; "-3-"; 
+                                             "-4-"; "@"; "-6-"; 
+                                             "-7-"; "-8-"; "@"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.AI)(false)(false)
+
+    Assert.Equal("AI Won"
+                    , gameEndingMessage 
+                      gameTestCreate.ticTacToeBox 
+                      gameTestCreate.playerGlyph 
+                      gameTestCreate.aIGlyph)
+
+[<Fact>]    // test
+let Tie_Game() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.AI)(false)(false)
+
+    Assert.Equal("Tie"
+                    , gameEndingMessage 
+                    gameTestCreate.ticTacToeBox 
+                    gameTestCreate.playerGlyph 
+                    gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Game_Starts_Sucessfuly_Human_Vs_AI_First() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.AI)(false)(false)
+    let io = new InputOutTest([|1; 99; 7; 
+                                9; 8; 6; 
+                                5; 4; 3|])
+
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
+                    , startGame gameTestCreate io)
+
+[<Fact>]
+let Game_Starts_Sucessfuly_Human_First_Vs_AI() =
     let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
                                              "-4-"; "-5-"; "-6-"; 
                                              "-7-"; "-8-"; "-9-"|]) 
@@ -21,10 +78,24 @@ let game_Human_Vs_Ai_Ai_Doesnt_Stall() =
                                 5; 4; 3|])
 
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
-                    , humanVsAiGame gameTestCreate io)
+                    , startGame gameTestCreate io)
 
 [<Fact>]    // test
-let game_Human_Vs_Ai() =
+let game_Human_Vs_Ai_First_Ai_Doesnt_Stall() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    let io = new InputOutTest([|1; 99; 7; 
+                                9; 8; 6; 
+                                5; 4; 3|])
+
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
+                    , humanVsAiFirstGame gameTestCreate io)
+
+[<Fact>]    // test
+let game_Human_Vs_Ai_Ai_First() =
     let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
                                              "-4-"; "-5-"; "-6-"; 
                                              "-7-"; "-8-"; "-9-"|]) 
@@ -35,7 +106,35 @@ let game_Human_Vs_Ai() =
                                 7; 8; 9|])
 
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
-                    , humanVsAiGame gameTestCreate io)
+                    , humanVsAiFirstGame gameTestCreate io)
+
+[<Fact>]    // test
+let game_Human_First_Vs_Ai_Ai_Doesnt_Stall() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    let io = new InputOutTest([|1; 99; 7; 
+                                9; 8; 6; 
+                                5; 4; 3|])
+
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
+                    , humanFirstVsAiGame gameTestCreate io)
+
+[<Fact>]    // test
+let game_First_Human_Vs_Ai() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    let io = new InputOutTest([|1; 2; 3; 
+                                4; 5; 6; 
+                                7; 8; 9|])
+
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
+                    , humanFirstVsAiGame gameTestCreate io)
 
 [<Fact>]    // test
 let Game_Is_Over_AI_Won() =

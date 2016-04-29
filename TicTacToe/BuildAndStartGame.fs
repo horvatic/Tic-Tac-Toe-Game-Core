@@ -4,6 +4,7 @@ open GameSettings
 open PlayerValues
 open CleanInput
 open userInputException
+open InputOutPut
 
 let invertedGame() : bool =
     let mutable invaildOption = true
@@ -166,4 +167,5 @@ let buildGame() : gameSetting =
 let buildAndStartGame() = 
 
     let game = buildGame()
-    startGame(game) |> ignore
+    let io = new InputOut()
+    startGame(game)(io) |> ignore
