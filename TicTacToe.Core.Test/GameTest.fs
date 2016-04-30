@@ -7,7 +7,7 @@ open PlayerValues
 open CheckForWinnerOrTie
 open GameStatusCodes
 open GameSettings
-open InputOutPutTest
+open InputOutPutTestGame
 
 [<Fact>]    // test
 let Human_Won_The_Game() =
@@ -59,7 +59,7 @@ let Game_Starts_Sucessfuly_Human_Vs_AI_First() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.AI)(false)(false)
-    let io = new InputOutTest([|1; 99; 7; 
+    let io = new InputOutTestGame([|1; 99; 7; 
                                 9; 8; 6; 
                                 5; 4; 3|])
 
@@ -73,7 +73,7 @@ let Game_Starts_Sucessfuly_Human_First_Vs_AI() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.Human)(false)(false)
-    let io = new InputOutTest([|1; 99; 7; 
+    let io = new InputOutTestGame([|1; 99; 7; 
                                 9; 8; 6; 
                                 5; 4; 3|])
 
@@ -87,7 +87,7 @@ let game_Human_Vs_Ai_First_Ai_Doesnt_Stall() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.Human)(false)(false)
-    let io = new InputOutTest([|1; 99; 7; 
+    let io = new InputOutTestGame([|1; 99; 7; 
                                 9; 8; 6; 
                                 5; 4; 3|])
 
@@ -101,7 +101,7 @@ let game_Human_Vs_Ai_Ai_First() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.Human)(false)(false)
-    let io = new InputOutTest([|1; 2; 3; 
+    let io = new InputOutTestGame([|1; 2; 3; 
                                 4; 5; 6; 
                                 7; 8; 9|])
 
@@ -115,7 +115,7 @@ let game_Human_First_Vs_Ai_Ai_Doesnt_Stall() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.Human)(false)(false)
-    let io = new InputOutTest([|1; 99; 7; 
+    let io = new InputOutTestGame([|1; 99; 7; 
                                 9; 8; 6; 
                                 5; 4; 3|])
 
@@ -129,7 +129,7 @@ let game_First_Human_Vs_Ai() =
                                              "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") 
                                           (int playerVals.Human)(false)(false)
-    let io = new InputOutTest([|1; 2; 3; 
+    let io = new InputOutTestGame([|1; 2; 3; 
                                 4; 5; 6; 
                                 7; 8; 9|])
 

@@ -1,13 +1,14 @@
 ﻿open BuildAndStartGame
+open InputOutPut
 
 [<EntryPoint>]
 let main argv =
+    let io = new InputOut()
     let mutable playgame = true
-    let mutable input = ""
     while playgame do
-        buildAndStartGame()
-        printf "Another Game? Y/N: "
-        input <- System.Console.ReadLine()
+        buildAndStartGame(io)
+        io.printNoScreenWhip([|"Another Game? Y/N: "|])
+        let input = io.getUserInput()
         if not (input = "Y" || input = "y") then
             playgame <- false
 

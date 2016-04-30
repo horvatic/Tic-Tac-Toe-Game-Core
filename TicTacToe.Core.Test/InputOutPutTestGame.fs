@@ -1,7 +1,7 @@
-﻿module InputOutPutTest
+﻿module InputOutPutTestGame
 open IInputOutPut
 
-type InputOutTest(moves : array<int>) =
+type InputOutTestGame(moves : array<int>) =
     member val moves = moves
     member val nextMove = -1 with get, set
     member this.print(output : array<string>) 

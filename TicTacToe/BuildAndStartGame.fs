@@ -5,167 +5,106 @@ open PlayerValues
 open CleanInput
 open userInputException
 open InputOutPut
-
-let invertedGame() : bool =
-    let mutable invaildOption = true
-    let mutable invert = ""
-    let mutable message = ""
-    while invaildOption do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "Would you like to The game Inverted? "
-            printf "Y/N: "
-            invert <- SanitizeYesOrNo(System.Console.ReadLine())
-            invaildOption <- false
-        with
-            | :? InvaildOption -> message <- "Must be a Y or N"
-   
-    if( invert = "Y" ) then
-        true
-    else
-        false
-
-let getFirstPlayer() : int =
-    let mutable invaildPlayer = true
-    let mutable first = ""
-    let mutable message = ""
-    while invaildPlayer do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "Would you like to go first / Be Player One? "
-            printf "Y/N: "
-            first <- SanitizeYesOrNo(System.Console.ReadLine())
-            invaildPlayer <- false
-        with
-            | :? InvaildOption -> message <- "Must be a Y or N"
-   
-    if( first = "Y" ) then
-        int playerVals.Human
-    else
-        int playerVals.AI
-
-let getaIGlyph(playerGlyph : string) : string =
-    let mutable invaildGlyph = true
-    let mutable glyph = ""
-    let mutable message = ""
-    while invaildGlyph do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "What glyph would you like the AI?"
-            printf "glyph: "
-            glyph <- SanitizeGlyph(System.Console.ReadLine())
-            if playerGlyph = glyph then
-                message <- "Must be diffent, pick another glyph"
-            else
-                invaildGlyph <- false
-        with
-            | :? InvaildGlyph -> message <- "Length Must be one"
-    glyph
-
-let getplayerGlyph() : string =
-    let mutable invaildGlyph = true
-    let mutable glyph = ""
-    let mutable message = ""
-    while invaildGlyph do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "What glyph would you like?"
-            printf "glyph: "
-            glyph <- SanitizeGlyph(System.Console.ReadLine())
-            invaildGlyph <- false
-        with
-            | :? InvaildGlyph -> message <- "Length Must be one"
-    glyph
+open IInputOutPut
 
 let makeTicTacToeBox(size : int) : array<string> =
     if size = 3 then
-        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
-                         "-4-"; "-5-"; "-6-"; 
-                         "-7-"; "-8-"; "-9-"|]
-        ticTacToeBox
+        [|"-1-"; "-2-"; "-3-"; 
+        "-4-"; "-5-"; "-6-"; 
+        "-7-"; "-8-"; "-9-"|]
     elif size =  4 then 
-        let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
-                         "-5-"; "-6-"; "-7-"; "-8-"; 
-                         "-9-"; "-10-"; "-11-"; "-12-";
-                         "-13-"; "-14-"; "-15-"; "-16-"|]
-        ticTacToeBox
+        [|"-1-"; "-2-"; "-3-"; "-4-"; 
+        "-5-"; "-6-"; "-7-"; "-8-"; 
+        "-9-"; "-10-"; "-11-"; "-12-";
+        "-13-"; "-14-"; "-15-"; "-16-"|]
     elif size < 3 then
         raise(OutOfBoundsUnderFlow("Invaild Box Size"))
     else
         raise(OutOfBoundsOverFlow("Invaild Box Size"))
 
-let getBoxSize() : int = 
-    let mutable invaildBoxSize = true
-    let mutable boxSize = 0
-    let mutable message = ""
-    while invaildBoxSize do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "Would you like to play on a 3x3 or 4x4 Board"
-            printf "3 or 4: "
-            boxSize <- SanitizeBoxSize(System.Console.ReadLine())
-            invaildBoxSize <- false
-        with
-            | :? NonIntError -> message <- "Invaild Box Size, Enter 3 or 4"
-            | :? OutOfBoundsOverFlow -> message <- "Invaild Box Size, Enter 3 or 4"
-            | :? OutOfBoundsUnderFlow -> message <- "Invaild Box Size, Enter 3 or 4"
-    boxSize
-
-let builder() : gameSetting =
-    let ticTacToeBox = makeTicTacToeBox(getBoxSize())
-    let whoFirst = getFirstPlayer()
-    let playerGlyph = getplayerGlyph()
-    let aIGlyph = getaIGlyph(playerGlyph)
-    let inverted = invertedGame()
-
-    craftGameSetting (ticTacToeBox)(playerGlyph)
-                (aIGlyph)(whoFirst)(inverted)(false)
-
-let buildGame() : gameSetting =
-    let mutable invaildOption = true
-    let mutable  good = ""
-    let mutable message = ""
-    let mutable builtGame = builder()
-    while invaildOption do
-        System.Console.Clear()
-        try 
-            printfn "%s" message
-            printfn "These are the options you picked"
-            if builtGame.ticTacToeBox.Length = 9 then 
-                printfn "TicTacToeBox is: 3x3"
+let rec getaIGlyph(io : IInputOut)
+                  (message : string)
+                  (playerGlyph : string) : string =
+    io.print([|message; "What glyph would you like for the AI?"|])
+    try 
+            let aiGlypg = SanitizeGlyph(io.getUserInput())
+            if aiGlypg = playerGlyph then
+                getaIGlyph(io)("glyph must differ")(playerGlyph)
             else
-                printfn "TicTacToeBox is: 4x4"
-            if builtGame.firstPlayer = int playerVals.Human then
-                printfn "You are Player One, and going first"
-            else
-                printfn "You are Player Two, and going second"
-            printfn "Player One Glyph: %s" builtGame.playerGlyph
-            printfn "Player Two Glyph: %s" builtGame.aIGlyph
-            if builtGame.inverted then
-                printfn "Board Inverted"
-            else
-                printfn "Board is not inverted"
-            printfn ""
-            printfn "Would you like to change anything?"
-            printf "Y/N: "
-            good <- SanitizeYesOrNo(System.Console.ReadLine())
-        with
-            | :? InvaildOption -> message <- "Must be a Y or N"
-   
-        if( good = "N" ) then
-            invaildOption <- false
+                aiGlypg
+    with
+        | :? InvaildGlyph -> getaIGlyph(io)("Length Must be one")(playerGlyph)
+
+let rec getplayerGlyph (io : IInputOut)(message : string) : string =
+    io.print([|message; "What glyph would you like?"|])
+    try 
+            SanitizeGlyph(io.getUserInput())
+    with
+        | :? InvaildGlyph -> getplayerGlyph(io)("Length Must be one")
+
+let rec getBoxOfUserSize(io : IInputOut)(message : string) : array<string> =
+    io.print([|message; "Would you like to play on a 3x3 or 4x4 Board? "|])
+    try
+        makeTicTacToeBox(SanitizeBoxSize(io.getUserInput()))
+    with
+        | :? NonIntError -> getBoxOfUserSize(io)("Invaild Box Size, Enter 3 or 4")
+        | :? OutOfBoundsOverFlow -> getBoxOfUserSize(io)("Invaild Box Size, Enter 3 or 4")
+        | :? OutOfBoundsUnderFlow -> getBoxOfUserSize(io)("Invaild Box Size, Enter 3 or 4")
+
+let rec isGameInverted(io : IInputOut)(message : string) : bool =
+    io.print([|message; "Would you like to The game Inverted? "; "Y/N"|])
+    try 
+        let invert = SanitizeYesOrNo(io.getUserInput())
+        if invert = "Y" then
+            true
         else
-            builtGame <- builder()
-    builtGame
+            false
+    with
+        | :? InvaildOption -> isGameInverted(io)("Must be a Y or N")
 
+let rec settingGood(io : IInputOut)
+               (playerBox : array<string>)
+               (playerGlyph : string)
+               (aIGlyph : string)
+               (gameInverted : bool)
+               (message : string) : bool =
+    io.print[|message;
+              "Here are your current Settings";
+              "Current Board Size is: " 
+                + string (sqrt(float playerBox.Length))
+                + "X" + string (sqrt(float playerBox.Length));
+              "Player Glyph: " + playerGlyph;
+              "AI Glyph: " + aIGlyph;
+              "Game Inverted: " + string gameInverted;
+              "Are These the setting you want?";            
+            |]
+    try 
+        let invert = SanitizeYesOrNo(io.getUserInput())
+        if invert = "Y" then
+            true
+        else
+            false
+    with
+        | :? InvaildOption -> settingGood(io)(playerBox)
+                                         (playerGlyph)(aIGlyph)
+                                         (gameInverted)("Must be a Y or N")
+    
 
-let buildAndStartGame() = 
+let rec buildGame(io : IInputOut) : gameSetting =
+    let playerBox = getBoxOfUserSize(io)("")
+    let playerGlyph = getplayerGlyph(io)("")
+    let aIGlyph = getaIGlyph(io)("")(playerGlyph)
+    let gameInverted = isGameInverted(io)("")
+    if settingGood(io)(playerBox)(playerGlyph)(aIGlyph)(gameInverted)("") then
+        craftGameSetting(playerBox) 
+                        (playerGlyph) 
+                        (aIGlyph) 
+                        (int playerVals.AI)
+                        (gameInverted)
+                        (false)
+    else
+        buildGame(io)
 
-    let game = buildGame()
-    let io = new InputOut()
-    startGame(game)(io) |> ignore
+let buildAndStartGame(io : IInputOut) : int = 
+    let game = buildGame(io)
+    startGame(game)(io)

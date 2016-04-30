@@ -2,6 +2,9 @@
 open IInputOutPut
 
 type InputOut() =
+    member this.printNoScreenWhip(output : array<string>) 
+        = for i = 0 to output.Length - 1 do
+                printfn "%s" output.[i]
     member this.print(output : array<string>) 
         = (this :> IInputOut).print(output : array<string>)
     member this.getUserInput() : string 
