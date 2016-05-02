@@ -5,6 +5,18 @@ open GameStatusCodes
 open System.Collections.Generic
 open GameSettings
 
+let maxiumeScoreCutOff(score : int)(depth : int ) : int =
+    if score - depth < int GenResult.Tie then
+        int GenResult.Tie
+    else
+        score - depth
+
+let minimizeScoreCutOff(score : int)(depth : int ) : int =
+    if score + depth > int GenResult.Tie then
+        int GenResult.Tie
+    else
+        score + depth
+
 let insertPlayerGlyph(ticTacToeBox : array<string>)
                      (insetPostion : int)
                      (playerGlyph : string)
@@ -81,9 +93,9 @@ let rec miniMaxMaxium(ticTacToeBox : array<string>)
             if (insertAiGlyph(moves)(i)(playerGlyph)(aIGlyph)) then
                 scores.[i] <- miniMaxMinimize(moves)(playerGlyph)(aIGlyph)(depth + 1)
                 moves.[i] <- "-"+string (int i + int 1)+"-"
-        findLargestScore(scores) - depth
+        findLargestScore(scores)
     else
-        score
+        minimizeScoreCutOff(score)(depth)
 
 and miniMaxMinimize(ticTacToeBox : array<string>)
                    (playerGlyph : string)
@@ -99,9 +111,9 @@ and miniMaxMinimize(ticTacToeBox : array<string>)
             if (insertPlayerGlyph(moves)(i)(playerGlyph)(aIGlyph)) then
                 scores.[i] <- miniMaxMaxium(moves)(playerGlyph)(aIGlyph)(depth + 1)
                 moves.[i] <- "-"+string (int i + int 1)+"-"
-        findSmallestScore(scores) + depth
+        findSmallestScore(scores)
     else
-        score
+        maxiumeScoreCutOff(score)(depth)
 
 let computerMove(ticTacToeBox : array<string>)
                 (playerGlyph : string)

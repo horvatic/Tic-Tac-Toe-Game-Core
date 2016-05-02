@@ -9,6 +9,29 @@ open System.Collections.Generic
 open GameSettings
 open InputOutPutTestGame
 
+[<Fact>]
+let Maxiume_Score_Cut_Off_Not_Needed() = 
+    let depth = 1
+    let score = 8
+    Assert.Equal(score - depth, maxiumeScoreCutOff score depth) 
+
+[<Fact>]
+let Maxiume_Score_Cut_Off_Needed() = 
+    let depth = 10
+    let score = -8
+    Assert.Equal(int GenResult.Tie, maxiumeScoreCutOff score depth) 
+
+[<Fact>]
+let Minimize_Score_Cut_Off_Not_Needed() = 
+    let depth = 1
+    let score = -8
+    Assert.Equal(score + depth, minimizeScoreCutOff score depth) 
+
+[<Fact>]
+let Minimize_Score_Cut_Off_Needed() = 
+    let depth = 10
+    let score = 8
+    Assert.Equal(int GenResult.Tie, minimizeScoreCutOff score depth) 
 
 [<Fact>]    // test
 let Ai_Wins_Human_Puting_In_Random_Vals() =
@@ -49,7 +72,7 @@ let Mini_Max_Maxium_Tie() =
                                     gameTestCreate.ticTacToeBox
                                     gameTestCreate.playerGlyph
                                     gameTestCreate.aIGlyph
-                                    1)
+                                    0)
 
 [<Fact>]
 let Mini_Max_Minimize_Tie() = 
@@ -59,7 +82,7 @@ let Mini_Max_Minimize_Tie() =
                                     gameTestCreate.ticTacToeBox
                                     gameTestCreate.playerGlyph
                                     gameTestCreate.aIGlyph
-                                    1)
+                                    0)
 
 
 [<Fact>] 
