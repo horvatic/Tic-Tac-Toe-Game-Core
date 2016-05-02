@@ -4,6 +4,28 @@ open FsUnit
 open BuildAndStartGame
 open userInputException
 open InputOutPutTestBuildGame
+open PlayerValues
+
+[<Fact>]
+let User_Does_Not_Want_To_Go_First() = 
+    let io = new InputOutTestBuildGameManyOps([|"N";|])
+
+    Assert.Equal(int playerVals.AI, whoGoingFirst io "")
+
+[<Fact>]
+let User_Does_Want_To_Go_First() = 
+    let io = new InputOutTestBuildGameManyOps([|"Y";|])
+    Assert.Equal(int playerVals.Human, whoGoingFirst io "")
+
+[<Fact>]
+let User_Want_To_Go_First_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
+    Assert.Equal(int playerVals.Human, whoGoingFirst io "")
+
+[<Fact>]
+let User_Want_To_Go_Second_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "N";|])
+    Assert.Equal(int playerVals.AI, whoGoingFirst io "")
 
 [<Fact>]
 let User_Setting_Bad() = 
@@ -11,8 +33,8 @@ let User_Setting_Bad() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
-
-    Assert.Equal(false, settingGood io ticTacToeBox "X" "#" false "")
+    let aIplayerValue = int playerVals.AI
+    Assert.Equal(false, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Setting_Good() = 
@@ -20,7 +42,8 @@ let User_Setting_Good() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
-    Assert.Equal(true, settingGood io ticTacToeBox "X" "#" false "")
+    let aIplayerValue = int playerVals.AI
+    Assert.Equal(true, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Setting_Bad_Take_Three_Tries() = 
@@ -29,7 +52,8 @@ let User_Setting_Bad_Take_Three_Tries() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
 
-    Assert.Equal(false, settingGood io ticTacToeBox "X" "#" false "")
+    let aIplayerValue = int playerVals.AI
+    Assert.Equal(false, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Setting_Good_Take_Three_Tries() = 
@@ -37,8 +61,8 @@ let User_Setting_Good_Take_Three_Tries() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; 
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
-
-    Assert.Equal(true, settingGood io ticTacToeBox "X" "#" false "")
+    let aIplayerValue = int playerVals.AI
+    Assert.Equal(true, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Picks_AI_Glyph_unsucsfully_Until_No_Pick_Players() = 

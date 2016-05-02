@@ -7,6 +7,27 @@ open PlayerValues
 open GameStatusCodes
 open System.Collections.Generic
 open GameSettings
+open InputOutPutTestGame
+
+[<Fact>]    // test
+let Ai_Wins_Human_Puting_In_Random_Vals() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    let io = new InputOutTestGame([|1; 2; 3; 
+                                4; 5; 6; 
+                                7; 8; 9|])
+    while(checkForWinnerOrTie(gameTestCreate.ticTacToeBox)("X")("@") =  int GenResult.NoWinner) do
+        let takePos = int (io.getUserInput())
+        if not (gameTestCreate.ticTacToeBox.[takePos-1] = "X" || gameTestCreate.ticTacToeBox.[takePos-1] = "@") then
+            gameTestCreate.ticTacToeBox.[takePos-1] <- "X"
+            aIMove(gameTestCreate)
+
+    let winningVaue = checkForWinnerOrTie(gameTestCreate.ticTacToeBox)("X")("@")
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
+                    , winningVaue)
 
 [<Fact>] 
 let Insert__Player_Glyph_Sucessfuly() =

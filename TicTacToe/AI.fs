@@ -258,5 +258,4 @@ let computerMove(ticTacToeBox : array<string>)
     pos
 
 let aIMove(game : gameSetting) =
-   
     game.ticTacToeBox.[computerMove(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)] <- game.aIGlyph

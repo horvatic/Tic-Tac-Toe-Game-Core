@@ -62,17 +62,31 @@ let rec isGameInverted(io : IInputOut)(message : string) : bool =
     with
         | :? InvaildOption -> isGameInverted(io)("Must be a Y or N")
 
+let rec whoGoingFirst(io : IInputOut)(message : string) : int  =
+    io.print([|message; "Would you like to go first? "; "Y/N"|])
+    try 
+        let invert = SanitizeYesOrNo(io.getUserInput())
+        if invert = "Y" then
+            int playerVals.Human
+        else
+            int playerVals.AI
+    with
+        | :? InvaildOption -> whoGoingFirst(io)("Must be a Y or N")
+
 let rec settingGood(io : IInputOut)
                (playerBox : array<string>)
+               (firstPlayer : int)
                (playerGlyph : string)
                (aIGlyph : string)
                (gameInverted : bool)
                (message : string) : bool =
+    let firstPlayerMessage = if firstPlayer = int playerVals.AI then "AI is going first" else "Your going first"
     io.print[|message;
               "Here are your current Settings";
               "Current Board Size is: " 
                 + string (sqrt(float playerBox.Length))
                 + "X" + string (sqrt(float playerBox.Length));
+              firstPlayerMessage;
               "Player Glyph: " + playerGlyph;
               "AI Glyph: " + aIGlyph;
               "Game Inverted: " + string gameInverted;
@@ -85,21 +99,22 @@ let rec settingGood(io : IInputOut)
         else
             false
     with
-        | :? InvaildOption -> settingGood(io)(playerBox)
+        | :? InvaildOption -> settingGood(io)(playerBox)(firstPlayer)
                                          (playerGlyph)(aIGlyph)
                                          (gameInverted)("Must be a Y or N")
-    
+   
 
 let rec buildGame(io : IInputOut) : gameSetting =
     let playerBox = getBoxOfUserSize(io)("")
+    let firstPlayer = whoGoingFirst(io)("")
     let playerGlyph = getplayerGlyph(io)("")
     let aIGlyph = getaIGlyph(io)("")(playerGlyph)
     let gameInverted = isGameInverted(io)("")
-    if settingGood(io)(playerBox)(playerGlyph)(aIGlyph)(gameInverted)("") then
+    if settingGood(io)(playerBox)(firstPlayer)(playerGlyph)(aIGlyph)(gameInverted)("") then
         craftGameSetting(playerBox) 
                         (playerGlyph) 
                         (aIGlyph) 
-                        (int playerVals.AI)
+                        (firstPlayer)
                         (gameInverted)
                         (false)
     else
