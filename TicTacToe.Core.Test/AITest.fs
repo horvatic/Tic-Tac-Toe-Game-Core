@@ -9,6 +9,67 @@ open System.Collections.Generic
 open GameSettings
 open InputOutPutTestGame
 
+let rec humanAndAIPlay(ticTacToeBox : array<string>)
+                       (playerGlyph : string)
+                       (aIGlyph : string)
+                       (game : gameSetting)  =
+    let moves =
+        makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
+    let game = craftGameSetting (moves) 
+                                ("X") ("@") 
+                                (int playerVals.Human)(false)(false)
+    let mutable score = checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
+    if score = int GenResult.NoWinner then
+        aIMove(game)
+        score <- checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
+        if score = int GenResult.NoWinner then
+            for i = 0 to moves.Length - 1 do
+            if (insertPlayerGlyph(moves)(i)("X")("@")) then
+                humanAndAIPlay(moves)("X")("@")(game) |> ignore
+                moves.[i] <- "-"+string (int i + int 1)+"-"
+        else
+            Assert.NotEqual(score, int Result3X3.HumanWins)
+    else
+        Assert.NotEqual(score, int Result3X3.HumanWins)
+
+[<Fact>]
+let Evey_Possabile_Combination_Game_3X3_AI_First() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    aIMove(gameTestCreate)
+    let moves =
+        makeDeepCopyOfArray(makeEmptyTicTacToeBox(gameTestCreate.ticTacToeBox.Length))(gameTestCreate.ticTacToeBox)
+    for i = 0 to moves.Length - 1 do
+        if (insertPlayerGlyph(moves)(i)("X")("@")) then
+            humanAndAIPlay(moves)("X")("@")(gameTestCreate)|> ignore
+            moves.[i] <- "-"+string (int i + int 1)+"-"
+
+[<Fact>]
+let Evey_Possabile_Combination_Game_3X3_Huamn_First() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                             "-4-"; "-5-"; "-6-"; 
+                                             "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    let moves =
+        makeDeepCopyOfArray(makeEmptyTicTacToeBox(gameTestCreate.ticTacToeBox.Length))(gameTestCreate.ticTacToeBox)
+    for i = 0 to moves.Length - 1 do
+        if (insertPlayerGlyph(moves)(i)("X")("@")) then
+            humanAndAIPlay(moves)("X")("@")(gameTestCreate)|> ignore
+            moves.[i] <- "-"+string (int i + int 1)+"-"
+
+[<Fact>]
+let Maxiume_Lossess() = 
+    let gameTestCreate = craftGameSetting ([|"-1-"; "X"; "-3-"; 
+                                             "-4-"; "-5-"; "X"; 
+                                             "@"; "@"; "X"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)
+    Assert.Equal(2, computerMove gameTestCreate.ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
 [<Fact>]
 let Maxiume_Score_Cut_Off_Not_Needed() = 
     let depth = 1
@@ -63,6 +124,34 @@ let Insert__Player_Glyph_Sucessfuly() =
 let Insert__Player_Glyph_unSucessfuly_With_AI() =
     let ticTacToeBox = [|"@"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
     Assert.Equal(false, insertPlayerGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>]
+let Mini_Max_Minimize_Win() = 
+    let gameTestCreate = craftGameSetting ([|"@"; "@"; "-3-"; "-4-"; "-5-"; "-6-"; "X"; "X"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
+    Assert.Equal(int Result3X3.HumanWins + 1, miniMaxMinimize 
+                                            gameTestCreate.ticTacToeBox
+                                            gameTestCreate.playerGlyph
+                                            gameTestCreate.aIGlyph
+                                            0)
+
+    let gameTestCreate = craftGameSetting ([|"X"; "X"; "-3-"; "@"; "@"; "-6-"; "X"; "X"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
+    Assert.Equal(int Result3X3.HumanWins + 1, miniMaxMinimize 
+                                            gameTestCreate.ticTacToeBox
+                                            gameTestCreate.playerGlyph
+                                            gameTestCreate.aIGlyph
+                                            0)
+
+[<Fact>]
+let Mini_Max_Maxium_Win() = 
+    let gameTestCreate = craftGameSetting ([|"X"; "X"; "-3-"; "-4-"; "-5-"; "-6-"; "@"; "@"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
+    Assert.Equal(int Result3X3.AiWins - 1, miniMaxMaxium 
+                                            gameTestCreate.ticTacToeBox
+                                            gameTestCreate.playerGlyph
+                                            gameTestCreate.aIGlyph
+                                            0)
 
 [<Fact>]
 let Mini_Max_Maxium_Tie() = 
