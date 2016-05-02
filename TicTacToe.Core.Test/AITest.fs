@@ -8,6 +8,96 @@ open GameStatusCodes
 open System.Collections.Generic
 open GameSettings
 
+[<Fact>] 
+let Insert__Player_Glyph_Sucessfuly() =
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(true, insertPlayerGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>] 
+let Insert__Player_Glyph_unSucessfuly_With_AI() =
+    let ticTacToeBox = [|"@"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(false, insertPlayerGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>]
+let Mini_Max_Maxium_Tie() = 
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
+    Assert.Equal(int GenResult.Tie, miniMaxMaxium 
+                                    gameTestCreate.ticTacToeBox
+                                    gameTestCreate.playerGlyph
+                                    gameTestCreate.aIGlyph
+                                    1)
+
+[<Fact>]
+let Mini_Max_Minimize_Tie() = 
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
+                                          ("X") ("@") (int playerVals.Human)(false)(false)
+    Assert.Equal(int GenResult.Tie, miniMaxMinimize 
+                                    gameTestCreate.ticTacToeBox
+                                    gameTestCreate.playerGlyph
+                                    gameTestCreate.aIGlyph
+                                    1)
+
+
+[<Fact>] 
+let Insert__AI_Glyph_Sucessfuly() =
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(true, insertAiGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>] 
+let Insert__AI_Glyph_unSucessfuly_With_AI() =
+    let ticTacToeBox = [|"@"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(false, insertAiGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>] 
+let Insert__AI_Glyph_unSucessfuly_With_Human() =
+    let ticTacToeBox = [|"X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal(false, insertAiGlyph ticTacToeBox 0 "X" "@")
+
+[<Fact>] //test
+let Make_Empty_Score_3X3() =
+    let scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
+    Assert.Equal<int>(scores, makeEmptyScore scores.Length )
+
+[<Fact>] //test
+let Make_Empty_Score_4X4() =
+    let scores = [|0; 0; 0; 0; 
+                        0; 0; 0; 0; 
+                        0; 0; 0; 0;
+                        0; 0; 0; 0|]
+    Assert.Equal<int>(scores, makeEmptyScore scores.Length )
+
+[<Fact>]
+let Make_Deep_Copy_Of_TicTacToeBox() =
+    let ticTacToeBoxCopy = [|"x"; "x"; "-3-"; "@"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+
+    Assert.Equal<string>(ticTacToeBoxCopy, makeDeepCopyOfArray ticTacToeBox ticTacToeBoxCopy)
+[<Fact>] //test
+let Make_Empty_Tic_Tac_Toe_Box_3X3() =
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
+    Assert.Equal<string>(ticTacToeBox, makeEmptyTicTacToeBox ticTacToeBox.Length )
+
+[<Fact>] //test
+let Make_Empty_Tic_Tac_Toe_Box_4X4() =
+    let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; 
+                        "-5-"; "-6-"; "-7-"; "-8-"; 
+                        "-9-"; "-10-"; "-11-"; "-12-";
+                        "-13-"; "-14-"; "-15-"; "-16-"|]
+    Assert.Equal<string>(ticTacToeBox, makeEmptyTicTacToeBox ticTacToeBox.Length )
+
+
+[<Fact>] //test
+let Find_Smallest_Value() =
+    let scores = [|1; -10; 10; 9; 6; -1; 2; 3; 1|]
+    Assert.Equal(-10, findSmallestScore scores )
+
+[<Fact>] //test
+let Find_Largest_Value() =
+    let scores = [|1; -10; 10; 9; 6; -1; 2; 3; 1|]
+    Assert.Equal(10, findLargestScore scores )
+
+(*
 let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") (int playerVals.Human)(false)(false)
 
@@ -74,3 +164,4 @@ let TicTacToeBox_To_String() =
     let ticTacToeBox = [|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]
     Assert.Equal("-1--2--3--4--5--6--7--8--9-", 
         ticTacToeBoxToString ticTacToeBox )
+*)
