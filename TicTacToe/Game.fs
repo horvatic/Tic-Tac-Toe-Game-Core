@@ -93,7 +93,8 @@ let humanVsAiFirstGame(game : gameSetting) (io : IInputOut) : int =
     while not (isGameOver(game)) do
         let message = 
             userInputEditTicTacToeBox(game)(io.getUserInput())
-        if message = "" then
+        if message = "" 
+            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
            aIInputEditTicTacToeBox(game) |> ignore
         writeToScreen(game.ticTacToeBox)(game.inverted)(message)(io) |> ignore
     writeToScreen(game.ticTacToeBox)
@@ -109,7 +110,8 @@ let humanFirstVsAiGame(game : gameSetting) (io : IInputOut) : int =
     while not (isGameOver(game)) do
         let message = 
             userInputEditTicTacToeBox(game)(io.getUserInput())
-        if message = "" then
+        if message = "" 
+            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
            aIInputEditTicTacToeBox(game) |> ignore
         writeToScreen(game.ticTacToeBox)(game.inverted)(message)(io) |> ignore
     writeToScreen(game.ticTacToeBox)

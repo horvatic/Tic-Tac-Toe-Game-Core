@@ -23,7 +23,8 @@ let Ai_Wins_Human_Puting_In_Random_Vals() =
         let takePos = int (io.getUserInput())
         if not (gameTestCreate.ticTacToeBox.[takePos-1] = "X" || gameTestCreate.ticTacToeBox.[takePos-1] = "@") then
             gameTestCreate.ticTacToeBox.[takePos-1] <- "X"
-            aIMove(gameTestCreate)
+            if checkForWinnerOrTie(gameTestCreate.ticTacToeBox)("X")("@") =  int GenResult.NoWinner then
+                aIMove(gameTestCreate)
 
     let winningVaue = checkForWinnerOrTie(gameTestCreate.ticTacToeBox)("X")("@")
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBox)
@@ -76,17 +77,30 @@ let Insert__AI_Glyph_unSucessfuly_With_Human() =
     Assert.Equal(false, insertAiGlyph ticTacToeBox 0 "X" "@")
 
 [<Fact>] //test
-let Make_Empty_Score_3X3() =
-    let scores = [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
-    Assert.Equal<int>(scores, makeEmptyScore scores.Length )
+let Make_Empty_Score_Min_3X3() =
+    let scores = [|-999; -999; -999; -999; -999; -999; -999; -999; -999|]
+    Assert.Equal<int>(scores, makeEmptyScoreMin scores.Length )
 
 [<Fact>] //test
-let Make_Empty_Score_4X4() =
-    let scores = [|0; 0; 0; 0; 
-                        0; 0; 0; 0; 
-                        0; 0; 0; 0;
-                        0; 0; 0; 0|]
-    Assert.Equal<int>(scores, makeEmptyScore scores.Length )
+let Make_Empty_Score_Min_4X4() =
+    let scores = [|-999; -999; -999; -999; 
+                    -999; -999; -999; -999; 
+                    -999; -999; -999; -999;
+                    -999; -999; -999; -999|]
+    Assert.Equal<int>(scores, makeEmptyScoreMin scores.Length )
+
+[<Fact>] //test
+let Make_Empty_Score_Max_3X3() =
+    let scores = [|999; 999; 999; 999; 999; 999; 999; 999; 999|]
+    Assert.Equal<int>(scores, makeEmptyScoreMax scores.Length )
+
+[<Fact>] //test
+let Make_Empty_Score_Max_4X4() =
+    let scores = [|999; 999; 999; 999; 
+                    999; 999; 999; 999; 
+                    999; 999; 999; 999;
+                    999; 999; 999; 999|]
+    Assert.Equal<int>(scores, makeEmptyScoreMax scores.Length )
 
 [<Fact>]
 let Make_Deep_Copy_Of_TicTacToeBox() =

@@ -170,14 +170,23 @@ let insertAiGlyph(ticTacToeBox : array<string>)
         ticTacToeBox.[insetPostion] <- aIGlyph
         true
 
-let makeEmptyScore ( length : int ) : array<int> =
+let makeEmptyScoreMax ( length : int ) : array<int> =
     if length = 9 then
-        [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
+        [|999; 999; 999; 999; 999; 999; 999; 999; 999|]
     else
-        [|0; 0; 0; 0; 
-        0; 0; 0; 0;
-        0; 0; 0; 0;
-        0; 0; 0; 0;|]
+        [|999; 999; 999; 999; 
+        999; 999; 999; 999;
+        999; 999; 999; 999;
+        999; 999; 999; 999;|]
+
+let makeEmptyScoreMin ( length : int ) : array<int> =
+    if length = 9 then
+        [|-999; -999; -999; -999; -999; -999; -999; -999; -999|]
+    else
+        [|-999; -999; -999; -999; 
+        -999; -999; -999; -999;
+        -999; -999; -999; -999;
+        -999; -999; -999; -999;|]
 
 let makeDeepCopyOfArray(copyTo : array<string>)
                        (copyFrom : array<string> ) 
@@ -212,14 +221,14 @@ let rec miniMaxMaxium(ticTacToeBox : array<string>)
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
     let score = checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
     if score = int GenResult.NoWinner then
-        let scores = makeEmptyScore(moves.Length)
+        let scores = makeEmptyScoreMin(moves.Length)
         for i = 0 to moves.Length - 1 do
             if (insertAiGlyph(moves)(i)(playerGlyph)(aIGlyph)) then
                 scores.[i] <- miniMaxMinimize(moves)(playerGlyph)(aIGlyph)(depth + 1)
                 moves.[i] <- "-"+string (int i + int 1)+"-"
         findLargestScore(scores)
     else
-        score - depth
+        score + depth
 
 and miniMaxMinimize(ticTacToeBox : array<string>)
                    (playerGlyph : string)
@@ -230,14 +239,14 @@ and miniMaxMinimize(ticTacToeBox : array<string>)
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
     let score = checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
     if score = int GenResult.NoWinner then
-        let scores = makeEmptyScore(moves.Length)
+        let scores = makeEmptyScoreMax(moves.Length)
         for i = 0 to moves.Length - 1 do
             if (insertPlayerGlyph(moves)(i)(playerGlyph)(aIGlyph)) then
                 scores.[i] <- miniMaxMaxium(moves)(playerGlyph)(aIGlyph)(depth + 1)
                 moves.[i] <- "-"+string (int i + int 1)+"-"
         findSmallestScore(scores)
     else
-        depth + score
+        score - depth
 
 let computerMove(ticTacToeBox : array<string>)
                 (playerGlyph : string)
@@ -245,7 +254,7 @@ let computerMove(ticTacToeBox : array<string>)
                 : int =
     let moves =
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
-    let scores = makeEmptyScore(moves.Length)
+    let scores = makeEmptyScoreMin(moves.Length)
     let mutable largestScore = -999
     let mutable pos = -1
     for i = 0 to moves.Length - 1 do
