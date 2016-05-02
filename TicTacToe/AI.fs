@@ -172,21 +172,21 @@ let insertAiGlyph(ticTacToeBox : array<string>)
 
 let makeEmptyScoreMax ( length : int ) : array<int> =
     if length = 9 then
-        [|999; 999; 999; 999; 999; 999; 999; 999; 999|]
+        [|0; 0; 0; 0; 0; 0; 0; 0; 0|]
     else
-        [|999; 999; 999; 999; 
-        999; 999; 999; 999;
-        999; 999; 999; 999;
-        999; 999; 999; 999;|]
+        [|0; 0; 0; 0; 
+        0; 0; 0; 0;
+        0; 0; 0; 0;
+        0; 0; 0; 0;|]
 
 let makeEmptyScoreMin ( length : int ) : array<int> =
     if length = 9 then
-        [|-999; -999; -999; -999; -999; -999; -999; -999; -999|]
+        [|-0; -0; -0; -0; -0; -0; -0; -0; -0|]
     else
-        [|-999; -999; -999; -999; 
-        -999; -999; -999; -999;
-        -999; -999; -999; -999;
-        -999; -999; -999; -999;|]
+        [|-0; -0; -0; -0; 
+        -0; -0; -0; -0;
+        -0; -0; -0; -0;
+        -0; -0; -0; -0;|]
 
 let makeDeepCopyOfArray(copyTo : array<string>)
                        (copyFrom : array<string> ) 
