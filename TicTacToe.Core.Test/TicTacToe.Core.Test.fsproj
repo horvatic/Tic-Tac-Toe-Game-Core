@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
+    <Compile Include="TicTacToeBox3X3ClassTest.fs" />
     <Compile Include="InputOutPutTestGame.fs" />
     <Compile Include="InputOutPutTestBuildGame.fs" />
     <Compile Include="CleanInputTest.fs" />
