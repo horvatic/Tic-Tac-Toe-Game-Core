@@ -7,7 +7,7 @@ open GameSettings
 open PlayerValues
 
 let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
-                                          ("X") ("@") (int playerVals.Human)(false)(false)
+                                          ("X") ("@") (int playerVals.Human)(false)(false)(false)
 
 [<Fact>]   // test
 let Check_3X3_Box_Legnth_Is_3() =

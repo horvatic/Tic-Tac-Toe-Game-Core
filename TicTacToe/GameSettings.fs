@@ -9,12 +9,14 @@ type gameSetting =
         val aIGlyph : string
         val firstPlayer : int
         val inverted : bool
+        val humanVsHuman : bool
         val aIvAI : bool
         new(newTicTacToeBox, newplayerGlyph, newaIGlyph, 
-            newfirstPlayer, newInverted, newAIvAI)
+            newfirstPlayer, newInverted, newhumanVsHuman, newAIvAI)
             = { ticTacToeBox = newTicTacToeBox; playerGlyph = newplayerGlyph;
                 aIGlyph = newaIGlyph; firstPlayer = newfirstPlayer;
-                inverted = newInverted; aIvAI = newAIvAI; }
+                inverted = newInverted; humanVsHuman = newhumanVsHuman;
+                aIvAI = newAIvAI; }
 end
 
 let craftGameSetting
@@ -23,6 +25,7 @@ let craftGameSetting
     (aIGlyph : string) 
     (firstPlayer : int)
     (inverted : bool) 
+    (humanVsHuman : bool) 
     (aIvAI : bool)
     : gameSetting =
     if not (ticTacToeBox.Length = 9) && not (ticTacToeBox.Length = 16) then
@@ -34,4 +37,4 @@ let craftGameSetting
     if not (firstPlayer = int playerVals.Human) && not (firstPlayer = int playerVals.AI) then 
         raise(InvaildPlayer("Player Vals can be " +  string playerVals.Human + " or " + string playerVals.AI))
     gameSetting(ticTacToeBox, playerGlyph, aIGlyph, 
-               firstPlayer, inverted, aIvAI)
+               firstPlayer, inverted, humanVsHuman, aIvAI)

@@ -18,6 +18,16 @@ let User_Does_Want_To_Go_First() =
     Assert.Equal(int playerVals.Human, whoGoingFirst io "")
 
 [<Fact>]
+let User_Want_Human_Vs_Human_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
+    Assert.Equal(true, isHuamnVSHuman io "")
+
+[<Fact>]
+let User_Does_Not_Human_Vs_Human_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "N";|])
+    Assert.Equal(false, isHuamnVSHuman io "")
+
+[<Fact>]
 let User_Want_To_Go_First_Bad_Take_Three_Tries() = 
     let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
     Assert.Equal(int playerVals.Human, whoGoingFirst io "")
@@ -34,7 +44,7 @@ let User_Setting_Bad() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(false, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
+    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false"")
 
 [<Fact>]
 let User_Setting_Good() = 
@@ -43,7 +53,7 @@ let User_Setting_Good() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(true, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
+    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Setting_Bad_Take_Three_Tries() = 
@@ -53,7 +63,7 @@ let User_Setting_Bad_Take_Three_Tries() =
                          "-7-"; "-8-"; "-9-"|]
 
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(false, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
+    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Setting_Good_Take_Three_Tries() = 
@@ -62,7 +72,7 @@ let User_Setting_Good_Take_Three_Tries() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(true, settingGood io ticTacToeBox aIplayerValue "X" "#" false "")
+    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
 
 [<Fact>]
 let User_Picks_AI_Glyph_unsucsfully_Until_No_Pick_Players() = 
