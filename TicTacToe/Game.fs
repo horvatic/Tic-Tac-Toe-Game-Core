@@ -186,10 +186,32 @@ let humanVsHuman(game : gameSetting)(io : IInputOut) : int =
     else
         playerTwoFirstVsHuman(game)(io)
 
+let flipBoard(ticTacToeBoardFlip : array<string>)(glyphOne : string)(glyphTwo : string) =
+    for i = 0 to ticTacToeBoardFlip.Length - 1 do
+        if ticTacToeBoardFlip.[i] = glyphOne then
+            ticTacToeBoardFlip.[i] <-  glyphTwo
+        elif ticTacToeBoardFlip.[i] = glyphTwo then
+            ticTacToeBoardFlip.[i] <-  glyphOne
+
+let aIvsAI(game : gameSetting)(io : IInputOut) : int =
+    while not (isGameOver(game)) do
+        aIInputEditTicTacToeBox(game) |> ignore
+        flipBoard(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)
+
+    writeToScreen(game.ticTacToeBox)
+                 (game.inverted)
+                 (gameEndingMessage(game.ticTacToeBox)
+                                   (game.playerGlyph)
+                                   (game.aIGlyph))
+                  (io) |> ignore
+    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)  
+
 let startGame (game : gameSetting)(io : IInputOut) : int =
-    if game.firstPlayer = int playerVals.Human && not game.humanVsHuman then
+    if game.firstPlayer = int playerVals.Human && not game.humanVsHuman && not game.aIvAI then
         humanFirstVsAiGame(game)(io)
     elif game.humanVsHuman then
         humanVsHuman(game)(io)
+    elif game.aIvAI then
+        aIvsAI(game)(io)
     else
         humanVsAiFirstGame(game)(io)

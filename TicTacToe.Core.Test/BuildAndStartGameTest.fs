@@ -6,36 +6,68 @@ open userInputException
 open InputOutPutTestBuildGame
 open PlayerValues
 
+
+[<Fact>]
+let User_Does_Not_Want_AI_VS_AI() = 
+    let io = new InputOutTestBuildGameManyOps([|"N";|])
+
+    Assert.Equal(false, aiVsAi io "")
+
+[<Fact>]
+let User_Does_Want_AI_VS_AI() = 
+    let io = new InputOutTestBuildGameManyOps([|"Y";|])
+    Assert.Equal(true, aiVsAi io "")
+
+[<Fact>]
+let User_Want_AI_VS_AI_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
+    Assert.Equal(true, aiVsAi io "")
+
+[<Fact>]
+let User_Does_Not_AI_VS_AI_Bad_Take_Three_Tries() = 
+    let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "N";|])
+    Assert.Equal(false, aiVsAi io "")
+
 [<Fact>]
 let User_Does_Not_Want_To_Go_First() = 
     let io = new InputOutTestBuildGameManyOps([|"N";|])
 
-    Assert.Equal(int playerVals.AI, whoGoingFirst io "")
+    Assert.Equal(int playerVals.AI, whoGoingFirst io "" false)
 
 [<Fact>]
 let User_Does_Want_To_Go_First() = 
-    let io = new InputOutTestBuildGameManyOps([|"Y";|])
-    Assert.Equal(int playerVals.Human, whoGoingFirst io "")
+    let io = new InputOutTestBuildGameManyOps([|"Y";|]) 
+    Assert.Equal(int playerVals.Human, whoGoingFirst io "" false)
 
 [<Fact>]
 let User_Want_Human_Vs_Human_Bad_Take_Three_Tries() = 
     let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
-    Assert.Equal(true, isHuamnVSHuman io "")
+    Assert.Equal(true, isHuamnVSHuman io "" false)
 
 [<Fact>]
 let User_Does_Not_Human_Vs_Human_Bad_Take_Three_Tries() = 
     let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "N";|])
-    Assert.Equal(false, isHuamnVSHuman io "")
+    Assert.Equal(false, isHuamnVSHuman io "" false)
+
+[<Fact>]
+let User_Selected_AI_vs_AI_Human_Skip_Human_Vs_Human() = 
+    let io = new InputOutTestBuildGameManyOps([|"";|])
+    Assert.Equal(false, isHuamnVSHuman io "" true)
+
+[<Fact>]
+let User_Selected_AI_vs_AI_Human_Skip_Who_Goes_First() = 
+    let io = new InputOutTestBuildGameManyOps([|"";|])
+    Assert.Equal(int playerVals.AI, whoGoingFirst  io "" true)
 
 [<Fact>]
 let User_Want_To_Go_First_Bad_Take_Three_Tries() = 
     let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "Y";|])
-    Assert.Equal(int playerVals.Human, whoGoingFirst io "")
+    Assert.Equal(int playerVals.Human, whoGoingFirst io "" false)
 
 [<Fact>]
 let User_Want_To_Go_Second_Bad_Take_Three_Tries() = 
     let io = new InputOutTestBuildGameManyOps([|"X"; "X"; "N";|])
-    Assert.Equal(int playerVals.AI, whoGoingFirst io "")
+    Assert.Equal(int playerVals.AI, whoGoingFirst io "" false)
 
 [<Fact>]
 let User_Setting_Bad() = 
@@ -44,7 +76,7 @@ let User_Setting_Bad() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false"")
+    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "" false)
 
 [<Fact>]
 let User_Setting_Good() = 
@@ -53,7 +85,7 @@ let User_Setting_Good() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
+    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "" false)
 
 [<Fact>]
 let User_Setting_Bad_Take_Three_Tries() = 
@@ -63,7 +95,7 @@ let User_Setting_Bad_Take_Three_Tries() =
                          "-7-"; "-8-"; "-9-"|]
 
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
+    Assert.Equal(false, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "" false)
 
 [<Fact>]
 let User_Setting_Good_Take_Three_Tries() = 
@@ -72,7 +104,7 @@ let User_Setting_Good_Take_Three_Tries() =
                          "-4-"; "-5-"; "-6-"; 
                          "-7-"; "-8-"; "-9-"|]
     let aIplayerValue = int playerVals.AI
-    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "")
+    Assert.Equal(true, settingGood io ticTacToeBox false aIplayerValue "X" "#" false "" false)
 
 [<Fact>]
 let User_Picks_AI_Glyph_unsucsfully_Until_No_Pick_Players() = 
@@ -96,13 +128,13 @@ let User_Picks_AI_Glyph_Sucsfully() =
 let User_Picks_Player_Glyph_unsucsfully_Until_FithPick() = 
     let io = new InputOutTestBuildGameManyOps([|"33"; "222"; "3m"; "3m"; "3"|])
     let userGlyph = "3"
-    Assert.Equal(userGlyph, getplayerGlyph io "")
+    Assert.Equal(userGlyph, getplayerGlyph io "" false)
 
 [<Fact>]
 let User_Picks_Player_Glyph_Sucsfully() = 
     let io = new InputOutTestBuildGame("3")
     let userGlyph = "3"
-    Assert.Equal(userGlyph, getplayerGlyph io "")
+    Assert.Equal(userGlyph, getplayerGlyph io "" false)
 
 [<Fact>]
 let User_Picks_4X4_Three_Tries_Box() = 
