@@ -9,6 +9,33 @@ open GameStatusCodes
 open GameSettings
 open InputOutPutTestGame
 
+
+[<Fact>]
+let Flip_Board() =
+    let ticTacToeBox = [|"X"; "-2-"; "@"; 
+                         "-4-"; "X"; "-6-"; 
+                         "@"; "-6-"; "-9-"|]
+    
+    let ticTacToeBoxFliped = [|"@"; "-2-"; "X"; 
+                             "-4-"; "@"; "-6-"; 
+                             "X"; "-6-"; "-9-"|]
+    
+    flipBoard(ticTacToeBox)("X")("@")
+    Assert.Equal<string>(ticTacToeBoxFliped, ticTacToeBox)
+
+[<Fact>]
+let Ai_Vs_AI() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-6-"; "-9-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)(true)
+    let io = new InputOutTestGame([|1; 9; 2; 
+                                    8; 3; 7; 
+                                    5; 6; 4|])
+    Assert.Equal(int GenResult.Tie
+                    , startGame gameTestCreate io)
+
 [<Fact>]
 let Human_Vs_Human_PlayerOneFirst() =
     let io = new InputOutTestGame([|1; 9; 2; 

@@ -95,7 +95,7 @@ let Minimize_Score_Cut_Off_Needed() =
     Assert.Equal(int GenResult.Tie, minimizeScoreCutOff score depth) 
 
 [<Fact>]    // test
-let Ai_Wins_Human_Puting_In_Random_Vals() =
+let Ai_Wins_Human_Puting_In_Order_Vals() =
     let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
                                              "-4-"; "-5-"; "-6-"; 
                                              "-7-"; "-8-"; "-9-"|]) 
