@@ -9,8 +9,8 @@ type Result3X3 =
    | HumanWins = -10
 
 type Result4X4 =
-   | AiWins = 17
-   | HumanWins = -17
+   | AiWins = 5
+   | HumanWins = -5
 
 let getWinningAIValue(ticTacToeBox : array<string> ) : int =
     if ticTacToeBox.Length = 9 then
