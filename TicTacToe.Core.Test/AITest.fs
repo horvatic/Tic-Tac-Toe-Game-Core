@@ -9,14 +9,14 @@ open System.Collections.Generic
 open GameSettings
 open InputOutPutTestGame
 
-let rec humanAndAIPlay(ticTacToeBox : array<string>)
+let rec humanAndAIPlay4X4(ticTacToeBox : array<string>)
                        (playerGlyph : string)
                        (aIGlyph : string)
                        (game : gameSetting)  =
     let moves =
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
     let game = craftGameSetting (moves) 
-                                ("X") ("@") 
+                                (playerGlyph) (aIGlyph) 
                                 (int playerVals.Human)(false)(false)(false)
     let mutable score = checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
     if score = int GenResult.NoWinner then
@@ -25,7 +25,30 @@ let rec humanAndAIPlay(ticTacToeBox : array<string>)
         if score = int GenResult.NoWinner then
             for i = 0 to moves.Length - 1 do
             if (insertPlayerGlyph(moves)(i)("X")("@")) then
-                humanAndAIPlay(moves)("X")("@")(game) |> ignore
+                humanAndAIPlay4X4(moves)("X")("@")(game) |> ignore
+                moves.[i] <- "-"+string (int i + int 1)+"-"
+        else
+            Assert.NotEqual(score, int Result4X4.HumanWins)
+    else
+        Assert.NotEqual(score, int Result4X4.HumanWins)
+
+let rec humanAndAIPlay3X3(ticTacToeBox : array<string>)
+                       (playerGlyph : string)
+                       (aIGlyph : string)
+                       (game : gameSetting)  =
+    let moves =
+        makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
+    let game = craftGameSetting (moves) 
+                                (playerGlyph) (aIGlyph) 
+                                (int playerVals.Human)(false)(false)(false)
+    let mutable score = checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
+    if score = int GenResult.NoWinner then
+        aIMove(game)
+        score <- checkForWinnerOrTie(moves)(playerGlyph)(aIGlyph) 
+        if score = int GenResult.NoWinner then
+            for i = 0 to moves.Length - 1 do
+            if (insertPlayerGlyph(moves)(i)(playerGlyph)(aIGlyph)) then
+                humanAndAIPlay3X3(moves)(playerGlyph)(aIGlyph)(game) |> ignore
                 moves.[i] <- "-"+string (int i + int 1)+"-"
         else
             Assert.NotEqual(score, int Result3X3.HumanWins)
@@ -44,7 +67,24 @@ let Evey_Possabile_Combination_Game_3X3_AI_First() =
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(gameTestCreate.ticTacToeBox.Length))(gameTestCreate.ticTacToeBox)
     for i = 0 to moves.Length - 1 do
         if (insertPlayerGlyph(moves)(i)("X")("@")) then
-            humanAndAIPlay(moves)("X")("@")(gameTestCreate)|> ignore
+            humanAndAIPlay3X3(moves)("X")("@")(gameTestCreate)|> ignore
+            moves.[i] <- "-"+string (int i + int 1)+"-"
+
+
+[<Fact>]
+let Evey_Possabile_Combination_Game_4X4_AI_First() =
+    let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; 
+                                            "-5-"; "-6-"; "-7-"; "-8-"; 
+                                            "-9-"; "-10-"; "-11-"; "-12-";
+                                            "-13-"; "-14-"; "-15-"; "-16-"|]) 
+                                          ("X") ("@") 
+                                          (int playerVals.Human)(false)(false)(false)
+    aIMove(gameTestCreate)
+    let moves =
+        makeDeepCopyOfArray(makeEmptyTicTacToeBox(gameTestCreate.ticTacToeBox.Length))(gameTestCreate.ticTacToeBox)
+    for i = 0 to moves.Length - 1 do
+        if (insertPlayerGlyph(moves)(i)("X")("@")) then
+            humanAndAIPlay4X4(moves)("X")("@")(gameTestCreate)|> ignore
             moves.[i] <- "-"+string (int i + int 1)+"-"
 
 [<Fact>]
@@ -58,7 +98,7 @@ let Evey_Possabile_Combination_Game_3X3_Huamn_First() =
         makeDeepCopyOfArray(makeEmptyTicTacToeBox(gameTestCreate.ticTacToeBox.Length))(gameTestCreate.ticTacToeBox)
     for i = 0 to moves.Length - 1 do
         if (insertPlayerGlyph(moves)(i)("X")("@")) then
-            humanAndAIPlay(moves)("X")("@")(gameTestCreate)|> ignore
+            humanAndAIPlay3X3(moves)("X")("@")(gameTestCreate)|> ignore
             moves.[i] <- "-"+string (int i + int 1)+"-"
 
 [<Fact>]
