@@ -84,8 +84,8 @@ let rec miniMaxMaxium(ticTacToeBox : array<string>)
                      (aIGlyph : string)
                      (depth : int )
                      : int =
-    if depth > 5 && ticTacToeBox.Length = 16 then
-         int GenResult.Tie
+    if depth > 6 && ticTacToeBox.Length = 16 then
+         minimizeScoreCutOff(int Result4X4.HumanWins)(depth)
     else
         let moves =
             makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
@@ -106,8 +106,8 @@ and miniMaxMinimize(ticTacToeBox : array<string>)
                    (depth : int )
                    : int =
 
-    if depth > 5 && ticTacToeBox.Length = 16 then
-       int GenResult.Tie
+    if depth > 6 && ticTacToeBox.Length = 16 then
+       maxiumeScoreCutOff(int Result4X4.AiWins)(depth)
     else
         let moves =
             makeDeepCopyOfArray(makeEmptyTicTacToeBox(ticTacToeBox.Length))(ticTacToeBox)
@@ -139,6 +139,7 @@ let computerMove(ticTacToeBox : array<string>)
                 largestScore <- scores.[i]
                 pos <- i
     pos
+
 
 let aIMove(game : gameSetting) =
     game.ticTacToeBox.[computerMove(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)] <- game.aIGlyph
