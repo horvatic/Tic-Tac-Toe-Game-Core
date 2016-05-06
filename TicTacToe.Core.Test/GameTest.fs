@@ -22,7 +22,7 @@ let Flip_Board() =
     
     flipBoard(ticTacToeBox)("X")("@")
     Assert.Equal<string>(ticTacToeBoxFliped, ticTacToeBox)
-
+(*
 [<Fact>]
 let Ai_Vs_AI() =
     let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; 
@@ -35,7 +35,7 @@ let Ai_Vs_AI() =
                                     5; 6; 4|])
     Assert.Equal(int GenResult.Tie
                     , startGame gameTestCreate io)
-
+*)
 [<Fact>]
 let Human_Vs_Human_PlayerOneFirst() =
     let io = new InputOutTestGame([|1; 9; 2; 

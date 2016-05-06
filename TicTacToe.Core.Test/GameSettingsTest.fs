@@ -5,7 +5,6 @@ open FsUnit
 open PlayerValues
 open userInputException
 
-
 [<Fact>]   // test
 let Make_A_Corrct_User_Setting() =
     let gameTest = gameSetting([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|],
