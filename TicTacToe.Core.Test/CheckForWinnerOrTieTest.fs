@@ -9,6 +9,73 @@ open PlayerValues
 let gameTestCreate = craftGameSetting ([|"-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"|]) 
                                           ("X") ("@") (int playerVals.Human)(false)(false)(false)
 
+[<Fact>]
+let Has_AI_Winner_No_Winner() =
+    let ticTacToeBox = ["-1-"; "-2-"; "-3-"; 
+                        "-4-"; "-5-"; "-6-"; 
+                        "-7-"; "-8-"; "-9-"]
+    Assert.Equal(false, hasAiWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_AI_Winner_Diange() =
+    let ticTacToeBox = ["@"; "-2-"; "-3-"; 
+                        "-4-"; "@"; "-6-"; 
+                        "-7-"; "-8-"; "@"]
+    Assert.Equal(true, hasAiWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_AI_Winner_Vertical() =
+    let ticTacToeBox = ["-1-"; "@"; "-3-"; 
+                        "-4-"; "@"; "-6-"; 
+                        "-7-"; "@"; "-9-"]
+    Assert.Equal(true, hasAiWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_AI_Winner_Horzontal() =
+    let ticTacToeBox = ["@"; "@"; "@"; 
+                        "-4-"; "X"; "-6-"; 
+                        "-7-"; "-8-"; "-9-"]
+    Assert.Equal(true, hasAiWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_Human_Winner_No_Winner() =
+    let ticTacToeBox = ["-1-"; "-2-"; "-3-"; 
+                        "-4-"; "-5-"; "-6-"; 
+                        "-7-"; "-8-"; "-9-"]
+    Assert.Equal(false, hasHumanWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_Human_Winner_Diange() =
+    let ticTacToeBox = ["X"; "-2-"; "-3-"; 
+                        "-4-"; "X"; "-6-"; 
+                        "-7-"; "-8-"; "X"]
+    Assert.Equal(true, hasHumanWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_Human_Winner_Vertical() =
+    let ticTacToeBox = ["-1-"; "X"; "-3-"; 
+                        "-4-"; "X"; "-6-"; 
+                        "-7-"; "X"; "-9-"]
+    Assert.Equal(true, hasHumanWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+[<Fact>]
+let Has_Human_Winner_Horzontal() =
+    let ticTacToeBox = ["X"; "X"; "X"; 
+                        "-4-"; "@"; "-6-"; 
+                        "-7-"; "-8-"; "-9-"]
+    Assert.Equal(true, hasHumanWinner ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
+
+
+[<Fact>]
+let Check_does_Have_Tie_Has_Tie() =
+   let ticTacToeBox = ["X"; "X"; "@"; "@"; "@"; "X"; "X"; "X"; "@"]
+   Assert.Equal(true, doesHaveTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph 0)
+
+[<Fact>]
+let Check_does_Have_Tie_Not_Have_Tie() =
+   let ticTacToeBox = ["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"]
+   Assert.Equal(false, doesHaveTie ticTacToeBox gameTestCreate.playerGlyph gameTestCreate.aIGlyph 0)
+
 [<Fact>]   // test
 let Check_3X3_Box_Legnth_Is_3() =
     let ticTacToeBox = [|"@"; "@"; "@"; "-4-"; "X"; "-6-"; "-7-"; "-8-"; "-9-"|]

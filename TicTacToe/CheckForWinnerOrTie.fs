@@ -6,14 +6,24 @@ let findBoxLength( ticTacToeBox : array<string>) : int =
     let result = sqrt(float ticTacToeBox.Length)
     int result
 
-let hasTie ( ticTacToeBox : array<string>)
+let rec doesHaveTie(ticTacToeBox : list<string>)
+               (playerGlyph : string)
+               (aIGlyph : string)
+               (pos : int) : bool =
+
+    if pos >= ticTacToeBox.Length then
+        true
+    elif not(ticTacToeBox.[pos] =  playerGlyph || ticTacToeBox.[pos] =  aIGlyph) then
+        false
+    else
+        doesHaveTie(ticTacToeBox)(playerGlyph)(aIGlyph)(pos+1)
+    
+
+let hasTie ( ticTacToeBox : list<string>)
            ( playerGlyph : string)
            ( aIGlyph : string) : bool =
-    let mutable tie = true
-    for i = 0 to ticTacToeBox.Length - 1 do
-        if not (ticTacToeBox.[i] =  playerGlyph || ticTacToeBox.[i] =  aIGlyph) then
-            tie <- false
-    tie
+    
+    doesHaveTie(ticTacToeBox)(playerGlyph)(aIGlyph)(0)
 
 let hasDiangleWin ( ticTacToeBox : array<string>) 
                   ( search : string)
@@ -102,31 +112,36 @@ let hasHorzontailWin ( ticTacToeBox : array<string>)
         offset <- offset + boxLength
     winner
 
+let hasHumanWinner(ticTacToeBox : list<string>) 
+                  (playerGlyph : string)
+                  (aIGlyph : string) : bool =
+    if hasHorzontailWin(ticTacToeBox |> List.toArray) (playerGlyph) (aIGlyph)
+        || hasVerticalWin(ticTacToeBox |> List.toArray)(playerGlyph)(aIGlyph)
+        || hasDiangleWin(ticTacToeBox |> List.toArray)(playerGlyph)(aIGlyph) then
+        true
+    else
+        false
+
+let hasAiWinner(ticTacToeBox : list<string>) 
+               (playerGlyph : string)
+               (aIGlyph : string) : bool =
+    
+    if hasVerticalWin(ticTacToeBox |> List.toArray)(aIGlyph)(playerGlyph)
+        || hasDiangleWin(ticTacToeBox |> List.toArray) (aIGlyph) (playerGlyph)
+        || hasHorzontailWin(ticTacToeBox |> List.toArray) (aIGlyph) (playerGlyph) then
+        true
+    else
+        false
+
 let checkForWinnerOrTie( ticTacToeBox : array<string>) 
                        ( playerGlyph : string)
                        ( aIGlyph : string) : int =
-    let mutable AiWinner = false
-    let mutable HumanWinner = false
-    let mutable resultsOfTest = int GenResult.NoWinner
-    AiWinner <- hasHorzontailWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        AiWinner <- hasVerticalWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        AiWinner <- hasDiangleWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        HumanWinner <- hasHorzontailWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-    if not HumanWinner then
-        HumanWinner <- hasVerticalWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-    if not HumanWinner then
-        HumanWinner <- hasDiangleWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-
-    if AiWinner then
-        resultsOfTest <- getWinningAIValue( ticTacToeBox)
-    elif HumanWinner then
-        resultsOfTest <- getWinningHumanValue( ticTacToeBox)
+    
+    if hasAiWinner(ticTacToeBox |> Array.toList)(playerGlyph)(aIGlyph)then
+        getWinningAIValue(ticTacToeBox)
+    elif hasHumanWinner(ticTacToeBox |> Array.toList)(playerGlyph)(aIGlyph) then
+         getWinningHumanValue(ticTacToeBox)
+    elif hasTie(ticTacToeBox |> Array.toList)(playerGlyph)(aIGlyph) then
+            int GenResult.Tie
     else
-        if hasTie( ticTacToeBox)( playerGlyph) ( aIGlyph) then
-            resultsOfTest <- int GenResult.Tie
-        else
-            resultsOfTest <- int GenResult.NoWinner
-    resultsOfTest
+        int GenResult.NoWinner
