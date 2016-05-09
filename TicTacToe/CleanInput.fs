@@ -1,6 +1,5 @@
 ﻿module CleanInput
 open userInputException
-
 exception NonIntError of string
 exception InvaildOption of string
 

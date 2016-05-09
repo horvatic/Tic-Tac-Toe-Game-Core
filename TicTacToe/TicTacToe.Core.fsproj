@@ -60,7 +60,7 @@
     <None Include="App.config" />
     <Content Include="packages.config" />
     <Compile Include="ITicTacToeBoxClass.fs" />
-    <Compile Include="TicTacToeBox3X3Class.fs" />
+    <Compile Include="TicTacToeBoxClass.fs" />
     <Compile Include="IInputOutPut.fs" />
     <Compile Include="InputOutPut.fs" />
     <Compile Include="userInputException.fs" />

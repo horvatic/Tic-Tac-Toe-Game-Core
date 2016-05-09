@@ -2,15 +2,15 @@
 open IInputOutPut
 
 type InputOut() =
-    member this.printNoScreenWhip(output : array<string>) 
+    member this.printNoScreenNoFlush(output : list<string>) 
         = for i = 0 to output.Length - 1 do
                 printfn "%s" output.[i]
-    member this.print(output : array<string>) 
-        = (this :> IInputOut).print(output : array<string>)
+    member this.print(output : list<string>) 
+        = (this :> IInputOut).print(output : list<string>)
     member this.getUserInput() : string 
         = (this :> IInputOut).getUserInput() : string
     interface IInputOut with
-        member this.print(output : array<string>) = 
+        member this.print(output : list<string>) = 
             System.Console.Clear()
             for i = 0 to output.Length - 1 do
                 printfn "%s" output.[i]

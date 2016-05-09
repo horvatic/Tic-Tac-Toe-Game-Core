@@ -12,14 +12,14 @@ type Result4X4 =
    | AiWins = 7
    | HumanWins = -7
 
-let getWinningAIValue(ticTacToeBox : array<string> ) : int =
-    if ticTacToeBox.Length = 9 then
+let getWinningAIValue(ticTacToeBoxsize : int ) : int =
+    if ticTacToeBoxsize = 3 then
         int Result3X3.AiWins
     else
         int Result4X4.AiWins
 
-let getWinningHumanValue(ticTacToeBox : array<string> ) : int =
-    if ticTacToeBox.Length = 9 then
+let getWinningHumanValue(ticTacToeBoxsize : int ) : int =
+    if ticTacToeBoxsize = 3 then
         int Result3X3.HumanWins
     else
         int Result4X4.HumanWins

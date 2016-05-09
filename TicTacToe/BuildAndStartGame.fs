@@ -7,16 +7,11 @@ open userInputException
 open InputOutPut
 open IInputOutPut
 
-let makeTicTacToeBox(size : int) : array<string> =
+let getTicTacToeBoxSize(size : int) : int =
     if size = 3 then
-        [|"-1-"; "-2-"; "-3-"; 
-        "-4-"; "-5-"; "-6-"; 
-        "-7-"; "-8-"; "-9-"|]
+        3
     elif size =  4 then 
-        [|"-1-"; "-2-"; "-3-"; "-4-"; 
-        "-5-"; "-6-"; "-7-"; "-8-"; 
-        "-9-"; "-10-"; "-11-"; "-12-";
-        "-13-"; "-14-"; "-15-"; "-16-"|]
+        4
     elif size < 3 then
         raise(OutOfBoundsUnderFlow("Invaild Box Size"))
     else
@@ -25,7 +20,7 @@ let makeTicTacToeBox(size : int) : array<string> =
 let rec getaIGlyph(io : IInputOut)
                   (message : string)
                   (playerGlyph : string) : string =
-    io.print([|message; "What glyph would you like for the other player?"|])
+    io.print([message; "What glyph would you like for the other player?"])
     try 
             let aiGlypg = SanitizeGlyph(io.getUserInput())
             if aiGlypg = playerGlyph then
@@ -37,19 +32,19 @@ let rec getaIGlyph(io : IInputOut)
 
 let rec getplayerGlyph (io : IInputOut)(message : string)( aiVsAi : bool ) : string =
     if aiVsAi then
-        io.print([|message; "What glyph would you like for one of the AI players?"|])
+        io.print([message; "What glyph would you like for one of the AI players?"])
     else
-        io.print([|message; "What glyph would you like?"|])
+        io.print([message; "What glyph would you like?"])
     
     try 
             SanitizeGlyph(io.getUserInput())
     with
         | :? InvaildGlyph -> getplayerGlyph(io)("Length Must be one")(aiVsAi)
 
-let rec getBoxOfUserSize(io : IInputOut)(message : string) : array<string> =
-    io.print([|message; "Would you like to play on a 3x3 or 4x4 Board? "|])
+let rec getBoxOfUserSize(io : IInputOut)(message : string) : int =
+    io.print([message; "Would you like to play on a 3x3 or 4x4 Board? "])
     try
-        makeTicTacToeBox(SanitizeBoxSize(io.getUserInput()))
+        getTicTacToeBoxSize(SanitizeBoxSize(io.getUserInput()))
     with
         | :? NonIntError -> getBoxOfUserSize(io)("Invaild Box Size, Enter 3 or 4")
         | :? OutOfBoundsOverFlow -> getBoxOfUserSize(io)("Invaild Box Size, Enter 3 or 4")
@@ -59,7 +54,7 @@ let rec isHuamnVSHuman(io : IInputOut)(message : string)(aiVsAi : bool) : bool =
     if aiVsAi then
         false
     else
-        io.print([|message; "Would you like human vs human? "; "Y/N"|])
+        io.print([message; "Would you like human vs human? "; "Y/N"])
         try 
             let humanVsHuman = SanitizeYesOrNo(io.getUserInput())
             if humanVsHuman = "Y" then
@@ -70,7 +65,7 @@ let rec isHuamnVSHuman(io : IInputOut)(message : string)(aiVsAi : bool) : bool =
             | :? InvaildOption -> isHuamnVSHuman(io)("Must be a Y or N")(aiVsAi)
 
 let rec isGameInverted(io : IInputOut)(message : string) : bool =
-    io.print([|message; "Would you like to The game Inverted? "; "Y/N"|])
+    io.print([message; "Would you like to The game Inverted? "; "Y/N"])
     try 
         let invert = SanitizeYesOrNo(io.getUserInput())
         if invert = "Y" then
@@ -81,7 +76,7 @@ let rec isGameInverted(io : IInputOut)(message : string) : bool =
         | :? InvaildOption -> isGameInverted(io)("Must be a Y or N")
 
 let rec aiVsAi(io : IInputOut)(message : string) : bool  =
-    io.print([|message; "Would you like AI VS AI "; "Y/N"|])
+    io.print([message; "Would you like AI VS AI "; "Y/N"])
     try 
         let aivai = SanitizeYesOrNo(io.getUserInput())
         if aivai = "Y" then
@@ -95,7 +90,7 @@ let rec whoGoingFirst(io : IInputOut)(message : string)(aivAi : bool) : int  =
     if aivAi then
        int playerVals.AI
     else 
-        io.print([|message; "Would you like to go first? "; "Y/N"|])    
+        io.print([message; "Would you like to go first? "; "Y/N"])    
         try 
             let goFirst = SanitizeYesOrNo(io.getUserInput())
             if goFirst = "Y" then
@@ -106,7 +101,7 @@ let rec whoGoingFirst(io : IInputOut)(message : string)(aivAi : bool) : int  =
             | :? InvaildOption -> whoGoingFirst(io)("Must be a Y or N")(aivAi)
 
 let rec settingGood(io : IInputOut)
-               (playerBox : array<string>)
+               (playerBox : int)
                (humanVsHuman : bool)
                (firstPlayer : int)
                (playerGlyph : string)
@@ -129,18 +124,18 @@ let rec settingGood(io : IInputOut)
             "AI vs AI" 
         else 
             "Human Vs AI"
-    io.print[|message;
+    io.print[message;
               "Here are your current Settings";
               "Current Board Size is: " 
-                + string (sqrt(float playerBox.Length))
-                + "X" + string (sqrt(float playerBox.Length));
+                + string playerBox
+                + "X" + string playerBox;
               gameMode;
               PlayerMessage;
               "Player Glyph: " + playerGlyph;
               "Other Player Glyph: " + aIGlyph;
               "Game Inverted: " + string gameInverted;
               "Are These the setting you want?";            
-            |]
+            ]
     try 
         let invert = SanitizeYesOrNo(io.getUserInput())
         if invert = "Y" then
@@ -174,20 +169,24 @@ let rec buildGame(io : IInputOut) : gameSetting =
 
 let playGame(game : gameSetting)(io : InputOut) : bool =
     startGame(game)(io) |> ignore
-    io.printNoScreenWhip([|"Another Game? Y/N: "|])
+    io.printNoScreenNoFlush(["Another Game? Y/N: "])
     let input = io.getUserInput()
     if not (input = "Y" || input = "y") then
         false
     else
         true
 
+let rec prepGame(game : gameSetting)(io : InputOut) =
+    if playGame(game)(io) then
+        io.printNoScreenNoFlush(["Same Settings? Y/N: "])
+        let input = io.getUserInput()
+        if input = "Y" || input = "y" then
+            prepGame(game)(io)
+        else
+            prepGame(buildGame(io))(io)
+
 let buildAndStartGame() = 
     let io = new InputOut()
-    let mutable game = buildGame(io)
-    while playGame(game)(io) do
-        io.printNoScreenWhip([|"Same Settings? Y/N: "|])
-        let input = io.getUserInput()
-        if input = "N" || input = "n" then
-            game <- buildGame(io)
-        else
-            game.ticTacToeBox <- makeTicTacToeBox(int (sqrt(float game.ticTacToeBox.Length)))
+    let game = buildGame(io)
+    prepGame(game)(io)
+    
