@@ -67,7 +67,7 @@ let isSpotTaken(board : TicTacToeBox)
                (playerGlyph : string) 
                (aIGlyph : string)
                : bool =
-    if board.ticTacToebox.[postion] = playerGlyph || board.ticTacToebox.[postion] = aIGlyph then
+    if board.getGlyphAtLocation(postion) = playerGlyph || board.getGlyphAtLocation(postion) = aIGlyph then
         true
     else
         false
@@ -78,7 +78,7 @@ let isUserInputCorrect(board : TicTacToeBox)
                       (aIGlyph : string) : string =
     if not (isInputANumber(postion)) then
         "Value not a number"
-    elif isOutBounds(board.ticTacToebox.Length)(int postion - 1) then
+    elif isOutBounds(board.cellCount())(int postion - 1) then
         "Value out of bounds"
     elif isSpotTaken(board)(int postion - 1)(playerGlyph)(aIGlyph) then
         "Spot Taken"

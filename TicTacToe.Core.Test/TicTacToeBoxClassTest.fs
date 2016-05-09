@@ -11,6 +11,20 @@ let Create_New_TicTacToe_Object() =
     Assert.NotNull(ticTacToeBoard)
 
 [<Fact>]
+let get_Glyph_At_Location_One() =
+    let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-8-"; "-9-"])
+    Assert.Equal("-2-", ticTacToeBoard.getGlyphAtLocation(1) )
+
+[<Fact>]
+let Cell_Count_Is_9() =
+    let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-8-"; "-9-"])
+    Assert.Equal(9, ticTacToeBoard.cellCount() )
+
+[<Fact>]
 let Victory_Cell_Count_Is_3() =
     let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                             "-4-"; "-5-"; "-6-"; 
@@ -27,7 +41,8 @@ let Get_Edited_Box() =
                             "-4-"; "-5-"; "-6-"; 
                             "-7-"; "X"; "-9-"]
     let returnedBox = ticTacToeBoard.getTicTacToeBoxEdited(7, "X")
-    Assert.Equal<string>(ticTacToeBoxEdited, returnedBox.ticTacToebox)
+    for i = 0 to returnedBox.cellCount() - 1 do
+        Assert.Equal(ticTacToeBoxEdited.[i], returnedBox.getGlyphAtLocation(i))
     
 (*
 [<Fact>]

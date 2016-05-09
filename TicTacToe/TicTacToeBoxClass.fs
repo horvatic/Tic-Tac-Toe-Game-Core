@@ -6,7 +6,13 @@ exception IndexOutOfBoundsException of string
 exception SpotTakenException of unit
 
 type TicTacToeBox(newTicTacToeBoard : list<string>) =
-    member val public ticTacToebox = newTicTacToeBoard
+    member val private ticTacToebox = newTicTacToeBoard
+
+    member this.cellCount() : int =
+        this.ticTacToebox.Length
+
+    member this.getGlyphAtLocation(postion : int) : string =
+        this.ticTacToebox.[postion]
 
     member this.victoryCellCount() : int =
         int (sqrt(float this.ticTacToebox.Length))
