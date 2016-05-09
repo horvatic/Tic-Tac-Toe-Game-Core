@@ -25,10 +25,10 @@ let rec getMinScore(board : TicTacToeBox)
                    (prevoiusScore : int)
                    (depth : int ) : int = 
 
-    if currentPos >= board.ticTacToebox.Length then
+    if currentPos >= board.cellCount() then
         prevoiusScore
     else
-        if board.ticTacToebox.[currentPos] = playerGlyph || board.ticTacToebox.[currentPos] = aIGlyph then 
+        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMinScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
             let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos, playerGlyph))
@@ -56,10 +56,10 @@ and getMaxScore(board : TicTacToeBox)
                    (prevoiusScore : int)
                    (depth : int ) : int = 
     
-    if currentPos >= board.ticTacToebox.Length then
+    if currentPos >= board.cellCount() then
         prevoiusScore
     else
-        if board.ticTacToebox.[currentPos] = playerGlyph || board.ticTacToebox.[currentPos] = aIGlyph then 
+        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMaxScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
             let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph))
@@ -111,10 +111,10 @@ let rec computingMove(board : TicTacToeBox)
                      (currentPos : int)
                      : list<int> = 
    
-    if currentPos >= board.ticTacToebox.Length then
+    if currentPos >= board.cellCount() then
        prevoiusScoreAndPos
     else
-        if board.ticTacToebox.[currentPos] = playerGlyph || board.ticTacToebox.[currentPos] = aIGlyph then 
+        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             computingMove(board)(playerGlyph)(aIGlyph)(prevoiusScoreAndPos)(currentPos + 1)
         else
             let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph))

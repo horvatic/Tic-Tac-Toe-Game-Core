@@ -7,16 +7,16 @@ exception InvaildBox of string
 let invertedScreen(board : TicTacToeBox)
                   (message : string)
                   (io : IInputOut) : unit =
-    if board.ticTacToebox.Length = 9 then
+    if board.cellCount() = 9 then
             let package = 
                 [
                  message;
                 "-------------------------------------------------";
-                "|\t"+string board.ticTacToebox.[2]+"\t|\t"+string board.ticTacToebox.[1]+"\t|\t"+string board.ticTacToebox.[0]+"\t|";
+                "|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
                 "-------------------------------------------------";
-                "|\t"+string board.ticTacToebox.[5]+"\t|\t"+string board.ticTacToebox.[4]+"\t|\t"+string board.ticTacToebox.[3]+"\t|";
+                "|\t"+ board.getGlyphAtLocation(5)+"\t|\t"+ board.getGlyphAtLocation(4)+"\t|\t"+ board.getGlyphAtLocation(3)+"\t|";
                 "-------------------------------------------------";
-                "|\t"+string board.ticTacToebox.[8]+"\t|\t"+string board.ticTacToebox.[7]+"\t|\t"+string board.ticTacToebox.[6]+"\t|";
+                "|\t"+ board.getGlyphAtLocation(8)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(6)+"\t|";
                 "-------------------------------------------------";
                 ]
             io.print(package)
@@ -25,29 +25,30 @@ let invertedScreen(board : TicTacToeBox)
             [
             message;
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[3]+"\t|\t"+string board.ticTacToebox.[2]+"\t|\t"+string board.ticTacToebox.[1]+"\t|\t"+string board.ticTacToebox.[0]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[7]+"\t|\t"+string board.ticTacToebox.[6]+"\t|\t"+string board.ticTacToebox.[5]+"\t|\t"+string board.ticTacToebox.[4]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(5)+"\t|\t"+ board.getGlyphAtLocation(4)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[11]+"\t|\t"+string board.ticTacToebox.[10]+"\t|\t"+string board.ticTacToebox.[9]+"\t|\t"+string board.ticTacToebox.[8]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(11)+"\t|\t"+ board.getGlyphAtLocation(10)+"\t|\t"+ board.getGlyphAtLocation(9)+"\t|\t"+ board.getGlyphAtLocation(8)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[15]+"\t|\t"+string board.ticTacToebox.[14]+"\t|\t"+string board.ticTacToebox.[13]+"\t|\t"+string board.ticTacToebox.[12]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(15)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(12)+"\t|";
              "-----------------------------------------------------------------";
             ]
         io.print(package)
+
 let nonInvertedScreen(board : TicTacToeBox)
                      (message : string)
                      (io : IInputOut) : unit =
-    if board.ticTacToebox.Length = 9 then
+    if board.cellCount() = 9 then
         let package = 
             [
             message;
             "-------------------------------------------------";
-            "|\t"+string board.ticTacToebox.[0]+"\t|\t"+string board.ticTacToebox.[1]+"\t|\t"+string board.ticTacToebox.[2]+"\t|";
+            "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|";
             "-------------------------------------------------";
-            "|\t"+string board.ticTacToebox.[3]+"\t|\t"+string board.ticTacToebox.[4]+"\t|\t"+string board.ticTacToebox.[5]+"\t|";
+            "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(4)+"\t|\t"+ board.getGlyphAtLocation(5)+"\t|";
             "-------------------------------------------------";
-            "|\t"+string board.ticTacToebox.[6]+"\t|\t"+string board.ticTacToebox.[7]+"\t|\t"+string board.ticTacToebox.[8]+"\t|";
+            "|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(8)+"\t|";
             "-------------------------------------------------";
             ]
         io.print(package)
@@ -57,19 +58,19 @@ let nonInvertedScreen(board : TicTacToeBox)
             [
              message;
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[0]+"\t|\t"+string board.ticTacToebox.[1]+"\t|\t"+string board.ticTacToebox.[2]+"\t|\t"+string board.ticTacToebox.[3]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(3)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[4]+"\t|\t"+string board.ticTacToebox.[5]+"\t|\t"+string board.ticTacToebox.[6]+"\t|\t"+string board.ticTacToebox.[7]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(4)+"\t|\t"+ board.getGlyphAtLocation(5)+"\t|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[8]+"\t|\t"+string board.ticTacToebox.[9]+"\t|\t"+string board.ticTacToebox.[10]+"\t|\t"+string board.ticTacToebox.[11]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(8)+"\t|\t"+ board.getGlyphAtLocation(9)+"\t|\t"+ board.getGlyphAtLocation(10)+"\t|\t"+ board.getGlyphAtLocation(11)+"\t|";
              "-----------------------------------------------------------------";
-             "|\t"+string board.ticTacToebox.[12]+"\t|\t"+string board.ticTacToebox.[13]+"\t|\t"+string board.ticTacToebox.[14]+"\t|\t"+string board.ticTacToebox.[15]+"\t|";
+             "|\t"+ board.getGlyphAtLocation(12)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(15)+"\t|";
              "-----------------------------------------------------------------";
             ]
         io.print(package)
 
 let writeToScreen(board : TicTacToeBox)
-                 (inverted : bool )(message : string)
+                 (inverted : bool )(message : string )
                  (io : IInputOut) : unit =
     if not inverted then
         nonInvertedScreen(board)(message)(io)

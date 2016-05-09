@@ -12,7 +12,9 @@ let input_Is_Sucessful() =
     let ticTacToeBoxEdit = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"])
     let ticTacToeBoxExample = ["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"]
     let ticTacToeResult = insertUserOption(ticTacToeBoxEdit)(1)(gameTestCreate.playerGlyph)(gameTestCreate.aIGlyph)
-    Assert.Equal<string>(ticTacToeBoxExample, ticTacToeResult.ticTacToebox)
+    
+    for i = 0 to ticTacToeResult.cellCount() - 1 do
+        Assert.Equal(ticTacToeBoxExample.[i], ticTacToeResult.getGlyphAtLocation(i))
 
 [<Fact>]   // test
 let input_Is_UnSucessfulWith() =

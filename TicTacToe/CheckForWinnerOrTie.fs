@@ -8,9 +8,9 @@ let rec doesHaveTie(board : TicTacToeBox)
                (aIGlyph : string)
                (pos : int) : bool =
 
-    if pos >= board.ticTacToebox.Length then
+    if pos >= board.cellCount() then
         true
-    elif not(board.ticTacToebox.[pos] =  playerGlyph || board.ticTacToebox.[pos] =  aIGlyph) then
+    elif not(board.getGlyphAtLocation(pos) =  playerGlyph || board.getGlyphAtLocation(pos) =  aIGlyph) then
         false
     else
         doesHaveTie(board)(playerGlyph)(aIGlyph)(pos+1)
@@ -26,9 +26,9 @@ let rec checkForDiangeWinRight(board : TicTacToeBox)
                               (search : string)
                               (searchIndex : int)
                               : bool =
-    if board.ticTacToebox.[searchIndex] = search then
+    if board.getGlyphAtLocation(searchIndex) = search then
         let boxLength = board.victoryCellCount()
-        if searchIndex + boxLength + 1 > board.ticTacToebox.Length - 1 then
+        if searchIndex + boxLength + 1 > board.cellCount() - 1 then
             true
         else
             (true && checkForDiangeWinRight(board)(search)(searchIndex + boxLength + 1))
@@ -41,9 +41,9 @@ let rec checkForDiangeWinLeft(board : TicTacToeBox)
                          (search : string)
                          (searchIndex : int)
                          : bool =
-    if board.ticTacToebox.[searchIndex] = search then
+    if board.getGlyphAtLocation(searchIndex) = search then
         let boxLength = board.victoryCellCount()
-        if searchIndex + boxLength - 1 > board.ticTacToebox.Length - 2 then
+        if searchIndex + boxLength - 1 > board.cellCount() - 2 then
             true
         else
             (true && checkForDiangeWinLeft(board)(search)(searchIndex + boxLength - 1))
@@ -65,8 +65,8 @@ let rec verticalTrurthValue(board : TicTacToeBox)
                            (indexOfSearch : int)
                            (searchSpacSize : int) : bool =
     
-    if board.ticTacToebox.[indexOfSearch] = search then
-        if (indexOfSearch + searchSpacSize) > board.ticTacToebox.Length - 1 then
+    if board.getGlyphAtLocation(indexOfSearch) = search then
+        if (indexOfSearch + searchSpacSize) > board.cellCount() - 1 then
             true
         else
             (true && verticalTrurthValue(board)(search)(indexOfSearch + searchSpacSize)(searchSpacSize))
@@ -92,7 +92,7 @@ let rec horzontailTrurthValue(board : TicTacToeBox)
                              (offset : int)
                              (searchSpacSize : int) : bool =
 
-    if board.ticTacToebox.[indexOfSearch + offset] = search then
+    if board.getGlyphAtLocation(indexOfSearch + offset) = search then
         if (indexOfSearch + 1) > searchSpacSize - 1 then
             true
         else

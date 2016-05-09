@@ -21,8 +21,9 @@ let rec humanAndAIPlay3X3(board : TicTacToeBox)
     if checkForWinnerOrTie(board)(playerGlyph)(aIGlyph)  = int GenResult.NoWinner then
         let aiTicTacToeMove = aIMove(game)(board)
         if checkForWinnerOrTie(aiTicTacToeMove)(playerGlyph)(aIGlyph)  = int GenResult.NoWinner then
-            for i = 0 to aiTicTacToeMove.ticTacToebox.Length - 1 do
-                if not(aiTicTacToeMove.ticTacToebox.[i] = playerGlyph || aiTicTacToeMove.ticTacToebox.[i] = aIGlyph) then 
+            for i = 0 to aiTicTacToeMove.cellCount() - 1 do
+                if not(aiTicTacToeMove.getGlyphAtLocation(i) = playerGlyph 
+                    || aiTicTacToeMove.getGlyphAtLocation(i) = aIGlyph) then 
                     humanAndAIPlay3X3((aiTicTacToeMove.getTicTacToeBoxEdited(i, playerGlyph)))
                                      (playerGlyph)(aIGlyph)(game)
         else
@@ -42,8 +43,9 @@ let Evey_Possabile_Combination_Game_3X3_Huamn_First() =
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
                                 "-7-"; "-8-"; "-9-"])
-    for i = 0 to board.ticTacToebox.Length - 1 do
-        if not(board.ticTacToebox.[i] = gameTestCreate.playerGlyph || board.ticTacToebox.[i] = gameTestCreate.aIGlyph) then
+    for i = 0 to board.cellCount() - 1 do
+        if not(board.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
+            || board.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
             humanAndAIPlay3X3(board.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph))
                              (gameTestCreate.playerGlyph)(gameTestCreate.aIGlyph)(gameTestCreate)
 
@@ -54,8 +56,9 @@ let Evey_Possabile_Combination_Game_3X3_AI_First() =
     let aiTicTacToeMove = aIMove(gameTestCreate)(new TicTacToeBox (["-1-"; "-2-"; "-3-"; 
                                                                      "-4-"; "-5-"; "-6-"; 
                                                                      "-7-"; "-8-"; "-9-"]))
-    for i = 0 to aiTicTacToeMove.ticTacToebox.Length - 1 do
-        if not(aiTicTacToeMove.ticTacToebox.[i] = gameTestCreate.playerGlyph || aiTicTacToeMove.ticTacToebox.[i] = gameTestCreate.aIGlyph) then
+    for i = 0 to aiTicTacToeMove.cellCount() - 1 do
+        if not(aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
+            || aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
             humanAndAIPlay3X3(aiTicTacToeMove.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph))
                              (gameTestCreate.playerGlyph)(gameTestCreate.aIGlyph)(gameTestCreate)
 
