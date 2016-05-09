@@ -1,11 +1,29 @@
-﻿module TicTacToeBox3X3Class
+﻿module TicTacToeBoxClass
 open ITicTacToeBoxClass
 open System
 
 exception IndexOutOfBoundsException of string
 exception SpotTakenException of unit
 
-type TicTacToeBox3X3() =
+type TicTacToeBox(newTicTacToeBoard : list<string>) =
+    member val public ticTacToebox = newTicTacToeBoard
+
+    member this.victoryCellCount() : int =
+        int (sqrt(float this.ticTacToebox.Length))
+
+    member this.getTicTacToeBoxEdited(editPos : int, editSymbol : string) : TicTacToeBox = 
+        (new TicTacToeBox 
+            (
+                [
+                for i in 0 .. this.ticTacToebox.Length - 1 -> 
+                    (if editPos = i then
+                        editSymbol
+                    else
+                        this.ticTacToebox.[i])
+                ]
+            ))
+       
+    (*
     member val private ticTacToeBoard = [|"-1-"; "-2-"; "-3-"; 
                                         "-4-"; "-5-"; "-6-"; 
                                         "-7-"; "-8-"; "-9-"|]
@@ -54,4 +72,4 @@ type TicTacToeBox3X3() =
                 this.ticTacToeBoard.[position - 1] <- glyph
             else
                 raise(SpotTakenException())
-        
+        *)

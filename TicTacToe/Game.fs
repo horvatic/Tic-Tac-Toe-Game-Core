@@ -10,19 +10,43 @@ open userInputException
 open PlayerValues
 open IInputOutPut
 open InputOutPut
+open TicTacToeBoxClass
 
-exception GameStillInSession of string
+let makeTicTacToeBox(size : int) : list<string> =
+    if size = 3 then
+        ["-1-"; "-2-"; "-3-"; 
+        "-4-"; "-5-"; "-6-"; 
+        "-7-"; "-8-"; "-9-"]
+    
+    else 
+        ["-1-"; "-2-"; "-3-"; "-4-"; 
+        "-5-"; "-6-"; "-7-"; "-8-"; 
+        "-9-"; "-10-"; "-11-"; "-12-";
+        "-13-"; "-14-"; "-15-"; "-16-"]
 
-let gameEndingMessage( ticTacToeBox : array<string>) 
+let gameEndingMessage( board : TicTacToeBox) 
                      ( playerGlyph : string)
                      ( aIGlyph : string)  : string =
-    let endResult = checkForWinnerOrTie(ticTacToeBox)(playerGlyph)(aIGlyph)
-    if endResult = getWinningAIValue(ticTacToeBox) then
+    let endResult = checkForWinnerOrTie(board)(playerGlyph)(aIGlyph)
+    if endResult = getWinningAIValue(board.victoryCellCount()) then
         "Other Player Won"
-    elif endResult = getWinningHumanValue(ticTacToeBox) then
+    elif endResult = getWinningHumanValue(board.victoryCellCount()) then
         "Player Won"
     else
         "Tie" 
+
+let isGameOver(game : gameSetting)(board : TicTacToeBox)(io : IInputOut) : bool =
+    if checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
+            = int GenResult.NoWinner then
+        false
+    else
+        writeToScreen(board)
+                     (game.inverted)
+                     (gameEndingMessage(board)
+                                   (game.playerGlyph)
+                                   (game.aIGlyph))
+                  (io) |> ignore
+        true
 
 let isInputANumber(postion : string) : bool =
     try
@@ -38,160 +62,148 @@ let isOutBounds(arrayLenth : int)(postion : int) : bool =
     else
         false
 
-let isSpotTaken(ticTacToeBox : array<string>)
+let isSpotTaken(board : TicTacToeBox)
                (postion : int)
                (playerGlyph : string) 
                (aIGlyph : string)
                : bool =
-    if ticTacToeBox.[postion] = playerGlyph || ticTacToeBox.[postion] = aIGlyph then
+    if board.ticTacToebox.[postion] = playerGlyph || board.ticTacToebox.[postion] = aIGlyph then
         true
     else
         false
         
-let isUserInputCorrect(ticTacToeBox : array<string>)
+let isUserInputCorrect(board : TicTacToeBox)
                       (postion : string)
                       (playerGlyph : string) 
                       (aIGlyph : string) : string =
     if not (isInputANumber(postion)) then
         "Value not a number"
-    elif isOutBounds(ticTacToeBox.Length)(int postion - 1) then
+    elif isOutBounds(board.ticTacToebox.Length)(int postion - 1) then
         "Value out of bounds"
-    elif isSpotTaken(ticTacToeBox)(int postion - 1)(playerGlyph)(aIGlyph) then
+    elif isSpotTaken(board)(int postion - 1)(playerGlyph)(aIGlyph) then
         "Spot Taken"
     else
         ""
 let convertStringToInt(pos : string) : int =
     int pos
 
-let userInputEditTicTacToeBox(game : gameSetting)(postion : string) : string = 
-    let message = isUserInputCorrect(game.ticTacToeBox)
+let userInputOkToEditTicTacToeBox(game : gameSetting)(board : TicTacToeBox)(postion : string) : string = 
+    let message = isUserInputCorrect(board)
                     (postion)(game.playerGlyph)(game.aIGlyph)
     if( message = "" ) then
-        insertUserOption(game.ticTacToeBox)
-                        (convertStringToInt(postion))
-                        (game.playerGlyph)
-                        (game.aIGlyph)
         ""
     else
         message
 
 
-let otherUserInputEditTicTacToeBox(game : gameSetting)(postion : string) : string = 
-    let message = isUserInputCorrect(game.ticTacToeBox)
+let otherUserInputOkToEditTicTacToeBox(game : gameSetting)(board : TicTacToeBox)(postion : string) : string = 
+    let message = isUserInputCorrect(board)
                     (postion)(game.playerGlyph)(game.aIGlyph)
     if( message = "" ) then
-        insertOtherUserOption(game.ticTacToeBox)
-                            (convertStringToInt(postion))
-                            (game.playerGlyph)
-                            (game.aIGlyph)
         ""
     else
         message
 
-let aIInputEditTicTacToeBox(game : gameSetting) : bool =
-    aIMove(game)
-    true
-
-let isGameOver(game : gameSetting) : bool =
-    if checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) 
-            = int GenResult.NoWinner then
-        false
+let rec humanOneturn(game : gameSetting)(board : TicTacToeBox)(io : IInputOut)(message : string) : int =
+    if not (isGameOver(game)(board)(io)) then
+        writeToScreen(board)(game.inverted)(message)(io)
+        let userPickedPos = io.getUserInput()
+        if userInputOkToEditTicTacToeBox(game)(board)(userPickedPos) = "" then
+            humanTwoTurn(game)
+                        (insertUserOption(board)
+                                         (int userPickedPos)
+                                         (game.playerGlyph)
+                                         (game.aIGlyph))
+                        (io)
+                        ("")
+        else
+            humanOneturn(game)(board)(io)(userInputOkToEditTicTacToeBox(game)(board)(userPickedPos))
     else
-        true
+        checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
 
-let humanVsAiFirstGame(game : gameSetting) (io : IInputOut) : int =
-    aIInputEditTicTacToeBox(game) |> ignore
-    writeToScreen(game.ticTacToeBox)(game.inverted)("")(io) |> ignore
-    while not (isGameOver(game)) do
-        let message = 
-            userInputEditTicTacToeBox(game)(io.getUserInput())
-        if message = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-           aIInputEditTicTacToeBox(game) |> ignore
-        writeToScreen(game.ticTacToeBox)(game.inverted)(message)(io) |> ignore
-    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) 
+and humanTwoTurn(game : gameSetting)(board : TicTacToeBox)(io : IInputOut)(message : string) : int =
+    if not (isGameOver(game)(board)(io)) then
+        writeToScreen(board)(game.inverted)(message)(io)
+        let userPickedPos = io.getUserInput()
+        if userInputOkToEditTicTacToeBox(game)(board)(userPickedPos) = "" then
+            humanOneturn(game)
+                        (insertOtherUserOption(board)
+                                         (int userPickedPos)
+                                         (game.playerGlyph)
+                                         (game.aIGlyph))
+                        (io)
+                        ("")
+        else
+            humanTwoTurn(game)(board)(io)(userInputOkToEditTicTacToeBox(game)(board)(userPickedPos))
+    else
+        checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
 
-let humanFirstVsAiGame(game : gameSetting) (io : IInputOut) : int =
-    writeToScreen(game.ticTacToeBox)(game.inverted)("")(io) |> ignore
-    while not (isGameOver(game)) do
-        let message = 
-            userInputEditTicTacToeBox(game)(io.getUserInput())
-        
-        if message = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-           aIInputEditTicTacToeBox(game) |> ignore
-        
-        writeToScreen(game.ticTacToeBox)(game.inverted)(message)(io) |> ignore
-    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) 
-    
-let playerOneTurn(game : gameSetting) (io : IInputOut) : string =
-    userInputEditTicTacToeBox(game)(io.getUserInput())
+let rec humanChoseMove(game : gameSetting)(board : TicTacToeBox)(io : IInputOut)(message : string) : int =
+    if not (isGameOver(game)(board)(io)) then
+        writeToScreen(board)(game.inverted)(message)(io)
+        let userPickedPos = io.getUserInput()
+        if userInputOkToEditTicTacToeBox(game)(board)(userPickedPos) = "" then
+            aiChoseMove(game)
+                   (insertUserOption(board)
+                                    (int userPickedPos)
+                                    (game.playerGlyph)
+                                    (game.aIGlyph))
+                        (io)
+        else
+            humanChoseMove(game)(board)(io)(userInputOkToEditTicTacToeBox(game)(board)(userPickedPos))
+    else
+        checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
 
-let playerTwoTurn(game : gameSetting) (io : IInputOut) : string =
-    otherUserInputEditTicTacToeBox(game)(io.getUserInput())
+and aiChoseMove(game : gameSetting)(board : TicTacToeBox)(io : IInputOut) : int =
+    humanChoseMove(game)(aIMove(game)(board))(io)("")
 
-let playerOneFirstVsHuman(game : gameSetting) (io : IInputOut) : int =
-    let mesages = [|""; "";|]
-    while not (isGameOver(game)) do
-        if mesages.[1] = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-            writeToScreen(game.ticTacToeBox)(game.inverted)(mesages.[0])(io) |> ignore
-            mesages.[0] <- playerOneTurn(game : gameSetting) (io : IInputOut)
-        if mesages.[0] = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-            writeToScreen(game.ticTacToeBox)(game.inverted)(mesages.[1])(io) |> ignore
-            mesages.[1] <- playerTwoTurn(game : gameSetting) (io : IInputOut)
-    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) 
-
-let playerTwoFirstVsHuman(game : gameSetting) (io : IInputOut) : int =
-    let mesages = [|""; "";|]
-    while not (isGameOver(game)) do
-        if mesages.[1] = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-            writeToScreen(game.ticTacToeBox)(game.inverted)(mesages.[0])(io) |> ignore
-            mesages.[0] <- playerTwoTurn(game : gameSetting) (io : IInputOut)
-        if mesages.[0] = "" 
-            && checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph) = int GenResult.NoWinner then
-            writeToScreen(game.ticTacToeBox)(game.inverted)(mesages.[1])(io) |> ignore
-            mesages.[1] <- playerOneTurn(game : gameSetting) (io : IInputOut)
-    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)  
-
-let humanVsHuman(game : gameSetting)(io : IInputOut) : int =
+let humanVsHuman(game : gameSetting)(board : TicTacToeBox)(io : IInputOut) : int =
     if int playerVals.Human = game.firstPlayer then
-        playerOneFirstVsHuman(game)(io)
+        humanOneturn(game)(board)(io)("")
     else
-        playerTwoFirstVsHuman(game)(io)
+        humanTwoTurn(game)(board)(io)("")
 
-let flipBoard(ticTacToeBoardFlip : array<string>)(glyphOne : string)(glyphTwo : string) =
-    for i = 0 to ticTacToeBoardFlip.Length - 1 do
-        if ticTacToeBoardFlip.[i] = glyphOne then
-            ticTacToeBoardFlip.[i] <-  glyphTwo
-        elif ticTacToeBoardFlip.[i] = glyphTwo then
-            ticTacToeBoardFlip.[i] <-  glyphOne
+let humanFirstVsAiGame(game : gameSetting)(ticTacToeBox : TicTacToeBox)(io : IInputOut) : int =
+    humanChoseMove(game)(ticTacToeBox)(io)("")
 
-let aIvsAI(game : gameSetting)(io : IInputOut) : int =
-    while not (isGameOver(game)) do
-        aIInputEditTicTacToeBox(game) |> ignore
-        flipBoard(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)
-   
-    checkForWinnerOrTie(game.ticTacToeBox)(game.playerGlyph)(game.aIGlyph)  
+let humanVsAiFirstGame(game : gameSetting)(ticTacToeBox : TicTacToeBox)(io : IInputOut) : int =
+    aiChoseMove(game)(ticTacToeBox)(io)
 
-let gameRunner(game : gameSetting)(io : IInputOut) =
+let rec aIPlayerOneTurn(playerOneSettings : gameSetting)(playerTwoSettings : gameSetting)
+                       (board : TicTacToeBox)(io : IInputOut) : int =
+    
+    if not (isGameOver(playerOneSettings)(board)(io)) then
+        aIPlayerTwoTurn(playerOneSettings)(playerTwoSettings)
+                   (aIMove(playerOneSettings)(board))(io)
+    else
+        checkForWinnerOrTie(board)(playerOneSettings.playerGlyph)(playerOneSettings.aIGlyph) 
+
+and aIPlayerTwoTurn(playerOneSettings : gameSetting)(playerTwoSettings : gameSetting)
+                   (board : TicTacToeBox)(io : IInputOut) : int =
+    
+    if not (isGameOver(playerOneSettings)(board)(io)) then
+        aIPlayerOneTurn(playerOneSettings)(playerTwoSettings)
+                   (aIMove(playerTwoSettings)(board))(io)
+    else
+        checkForWinnerOrTie(board)(playerOneSettings.playerGlyph)(playerOneSettings.aIGlyph) 
+
+let aIvsAI(game : gameSetting)(board : TicTacToeBox)(io : IInputOut) : int =
+    let aIPlayerTwoGame = craftGameSetting(game.ticTacToeBoxSize)(game.aIGlyph)
+                                          (game.playerGlyph)(game.firstPlayer)
+                                          (game.inverted)(false)(true)
+    aIPlayerOneTurn(game)(aIPlayerTwoGame)(board)(io)
+
+let gameRunner(game : gameSetting)(io : IInputOut) : int =
+    let ticTacToeBoard = new TicTacToeBox(makeTicTacToeBox(game.ticTacToeBoxSize))
     if game.firstPlayer = int playerVals.Human && not game.humanVsHuman && not game.aIvAI then
-        humanFirstVsAiGame(game)(io)
+        humanFirstVsAiGame(game)(ticTacToeBoard)(io)
     elif game.humanVsHuman then
-        humanVsHuman(game)(io)
+        humanVsHuman(game)(ticTacToeBoard)(io)
     elif game.aIvAI then
-        aIvsAI(game)(io)
+        aIvsAI(game)(ticTacToeBoard)(io)
     else
-        humanVsAiFirstGame(game)(io) 
+        humanVsAiFirstGame(game)(ticTacToeBoard)(io) 
 
 let startGame (game : gameSetting)(io : IInputOut) : int =
     let result = gameRunner(game)(io)
-    writeToScreen(game.ticTacToeBox)
-                 (game.inverted)
-                 (gameEndingMessage(game.ticTacToeBox)
-                                   (game.playerGlyph)
-                                   (game.aIGlyph))
-                  (io) |> ignore
     result

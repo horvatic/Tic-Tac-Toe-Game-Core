@@ -1,132 +1,148 @@
 ﻿module CheckForWinnerOrTie
 open GameStatusCodes
 open GameSettings
+open TicTacToeBoxClass
 
-let findBoxLength( ticTacToeBox : array<string>) : int =
-    let result = sqrt(float ticTacToeBox.Length)
-    int result
+let rec doesHaveTie(board : TicTacToeBox)
+               (playerGlyph : string)
+               (aIGlyph : string)
+               (pos : int) : bool =
 
-let hasTie ( ticTacToeBox : array<string>)
+    if pos >= board.ticTacToebox.Length then
+        true
+    elif not(board.ticTacToebox.[pos] =  playerGlyph || board.ticTacToebox.[pos] =  aIGlyph) then
+        false
+    else
+        doesHaveTie(board)(playerGlyph)(aIGlyph)(pos+1)
+    
+
+let hasTie ( ticTacToeBox : TicTacToeBox)
            ( playerGlyph : string)
            ( aIGlyph : string) : bool =
-    let mutable tie = true
-    for i = 0 to ticTacToeBox.Length - 1 do
-        if not (ticTacToeBox.[i] =  playerGlyph || ticTacToeBox.[i] =  aIGlyph) then
-            tie <- false
-    tie
+    doesHaveTie(ticTacToeBox)(playerGlyph)(aIGlyph)(0)
 
-let hasDiangleWin ( ticTacToeBox : array<string>) 
-                  ( search : string)
-                  ( notSearching : string)
-                  : bool =
-    let boxLength = findBoxLength(ticTacToeBox)
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable winner = false
-    let mutable offset = 0
-    //going right
-    while offset < ticTacToeBox.Length do
-            if ticTacToeBox.[offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[offset] = search then
-                searchCnt <- searchCnt + 1
-            offset <- offset + boxLength + 1
-    //going left
-    if not (searchCnt = boxLength && nonSearchCnt = 0) then
-        searchCnt <- 0
-        nonSearchCnt <- 0
-        offset <- boxLength - 1
-        while offset < ticTacToeBox.Length - 1 do
-            if ticTacToeBox.[offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[offset] = search then
-                searchCnt <- searchCnt + 1
-            offset <- offset + boxLength - 1
+
+let rec checkForDiangeWinRight(board : TicTacToeBox) 
+                              (search : string)
+                              (searchIndex : int)
+                              : bool =
+    if board.ticTacToebox.[searchIndex] = search then
+        let boxLength = board.victoryCellCount()
+        if searchIndex + boxLength + 1 > board.ticTacToebox.Length - 1 then
+            true
+        else
+            (true && checkForDiangeWinRight(board)(search)(searchIndex + boxLength + 1))
     else
-        winner <- true
-    if searchCnt = boxLength && nonSearchCnt = 0 then
-        winner <- true
-    winner
+        false
+        
 
-let hasVerticalWin ( ticTacToeBox : array<string>) 
-                   ( search : string)
-                   ( notSearching : string)
-                   : bool =
-    let boxLength = findBoxLength(ticTacToeBox)
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable winner = false
-    let mutable x = 0
-    let mutable offset = 0
-    while x < boxLength do
-        offset <- 0
-        nonSearchCnt <- 0
-        searchCnt <- 0
-        while offset < (boxLength*boxLength) - 2 do
-            if ticTacToeBox.[x+offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[x+offset] = search then
-                searchCnt <- searchCnt + 1
-            offset <- offset + boxLength
-        if searchCnt = boxLength && nonSearchCnt = 0 then
-            x <- 99
-            offset <- 99
-            winner <- true
-        x <- x+1
-    winner
 
-let hasHorzontailWin ( ticTacToeBox : array<string>) 
-                     ( search : string)
-                     ( notSearching : string)
-                     : bool =
-    let boxLength = findBoxLength(ticTacToeBox)
-    let mutable nonSearchCnt = 0
-    let mutable searchCnt = 0
-    let mutable winner = false
-    let mutable x = -1
-    let mutable offset = 0
-    while offset < (boxLength*boxLength) - 2 do
-        x <- 0
-        nonSearchCnt <- 0
-        searchCnt <- 0
-        while x < boxLength do
-            if ticTacToeBox.[x+offset] = notSearching then
-                nonSearchCnt <- nonSearchCnt + 1
-            elif ticTacToeBox.[x+offset] = search then
-                searchCnt <- searchCnt + 1
-            x <- x+1
-        if searchCnt = boxLength && nonSearchCnt = 0 then
-            x <- 99
-            offset <- 99
-            winner <- true
-        offset <- offset + boxLength
-    winner
+let rec checkForDiangeWinLeft(board : TicTacToeBox) 
+                         (search : string)
+                         (searchIndex : int)
+                         : bool =
+    if board.ticTacToebox.[searchIndex] = search then
+        let boxLength = board.victoryCellCount()
+        if searchIndex + boxLength - 1 > board.ticTacToebox.Length - 2 then
+            true
+        else
+            (true && checkForDiangeWinLeft(board)(search)(searchIndex + boxLength - 1))
+    else
+        false
 
-let checkForWinnerOrTie( ticTacToeBox : array<string>) 
+let hasDiangleWin(board : TicTacToeBox) 
+                (search : string)
+                : bool =
+    if checkForDiangeWinRight(board)(search)(0) = true then
+        true
+    elif checkForDiangeWinLeft(board)(search)(board.victoryCellCount() - 1) = true then
+        true
+    else
+        false
+
+let rec verticalTrurthValue(board : TicTacToeBox)
+                           (search : string)
+                           (indexOfSearch : int)
+                           (searchSpacSize : int) : bool =
+    
+    if board.ticTacToebox.[indexOfSearch] = search then
+        if (indexOfSearch + searchSpacSize) > board.ticTacToebox.Length - 1 then
+            true
+        else
+            (true && verticalTrurthValue(board)(search)(indexOfSearch + searchSpacSize)(searchSpacSize))
+    else
+        false
+
+let rec hasVerticalWin(board : TicTacToeBox) 
+                        (search : string)
+                        (indexSearch : int)
+                        : bool =
+    let boxLength = board.victoryCellCount()
+    if indexSearch < boxLength then
+        if(verticalTrurthValue(board)(search)(indexSearch)(boxLength) = true) then 
+            true
+        else
+            hasVerticalWin(board)(search)(indexSearch + 1)
+    else
+        false
+
+let rec horzontailTrurthValue(board : TicTacToeBox)
+                             (search : string)
+                             (indexOfSearch : int)
+                             (offset : int)
+                             (searchSpacSize : int) : bool =
+
+    if board.ticTacToebox.[indexOfSearch + offset] = search then
+        if (indexOfSearch + 1) > searchSpacSize - 1 then
+            true
+        else
+            (true && horzontailTrurthValue(board)(search)(indexOfSearch + 1)(offset)(searchSpacSize))
+    else
+        false
+
+let rec hasHorzontailWin(ticTacToeBox : TicTacToeBox) 
+                        (search : string)
+                        (offset : int)
+                        : bool =
+    let boxLength = ticTacToeBox.victoryCellCount()
+    if offset < (boxLength*boxLength) - 1 then
+        if(horzontailTrurthValue(ticTacToeBox)(search)(0)(offset)(boxLength) = true) then 
+            true
+        else
+            hasHorzontailWin(ticTacToeBox)(search)(offset+boxLength)
+    else
+        false
+
+let hasHumanWinner(ticTacToeBox : TicTacToeBox) 
+                  (playerGlyph : string)
+                  (aIGlyph : string) : bool =
+    if hasHorzontailWin(ticTacToeBox) (playerGlyph)(0)
+        || hasVerticalWin(ticTacToeBox)(playerGlyph)(0)
+        || hasDiangleWin(ticTacToeBox)(playerGlyph) then
+        true
+    else
+        false
+
+let hasAiWinner(ticTacToeBox : TicTacToeBox) 
+               (playerGlyph : string)
+               (aIGlyph : string) : bool =
+    
+    if hasVerticalWin(ticTacToeBox)(aIGlyph)(0)
+        || hasDiangleWin(ticTacToeBox)(aIGlyph)
+        || hasHorzontailWin(ticTacToeBox)(aIGlyph)(0) then
+        true
+    else
+        false
+
+let checkForWinnerOrTie( ticTacToeBox : TicTacToeBox) 
                        ( playerGlyph : string)
                        ( aIGlyph : string) : int =
-    let mutable AiWinner = false
-    let mutable HumanWinner = false
-    let mutable resultsOfTest = int GenResult.NoWinner
-    AiWinner <- hasHorzontailWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        AiWinner <- hasVerticalWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        AiWinner <- hasDiangleWin( ticTacToeBox) ( aIGlyph) ( playerGlyph)
-    if not AiWinner then
-        HumanWinner <- hasHorzontailWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-    if not HumanWinner then
-        HumanWinner <- hasVerticalWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-    if not HumanWinner then
-        HumanWinner <- hasDiangleWin( ticTacToeBox) ( playerGlyph) ( aIGlyph)
-
-    if AiWinner then
-        resultsOfTest <- getWinningAIValue( ticTacToeBox)
-    elif HumanWinner then
-        resultsOfTest <- getWinningHumanValue( ticTacToeBox)
+    
+    if hasAiWinner(ticTacToeBox)(playerGlyph)(aIGlyph)then
+        getWinningAIValue(ticTacToeBox.victoryCellCount())
+    elif hasHumanWinner(ticTacToeBox)(playerGlyph)(aIGlyph) then
+         getWinningHumanValue(ticTacToeBox.victoryCellCount())
+    elif hasTie(ticTacToeBox)(playerGlyph)(aIGlyph) then
+            int GenResult.Tie
     else
-        if hasTie( ticTacToeBox)( playerGlyph) ( aIGlyph) then
-            resultsOfTest <- int GenResult.Tie
-        else
-            resultsOfTest <- int GenResult.NoWinner
-    resultsOfTest
+        int GenResult.NoWinner

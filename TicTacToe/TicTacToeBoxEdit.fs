@@ -1,17 +1,18 @@
 ﻿module TicTacToeBoxEdit
+open TicTacToeBoxClass
 open GameSettings
 exception SpotAlreayTaken of string
 
-let insertUserOption (ticTacToeBox : array<string>) 
+let insertUserOption (board : TicTacToeBox) 
                      (userInput: int)(playerGlyph : string )
-                     (aIGlyph : string ) =
-    if ticTacToeBox.[userInput-1] = playerGlyph || ticTacToeBox.[userInput-1] = aIGlyph then
+                     (aIGlyph : string ) : TicTacToeBox =
+    if board.ticTacToebox.[userInput-1] = playerGlyph || board.ticTacToebox.[userInput-1] = aIGlyph then
         raise(SpotAlreayTaken("Spot Taken"))
-    ticTacToeBox.[userInput-1] <- playerGlyph
+    board.getTicTacToeBoxEdited(userInput - 1, playerGlyph)
 
-let insertOtherUserOption (ticTacToeBox : array<string>) 
-                     (userInput: int)(playerGlyph : string )
-                     (aIGlyph : string ) =
-    if ticTacToeBox.[userInput-1] = playerGlyph || ticTacToeBox.[userInput-1] = aIGlyph then
+let insertOtherUserOption(board : TicTacToeBox) 
+                         (userInput: int)(playerGlyph : string )
+                         (aIGlyph : string ) =
+    if board.ticTacToebox.[userInput-1] = playerGlyph || board.ticTacToebox.[userInput-1] = aIGlyph then
         raise(SpotAlreayTaken("Spot Taken"))
-    ticTacToeBox.[userInput-1] <- aIGlyph
+    board.getTicTacToeBoxEdited(userInput - 1, aIGlyph)

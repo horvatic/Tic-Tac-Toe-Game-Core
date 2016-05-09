@@ -1,8 +1,35 @@
-﻿module TicTacToeBox3X3ClassTest
-open TicTacToeBox3X3Class
+﻿module TicTacToeBoxClassTest
+open TicTacToeBoxClass
 open Xunit 
 open FsUnit
 
+[<Fact>]
+let Create_New_TicTacToe_Object() =
+    let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-8-"; "-9-"])
+    Assert.NotNull(ticTacToeBoard)
+
+[<Fact>]
+let Victory_Cell_Count_Is_3() =
+    let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-8-"; "-9-"])
+    Assert.Equal(3, ticTacToeBoard.victoryCellCount() )
+
+[<Fact>]
+let Get_Edited_Box() =
+    let ticTacToeBoard = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                            "-4-"; "-5-"; "-6-"; 
+                                            "-7-"; "-8-"; "-9-"])
+
+    let ticTacToeBoxEdited = ["-1-"; "-2-"; "-3-"; 
+                            "-4-"; "-5-"; "-6-"; 
+                            "-7-"; "X"; "-9-"]
+    let returnedBox = ticTacToeBoard.getTicTacToeBoxEdited(7, "X")
+    Assert.Equal<string>(ticTacToeBoxEdited, returnedBox.ticTacToebox)
+    
+(*
 [<Fact>]
 let Create_New_TicTacToe_Object() =
     let ticTacToeBoard = new TicTacToeBox3X3()
@@ -67,3 +94,4 @@ let Clone_Tic_Tac_Toe_Obejct_Sucessful() =
     ticTacToeBoard.insertCellGlyphAt(1, "X")
     let clonedTicTacToeBoard = ticTacToeBoard.clone() :?> TicTacToeBox3X3
     Assert.Equal("X", clonedTicTacToeBoard.getCellGlyph(1))
+*)

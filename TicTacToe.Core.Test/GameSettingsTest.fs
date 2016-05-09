@@ -4,7 +4,17 @@ open Xunit
 open FsUnit
 open PlayerValues
 open userInputException
+(*
+[<Fact>]
+let Edit_Tic_Tac_Toe_Box() =
+    let ticTacToeBox = ["-1-"; "-2-"; "-3-"; 
+                        "-4-"; "-5-"; "-6-"; 
+                        "-7-"; "-8-"; "-9-"]
 
+    let ticTacToeBoxEdited = ["-1-"; "-2-"; "-3-"; 
+                            "-4-"; "-5-"; "-6-"; 
+                            "-7-"; "X"; "-9-"]
+    Assert.Equal<string>(ticTacToeBoxEdited, getEditedTicTacToeBox ticTacToeBox 7 "X")
 
 [<Fact>]   // test
 let Make_A_Corrct_User_Setting() =
@@ -67,3 +77,4 @@ let Make_Player_One_Invaild_Glyph_Player() =
     let aIGlyph = "-1-"
     let firstPlayer = 999
     (fun () -> craftGameSetting TicTacToeInccorectBox playerGlyph aIGlyph firstPlayer false false false |> ignore) |> should throw typeof<InvaildGlyph>
+*)
