@@ -1,16 +1,7 @@
 ﻿module ITicTacToeBoxClass
 
-(*
-
 type ITicTacToeBox =
-    abstract member victoryCellCount : unit -> int
-    abstract member getTicTacToeBoxEdited : int -> string ->  ITicTacToeBox
-    (*
     abstract member cellCount : unit -> int
+    abstract member getGlyphAtLocation : int -> string
     abstract member victoryCellCount : unit -> int
-    abstract member getCellGlyph : int -> string    
-    abstract member insertCellGlyphAt : int -> string -> unit
-    abstract member clone : unit -> ITicTacToeBox
-    *)
-
-*)
+    abstract member getTicTacToeBoxEdited : int -> string -> string -> string -> ITicTacToeBox
