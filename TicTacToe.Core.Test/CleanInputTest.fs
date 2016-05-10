@@ -84,5 +84,6 @@ let Sanitize_User_Go_First_Or_Not_UpperCase_N() =
 let Sanitize_User_Go_First_Or_Not_9_To_Exception() =
     (fun () -> SanitizeYesOrNo "9" |> ignore) |> should throw typeof<InvaildOption>
 
+[<Fact>]   // test
 let Sanitize_User_Go_First_Or_Not_rge_To_Exception() =
     (fun () -> SanitizeYesOrNo"rge" |> ignore) |> should throw typeof<InvaildOption>

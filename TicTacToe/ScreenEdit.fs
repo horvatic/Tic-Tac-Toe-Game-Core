@@ -2,7 +2,6 @@
 open GameSettings
 open IInputOutPut
 open TicTacToeBoxClass
-exception InvaildBox of string
 
 let invertedScreen(board : TicTacToeBox)
                   (message : string)
@@ -19,7 +18,8 @@ let invertedScreen(board : TicTacToeBox)
                 "|\t"+ board.getGlyphAtLocation(8)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(6)+"\t|";
                 "-------------------------------------------------";
                 ]
-            io.print(package)
+            io.cleanScreen()
+            io.printNoScreenFlush(package)
     else
         let package = 
             [
@@ -34,7 +34,8 @@ let invertedScreen(board : TicTacToeBox)
              "|\t"+ board.getGlyphAtLocation(15)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(12)+"\t|";
              "-----------------------------------------------------------------";
             ]
-        io.print(package)
+        io.cleanScreen()
+        io.printNoScreenFlush(package)
 
 let nonInvertedScreen(board : TicTacToeBox)
                      (message : string)
@@ -51,7 +52,8 @@ let nonInvertedScreen(board : TicTacToeBox)
             "|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(8)+"\t|";
             "-------------------------------------------------";
             ]
-        io.print(package)
+        io.cleanScreen()
+        io.printNoScreenFlush(package)
 
     else
         let package = 
@@ -67,7 +69,8 @@ let nonInvertedScreen(board : TicTacToeBox)
              "|\t"+ board.getGlyphAtLocation(12)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(15)+"\t|";
              "-----------------------------------------------------------------";
             ]
-        io.print(package)
+        io.cleanScreen()
+        io.printNoScreenFlush(package)
 
 let writeToScreen(board : TicTacToeBox)
                  (inverted : bool )(message : string )

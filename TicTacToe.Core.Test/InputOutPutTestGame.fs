@@ -1,18 +1,22 @@
 ﻿module InputOutPutTestGame
 open IInputOutPut
+open System.Collections.Generic
 
-type InputOutTestGame(moves : array<int>) =
+type InputOutTestGame(moves : Queue<int>) =
     member val moves = moves
-    member val nextMove = -1 with get, set
-    member this.print(output : list<string>) 
-        = (this :> IInputOut).print(output : list<string>)
+    member this.printNoScreenFlush(output : list<string>) 
+        = (this :> IInputOut).printNoScreenFlush(output : list<string>)
+    member this.print() 
+        = (this :> IInputOut).cleanScreen()
     member this.getUserInput() : string 
         = (this :> IInputOut).getUserInput() : string
     interface IInputOut with
-        member this.print(output : list<string>) = 
+        member this.cleanScreen() = 
             "Should" |> ignore
 
         member this.getUserInput() : string =
-            this.nextMove <- this.nextMove + 1
-            string this.moves.[this.nextMove]
+            string (moves.Dequeue())
+
+         member this.printNoScreenFlush(output : list<string>) =
+            "Should" |> ignore
             

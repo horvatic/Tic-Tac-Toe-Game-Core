@@ -31,7 +31,7 @@ let rec getMinScore(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMinScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
-            let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos, playerGlyph))
+            let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos, playerGlyph, playerGlyph, aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (depth)
@@ -62,7 +62,7 @@ and getMaxScore(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMaxScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph))
+            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph, playerGlyph, aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (depth)
@@ -117,7 +117,7 @@ let rec computingMove(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             computingMove(board)(playerGlyph)(aIGlyph)(prevoiusScoreAndPos)(currentPos + 1)
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph))
+            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph, playerGlyph, aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (0)
@@ -141,5 +141,5 @@ let computerMove(board : TicTacToeBox)
 
 
 let aIMove(game : gameSetting)(board : TicTacToeBox) : TicTacToeBox =
-    board.getTicTacToeBoxEdited(computerMove(board)(game.playerGlyph)(game.aIGlyph), game.aIGlyph)
+    board.getTicTacToeBoxEdited(computerMove(board)(game.playerGlyph)(game.aIGlyph), game.aIGlyph, game.playerGlyph, game.aIGlyph)
     

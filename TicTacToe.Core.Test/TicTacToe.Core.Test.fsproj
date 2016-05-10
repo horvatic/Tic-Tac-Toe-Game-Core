@@ -62,6 +62,7 @@
     <Compile Include="TicTacToeBoxClassTest.fs" />
     <Compile Include="InputOutPutTestGame.fs" />
     <Compile Include="InputOutPutTestBuildGame.fs" />
+    <Compile Include="InputOutPutTest.fs" />
     <Compile Include="CleanInputTest.fs" />
     <Compile Include="TicTacToeBoxEditTest.fs" />
     <Compile Include="CheckForWinnerOrTieTest.fs" />
@@ -69,6 +70,9 @@
     <Compile Include="GameTest.fs" />
     <Compile Include="GameSettingsTest.fs" />
     <Compile Include="BuildAndStartGameTest.fs" />
+    <Compile Include="GameStatusCodesTest.fs" />
+    <Compile Include="ScreenEditTestInputOut.fs" />
+    <Compile Include="ScreenEditTest.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +94,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <ProjectReference Include="..\TicTacToe.UI\TicTacToe.UI.fsproj">

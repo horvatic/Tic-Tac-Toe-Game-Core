@@ -20,7 +20,8 @@ let getTicTacToeBoxSize(size : int) : int =
 let rec getaIGlyph(io : IInputOut)
                   (message : string)
                   (playerGlyph : string) : string =
-    io.print([message; "What glyph would you like for the other player?"])
+    io.cleanScreen()
+    io.printNoScreenFlush([message; "What glyph would you like for the other player?"])
     try 
             let aiGlypg = SanitizeGlyph(io.getUserInput())
             if aiGlypg = playerGlyph then
@@ -32,9 +33,11 @@ let rec getaIGlyph(io : IInputOut)
 
 let rec getplayerGlyph (io : IInputOut)(message : string)( aiVsAi : bool ) : string =
     if aiVsAi then
-        io.print([message; "What glyph would you like for one of the AI players?"])
+        io.cleanScreen()
+        io.printNoScreenFlush([message; "What glyph would you like for one of the AI players?"])
     else
-        io.print([message; "What glyph would you like?"])
+        io.cleanScreen()
+        io.printNoScreenFlush([message; "What glyph would you like?"])
     
     try 
             SanitizeGlyph(io.getUserInput())
@@ -42,7 +45,8 @@ let rec getplayerGlyph (io : IInputOut)(message : string)( aiVsAi : bool ) : str
         | :? InvaildGlyph -> getplayerGlyph(io)("Length Must be one")(aiVsAi)
 
 let rec getBoxOfUserSize(io : IInputOut)(message : string) : int =
-    io.print([message; "Would you like to play on a 3x3 or 4x4 Board? "])
+    io.cleanScreen()
+    io.printNoScreenFlush([message; "Would you like to play on a 3x3 or 4x4 Board? "])
     try
         getTicTacToeBoxSize(SanitizeBoxSize(io.getUserInput()))
     with
@@ -54,7 +58,8 @@ let rec isHuamnVSHuman(io : IInputOut)(message : string)(aiVsAi : bool) : bool =
     if aiVsAi then
         false
     else
-        io.print([message; "Would you like human vs human? "; "Y/N"])
+        io.cleanScreen()
+        io.printNoScreenFlush([message; "Would you like human vs human? "; "Y/N"])
         try 
             let humanVsHuman = SanitizeYesOrNo(io.getUserInput())
             if humanVsHuman = "Y" then
@@ -65,7 +70,8 @@ let rec isHuamnVSHuman(io : IInputOut)(message : string)(aiVsAi : bool) : bool =
             | :? InvaildOption -> isHuamnVSHuman(io)("Must be a Y or N")(aiVsAi)
 
 let rec isGameInverted(io : IInputOut)(message : string) : bool =
-    io.print([message; "Would you like to The game Inverted? "; "Y/N"])
+    io.cleanScreen()
+    io.printNoScreenFlush([message; "Would you like to The game Inverted? "; "Y/N"])
     try 
         let invert = SanitizeYesOrNo(io.getUserInput())
         if invert = "Y" then
@@ -76,7 +82,8 @@ let rec isGameInverted(io : IInputOut)(message : string) : bool =
         | :? InvaildOption -> isGameInverted(io)("Must be a Y or N")
 
 let rec aiVsAi(io : IInputOut)(message : string) : bool  =
-    io.print([message; "Would you like AI VS AI "; "Y/N"])
+    io.cleanScreen()
+    io.printNoScreenFlush([message; "Would you like AI VS AI "; "Y/N"])
     try 
         let aivai = SanitizeYesOrNo(io.getUserInput())
         if aivai = "Y" then
@@ -90,7 +97,8 @@ let rec whoGoingFirst(io : IInputOut)(message : string)(aivAi : bool) : int  =
     if aivAi then
        int playerVals.AI
     else 
-        io.print([message; "Would you like to go first? "; "Y/N"])    
+        io.cleanScreen()
+        io.printNoScreenFlush([message; "Would you like to go first? "; "Y/N"])    
         try 
             let goFirst = SanitizeYesOrNo(io.getUserInput())
             if goFirst = "Y" then
@@ -124,7 +132,8 @@ let rec settingGood(io : IInputOut)
             "AI vs AI" 
         else 
             "Human Vs AI"
-    io.print[message;
+    io.cleanScreen()
+    io.printNoScreenFlush[message;
               "Here are your current Settings";
               "Current Board Size is: " 
                 + string playerBox
@@ -167,26 +176,26 @@ let rec buildGame(io : IInputOut) : gameSetting =
     else
         buildGame(io)
 
-let playGame(game : gameSetting)(io : InputOut) : bool =
+let playGame(game : gameSetting)(io : IInputOut) : bool =
     startGame(game)(io) |> ignore
-    io.printNoScreenNoFlush(["Another Game? Y/N: "])
+    io.printNoScreenFlush(["Another Game? Y/N: "])
     let input = io.getUserInput()
     if not (input = "Y" || input = "y") then
         false
     else
         true
 
-let rec prepGame(game : gameSetting)(io : InputOut) =
+let rec prepGame(game : gameSetting)(io : IInputOut) =
     if playGame(game)(io) then
-        io.printNoScreenNoFlush(["Same Settings? Y/N: "])
+        io.printNoScreenFlush(["Same Settings? Y/N: "])
         let input = io.getUserInput()
         if input = "Y" || input = "y" then
             prepGame(game)(io)
         else
             prepGame(buildGame(io))(io)
 
-let buildAndStartGame() = 
-    let io = new InputOut()
+let buildAndStartGame(io : IInputOut) : int = 
     let game = buildGame(io)
     prepGame(game)(io)
+    0
     

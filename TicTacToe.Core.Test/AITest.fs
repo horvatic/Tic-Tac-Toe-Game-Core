@@ -10,6 +10,7 @@ open GameSettings
 open InputOutPutTestGame
 open TicTacToeBoxClass
 
+
 let rec humanAndAIPlay3X3(board : TicTacToeBox)
                        (playerGlyph : string)
                        (aIGlyph : string)
@@ -24,7 +25,7 @@ let rec humanAndAIPlay3X3(board : TicTacToeBox)
             for i = 0 to aiTicTacToeMove.cellCount() - 1 do
                 if not(aiTicTacToeMove.getGlyphAtLocation(i) = playerGlyph 
                     || aiTicTacToeMove.getGlyphAtLocation(i) = aIGlyph) then 
-                    humanAndAIPlay3X3((aiTicTacToeMove.getTicTacToeBoxEdited(i, playerGlyph)))
+                    humanAndAIPlay3X3((aiTicTacToeMove.getTicTacToeBoxEdited(i, playerGlyph, playerGlyph, aIGlyph)))
                                      (playerGlyph)(aIGlyph)(game)
         else
             Assert.NotEqual(checkForWinnerOrTie(aiTicTacToeMove)
@@ -46,7 +47,7 @@ let Evey_Possabile_Combination_Game_3X3_Huamn_First() =
     for i = 0 to board.cellCount() - 1 do
         if not(board.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
             || board.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
-            humanAndAIPlay3X3(board.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph))
+            humanAndAIPlay3X3(board.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph, gameTestCreate.playerGlyph, gameTestCreate.aIGlyph))
                              (gameTestCreate.playerGlyph)(gameTestCreate.aIGlyph)(gameTestCreate)
 
 [<Fact>]
@@ -59,7 +60,7 @@ let Evey_Possabile_Combination_Game_3X3_AI_First() =
     for i = 0 to aiTicTacToeMove.cellCount() - 1 do
         if not(aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
             || aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
-            humanAndAIPlay3X3(aiTicTacToeMove.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph))
+            humanAndAIPlay3X3(aiTicTacToeMove.getTicTacToeBoxEdited(i, gameTestCreate.playerGlyph, gameTestCreate.playerGlyph, gameTestCreate.aIGlyph))
                              (gameTestCreate.playerGlyph)(gameTestCreate.aIGlyph)(gameTestCreate)
 
 [<Fact>]
