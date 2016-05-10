@@ -1,9 +1,9 @@
 ﻿module CheckForWinnerOrTie
 open GameStatusCodes
 open GameSettings
-open TicTacToeBoxClass
+open ITicTacToeBoxClass
 
-let rec doesHaveTie(board : TicTacToeBox)
+let rec doesHaveTie(board : ITicTacToeBox)
                (playerGlyph : string)
                (aIGlyph : string)
                (pos : int) : bool =
@@ -16,13 +16,13 @@ let rec doesHaveTie(board : TicTacToeBox)
         doesHaveTie(board)(playerGlyph)(aIGlyph)(pos+1)
     
 
-let hasTie ( ticTacToeBox : TicTacToeBox)
+let hasTie ( ticTacToeBox : ITicTacToeBox)
            ( playerGlyph : string)
            ( aIGlyph : string) : bool =
     doesHaveTie(ticTacToeBox)(playerGlyph)(aIGlyph)(0)
 
 
-let rec checkForDiangeWinRight(board : TicTacToeBox) 
+let rec checkForDiangeWinRight(board : ITicTacToeBox) 
                               (search : string)
                               (searchIndex : int)
                               : bool =
@@ -37,7 +37,7 @@ let rec checkForDiangeWinRight(board : TicTacToeBox)
         
 
 
-let rec checkForDiangeWinLeft(board : TicTacToeBox) 
+let rec checkForDiangeWinLeft(board : ITicTacToeBox) 
                          (search : string)
                          (searchIndex : int)
                          : bool =
@@ -50,7 +50,7 @@ let rec checkForDiangeWinLeft(board : TicTacToeBox)
     else
         false
 
-let hasDiangleWin(board : TicTacToeBox) 
+let hasDiangleWin(board : ITicTacToeBox) 
                 (search : string)
                 : bool =
     if checkForDiangeWinRight(board)(search)(0) = true then
@@ -60,7 +60,7 @@ let hasDiangleWin(board : TicTacToeBox)
     else
         false
 
-let rec verticalTrurthValue(board : TicTacToeBox)
+let rec verticalTrurthValue(board : ITicTacToeBox)
                            (search : string)
                            (indexOfSearch : int)
                            (searchSpacSize : int) : bool =
@@ -73,7 +73,7 @@ let rec verticalTrurthValue(board : TicTacToeBox)
     else
         false
 
-let rec hasVerticalWin(board : TicTacToeBox) 
+let rec hasVerticalWin(board : ITicTacToeBox) 
                         (search : string)
                         (indexSearch : int)
                         : bool =
@@ -86,7 +86,7 @@ let rec hasVerticalWin(board : TicTacToeBox)
     else
         false
 
-let rec horzontailTrurthValue(board : TicTacToeBox)
+let rec horzontailTrurthValue(board : ITicTacToeBox)
                              (search : string)
                              (indexOfSearch : int)
                              (offset : int)
@@ -100,7 +100,7 @@ let rec horzontailTrurthValue(board : TicTacToeBox)
     else
         false
 
-let rec hasHorzontailWin(ticTacToeBox : TicTacToeBox) 
+let rec hasHorzontailWin(ticTacToeBox : ITicTacToeBox) 
                         (search : string)
                         (offset : int)
                         : bool =
@@ -113,7 +113,7 @@ let rec hasHorzontailWin(ticTacToeBox : TicTacToeBox)
     else
         false
 
-let hasHumanWinner(ticTacToeBox : TicTacToeBox) 
+let hasHumanWinner(ticTacToeBox : ITicTacToeBox) 
                   (playerGlyph : string)
                   (aIGlyph : string) : bool =
     if hasHorzontailWin(ticTacToeBox) (playerGlyph)(0)
@@ -123,7 +123,7 @@ let hasHumanWinner(ticTacToeBox : TicTacToeBox)
     else
         false
 
-let hasAiWinner(ticTacToeBox : TicTacToeBox) 
+let hasAiWinner(ticTacToeBox : ITicTacToeBox) 
                (playerGlyph : string)
                (aIGlyph : string) : bool =
     
@@ -134,7 +134,7 @@ let hasAiWinner(ticTacToeBox : TicTacToeBox)
     else
         false
 
-let checkForWinnerOrTie( ticTacToeBox : TicTacToeBox) 
+let checkForWinnerOrTie( ticTacToeBox : ITicTacToeBox) 
                        ( playerGlyph : string)
                        ( aIGlyph : string) : int =
     

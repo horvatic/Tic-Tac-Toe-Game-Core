@@ -1,5 +1,5 @@
 ﻿module AI
-open TicTacToeBoxClass
+open ITicTacToeBoxClass
 open CheckForWinnerOrTie
 open PlayerValues
 open GameStatusCodes
@@ -18,7 +18,7 @@ let minimizeScoreCutOff(score : int)(depth : int ) : int =
     else
         score + depth
 
-let rec getMinScore(board : TicTacToeBox)
+let rec getMinScore(board : ITicTacToeBox)
                    (currentPos : int)
                    (playerGlyph : string)
                    (aIGlyph : string)
@@ -31,7 +31,7 @@ let rec getMinScore(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMinScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
-            let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos, playerGlyph, playerGlyph, aIGlyph))
+            let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos)(playerGlyph)(playerGlyph)(aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (depth)
@@ -49,7 +49,7 @@ let rec getMinScore(board : TicTacToeBox)
                 prevoiusScore
 
 
-and getMaxScore(board : TicTacToeBox)
+and getMaxScore(board : ITicTacToeBox)
                    (currentPos : int)
                    (playerGlyph : string)
                    (aIGlyph : string)
@@ -62,7 +62,7 @@ and getMaxScore(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             getMaxScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph, playerGlyph, aIGlyph))
+            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (depth)
@@ -79,7 +79,7 @@ and getMaxScore(board : TicTacToeBox)
             else
                 prevoiusScore
 
-and miniMaxMaxium(board : TicTacToeBox)
+and miniMaxMaxium(board : ITicTacToeBox)
                 (playerGlyph : string)
                 (aIGlyph : string)
                 (depth : int )
@@ -91,7 +91,7 @@ and miniMaxMaxium(board : TicTacToeBox)
     else
         minimizeScoreCutOff(score)(depth)
 
-and miniMaxMinimize(board : TicTacToeBox)
+and miniMaxMinimize(board : ITicTacToeBox)
                    (playerGlyph : string)
                    (aIGlyph : string) 
                    (depth : int )
@@ -104,7 +104,7 @@ and miniMaxMinimize(board : TicTacToeBox)
         maxiumeScoreCutOff(score)(depth)
 
 
-let rec computingMove(board : TicTacToeBox)
+let rec computingMove(board : ITicTacToeBox)
                      (playerGlyph : string)
                      (aIGlyph : string)      
                      (prevoiusScoreAndPos : list<int>)
@@ -117,7 +117,7 @@ let rec computingMove(board : TicTacToeBox)
         if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
             computingMove(board)(playerGlyph)(aIGlyph)(prevoiusScoreAndPos)(currentPos + 1)
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos, aIGlyph, playerGlyph, aIGlyph))
+            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
                                             (playerGlyph)
                                             (aIGlyph)
                                             (0)
@@ -132,7 +132,7 @@ let rec computingMove(board : TicTacToeBox)
             else
                 prevoiusScoreAndPos
 
-let computerMove(board : TicTacToeBox)
+let computerMove(board : ITicTacToeBox)
                 (playerGlyph : string)
                 (aIGlyph : string)
                 : int =
@@ -140,6 +140,7 @@ let computerMove(board : TicTacToeBox)
     (computingMove(board)(playerGlyph)(aIGlyph)([-999;-1])(0)).[1]
 
 
-let aIMove(game : gameSetting)(board : TicTacToeBox) : TicTacToeBox =
-    board.getTicTacToeBoxEdited(computerMove(board)(game.playerGlyph)(game.aIGlyph), game.aIGlyph, game.playerGlyph, game.aIGlyph)
+let aIMove(game : gameSetting)(board : ITicTacToeBox) : ITicTacToeBox =
+    let insertPos = computerMove(board)(game.playerGlyph)(game.aIGlyph)
+    board.getTicTacToeBoxEdited(insertPos)(game.aIGlyph)(game.playerGlyph)(game.aIGlyph)
     

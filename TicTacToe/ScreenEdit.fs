@@ -1,9 +1,9 @@
 ﻿module ScreenEdit
 open GameSettings
 open IInputOutPut
-open TicTacToeBoxClass
+open ITicTacToeBoxClass
 
-let invertedScreen(board : TicTacToeBox)
+let invertedScreen(board : ITicTacToeBox)
                   (message : string)
                   (io : IInputOut) : unit =
     if board.cellCount() = 9 then
@@ -37,7 +37,7 @@ let invertedScreen(board : TicTacToeBox)
         io.cleanScreen()
         io.printNoScreenFlush(package)
 
-let nonInvertedScreen(board : TicTacToeBox)
+let nonInvertedScreen(board : ITicTacToeBox)
                      (message : string)
                      (io : IInputOut) : unit =
     if board.cellCount() = 9 then
@@ -72,7 +72,7 @@ let nonInvertedScreen(board : TicTacToeBox)
         io.cleanScreen()
         io.printNoScreenFlush(package)
 
-let writeToScreen(board : TicTacToeBox)
+let writeToScreen(board : ITicTacToeBox)
                  (inverted : bool )(message : string )
                  (io : IInputOut) : unit =
     if not inverted then
