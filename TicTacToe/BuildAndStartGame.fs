@@ -167,7 +167,7 @@ let rec buildGame(io : IInputOut) : gameSetting =
     else
         buildGame(io)
 
-let playGame(game : gameSetting)(io : InputOut) : bool =
+let playGame(game : gameSetting)(io : IInputOut) : bool =
     startGame(game)(io) |> ignore
     io.printNoScreenNoFlush(["Another Game? Y/N: "])
     let input = io.getUserInput()
@@ -176,7 +176,7 @@ let playGame(game : gameSetting)(io : InputOut) : bool =
     else
         true
 
-let rec prepGame(game : gameSetting)(io : InputOut) =
+let rec prepGame(game : gameSetting)(io : IInputOut) =
     if playGame(game)(io) then
         io.printNoScreenNoFlush(["Same Settings? Y/N: "])
         let input = io.getUserInput()
@@ -185,8 +185,8 @@ let rec prepGame(game : gameSetting)(io : InputOut) =
         else
             prepGame(buildGame(io))(io)
 
-let buildAndStartGame() = 
-    let io = new InputOut()
+let buildAndStartGame(io : IInputOut) : int = 
     let game = buildGame(io)
     prepGame(game)(io)
+    0
     

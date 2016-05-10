@@ -1,11 +1,12 @@
 ﻿module TicTacToeBoxClass
 open ITicTacToeBoxClass
 open System
+open System.Collections.Immutable
 
 exception IndexOutOfBoundsException of string
 exception SpotTakenException of unit
 
-type TicTacToeBox(newTicTacToeBoard : list<string>) =
+type TicTacToeBox(newTicTacToeBoard : ImmutableArray<string>) =
     member val private ticTacToebox = newTicTacToeBoard
 
     member this.cellCount() : int =
@@ -26,8 +27,9 @@ type TicTacToeBox(newTicTacToeBoard : list<string>) =
                         editSymbol
                     else
                         this.ticTacToebox.[i])
-                ]
-            ))
+                ].ToImmutableArray()
+            )
+       )
        
     (*
     member val private ticTacToeBoard = [|"-1-"; "-2-"; "-3-"; 

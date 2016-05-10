@@ -1,5 +1,6 @@
 ﻿module InputOutPutTestBuildGame
 open IInputOutPut
+open System.Collections.Generic
 
 type InputOutTestBuildGame(option : string) =
     member val option = option
@@ -7,6 +8,8 @@ type InputOutTestBuildGame(option : string) =
         = (this :> IInputOut).print(output : list<string>)
     member this.getUserInput() : string 
         = (this :> IInputOut).getUserInput() : string
+    member this.printNoScreenNoFlush(output : list<string>) 
+        = (this :> IInputOut).printNoScreenNoFlush(output : list<string>)
     interface IInputOut with
         member this.print(output : list<string>) = 
             "Should" |> ignore
@@ -14,9 +17,11 @@ type InputOutTestBuildGame(option : string) =
         member this.getUserInput() : string =
             option
 
-type InputOutTestBuildGameManyOps(moves : array<string>) =
+        member this.printNoScreenNoFlush(output : list<string>) = 
+            "Should" |> ignore
+
+type InputOutTestBuildGameManyOps(moves : Queue<string>) =
     member val moves = moves
-    member val nextMove = -1 with get, set
     member this.print(output : list<string>) 
         = (this :> IInputOut).print(output : list<string>)
     member this.getUserInput() : string 
@@ -26,5 +31,7 @@ type InputOutTestBuildGameManyOps(moves : array<string>) =
             "Should" |> ignore
 
         member this.getUserInput() : string =
-            this.nextMove <- this.nextMove + 1
-            string this.moves.[this.nextMove]
+            moves.Dequeue()
+        
+        member this.printNoScreenNoFlush(output : list<string>) = 
+            "Should" |> ignore

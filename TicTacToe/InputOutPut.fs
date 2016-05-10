@@ -3,8 +3,7 @@ open IInputOutPut
 
 type InputOut() =
     member this.printNoScreenNoFlush(output : list<string>) 
-        = for i = 0 to output.Length - 1 do
-                printfn "%s" output.[i]
+        = (this :> IInputOut).printNoScreenNoFlush(output : list<string>)
     member this.print(output : list<string>) 
         = (this :> IInputOut).print(output : list<string>)
     member this.getUserInput() : string 
@@ -18,3 +17,7 @@ type InputOut() =
         member this.getUserInput() : string =
             printf "Input: "
             System.Console.ReadLine()
+
+        member this.printNoScreenNoFlush(output : list<string>) 
+            = for i = 0 to output.Length - 1 do
+                printfn "%s" output.[i]

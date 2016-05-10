@@ -11,18 +11,19 @@ open PlayerValues
 open IInputOutPut
 open InputOutPut
 open TicTacToeBoxClass
+open System.Collections.Immutable
 
-let makeTicTacToeBox(size : int) : list<string> =
+let makeTicTacToeBox(size : int) : ImmutableArray<string> =
     if size = 3 then
         ["-1-"; "-2-"; "-3-"; 
         "-4-"; "-5-"; "-6-"; 
-        "-7-"; "-8-"; "-9-"]
+        "-7-"; "-8-"; "-9-"].ToImmutableArray()
     
     else 
         ["-1-"; "-2-"; "-3-"; "-4-"; 
         "-5-"; "-6-"; "-7-"; "-8-"; 
         "-9-"; "-10-"; "-11-"; "-12-";
-        "-13-"; "-14-"; "-15-"; "-16-"]
+        "-13-"; "-14-"; "-15-"; "-16-"].ToImmutableArray()
 
 let gameEndingMessage( board : TicTacToeBox) 
                      ( playerGlyph : string)

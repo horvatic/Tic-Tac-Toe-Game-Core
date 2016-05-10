@@ -9,6 +9,7 @@ open System.Collections.Generic
 open GameSettings
 open InputOutPutTestGame
 open TicTacToeBoxClass
+open System.Collections.Immutable
 
 let rec humanAndAIPlay3X3(board : TicTacToeBox)
                        (playerGlyph : string)
@@ -42,7 +43,7 @@ let Evey_Possabile_Combination_Game_3X3_Huamn_First() =
     
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9-"])
+                                "-7-"; "-8-"; "-9-"].ToImmutableArray())
     for i = 0 to board.cellCount() - 1 do
         if not(board.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
             || board.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
@@ -55,7 +56,7 @@ let Evey_Possabile_Combination_Game_3X3_AI_First() =
                                           (int playerVals.Human)(false)(false)(false)
     let aiTicTacToeMove = aIMove(gameTestCreate)(new TicTacToeBox (["-1-"; "-2-"; "-3-"; 
                                                                      "-4-"; "-5-"; "-6-"; 
-                                                                     "-7-"; "-8-"; "-9-"]))
+                                                                     "-7-"; "-8-"; "-9-"].ToImmutableArray()))
     for i = 0 to aiTicTacToeMove.cellCount() - 1 do
         if not(aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.playerGlyph 
             || aiTicTacToeMove.getGlyphAtLocation(i) = gameTestCreate.aIGlyph) then
@@ -68,7 +69,7 @@ let Maxiume_Lossess() =
                                           (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "X"; "-3-"; 
                                 "-4-"; "-5-"; "X"; 
-                                "@"; "@"; "X"])
+                                "@"; "@"; "X"].ToImmutableArray())
     Assert.Equal(2, computerMove board gameTestCreate.playerGlyph gameTestCreate.aIGlyph)
 
 [<Fact>]
@@ -100,7 +101,7 @@ let Minimize_Score_Cut_Off_Needed() =
 let Mini_Max_Minimize_Win() = 
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     
-    let board = new TicTacToeBox(["@"; "@"; "-3-"; "-4-"; "-5-"; "-6-"; "X"; "X"; "-9-"])
+    let board = new TicTacToeBox(["@"; "@"; "-3-"; "-4-"; "-5-"; "-6-"; "X"; "X"; "-9-"].ToImmutableArray())
     Assert.Equal(int Result3X3.HumanWins + 1, miniMaxMinimize 
                                             board
                                             gameTestCreate.playerGlyph
@@ -108,7 +109,7 @@ let Mini_Max_Minimize_Win() =
                                             0)
 
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["X"; "X"; "-3-"; "@"; "@"; "-6-"; "X"; "X"; "-9-"])
+    let board = new TicTacToeBox(["X"; "X"; "-3-"; "@"; "@"; "-6-"; "X"; "X"; "-9-"].ToImmutableArray())
     Assert.Equal(int Result3X3.HumanWins + 1, miniMaxMinimize 
                                             board
                                             gameTestCreate.playerGlyph
@@ -118,7 +119,7 @@ let Mini_Max_Minimize_Win() =
 [<Fact>]
 let Mini_Max_Maxium_Win() = 
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["X"; "X"; "-3-"; "-4-"; "-5-"; "-6-"; "@"; "@"; "-9-"])
+    let board = new TicTacToeBox(["X"; "X"; "-3-"; "-4-"; "-5-"; "-6-"; "@"; "@"; "-9-"].ToImmutableArray())
     Assert.Equal(int Result3X3.AiWins - 1, miniMaxMaxium 
                                             board
                                             gameTestCreate.playerGlyph
@@ -128,7 +129,7 @@ let Mini_Max_Maxium_Win() =
 [<Fact>]
 let Mini_Max_Maxium_Tie() = 
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"])
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"].ToImmutableArray())
     Assert.Equal(int GenResult.Tie, miniMaxMaxium 
                                     board
                                     gameTestCreate.playerGlyph
@@ -138,7 +139,7 @@ let Mini_Max_Maxium_Tie() =
 [<Fact>]
 let Mini_Max_Minimize_Tie() = 
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"])
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"].ToImmutableArray())
     Assert.Equal(int GenResult.Tie, miniMaxMinimize 
                                     board
                                     gameTestCreate.playerGlyph
