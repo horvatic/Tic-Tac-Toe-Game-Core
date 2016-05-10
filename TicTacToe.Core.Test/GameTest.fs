@@ -10,39 +10,100 @@ open GameSettings
 open InputOutPutTestGame
 open TicTacToeBoxClass
 open System.Collections.Generic
-open System.Collections.Immutable
+
+[<Fact>]
+let Ai_Vs_Ai_Ai_Player_Two_First() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") 
+                                          (int playerVals.Human)(false)(true)(false)
+    let aIPlayerTwoGame = craftGameSetting(gameTestCreate.ticTacToeBoxSize)(gameTestCreate.aIGlyph)
+                                          (gameTestCreate.playerGlyph)(gameTestCreate.firstPlayer)
+                                          (gameTestCreate.inverted)(false)(true)
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+    let io = new InputOutTestGame(new Queue<int>([1; 99; 7; 
+                                                    9; 8; 6; 
+                                                    5; 4; 3]))
+    
+    Assert.Equal(int GenResult.Tie, aIPlayerTwoTurn gameTestCreate aIPlayerTwoGame board io)
+
+[<Fact>]
+let Make_4X4_Tic_Tac_Toe_Box() =
+    let box = ["-1-"; "-2-"; "-3-"; "-4-"; 
+                "-5-"; "-6-"; "-7-"; "-8-"; 
+                "-9-"; "-10-"; "-11-"; "-12-";
+                "-13-"; "-14-"; "-15-"; "-16-"]
+    Assert.Equal<string>(box, makeTicTacToeBox 4)
+
+[<Fact>]
+let Make_3X3_Tic_Tac_Toe_Box() =
+    let box = ["-1-"; "-2-"; "-3-"; 
+            "-4-"; "-5-"; "-6-"; 
+            "-7-"; "-8-"; "-9-"]
+    Assert.Equal<string>(box, makeTicTacToeBox 3)
 
 [<Fact>]
 let User_Input_Edit_Not_Spot_Taken_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("", userInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 [<Fact>]
 let User_Input_Edit_Not_A_Number_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Value not a number", userInputOkToEditTicTacToeBox gameTestCreate board "werwer")
 
 [<Fact>]
 let User_Input_Edit__Out_Of_Bounds_To_Big_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Value out of bounds", userInputOkToEditTicTacToeBox gameTestCreate board "99")
 
 [<Fact>]
 let User_Input_Edit__Out_Of_Bounds__To_Small_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Value out of bounds", userInputOkToEditTicTacToeBox gameTestCreate board "0")
 
 [<Fact>]
 let User_Input_Edit_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
 
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
 
     Assert.Equal("", userInputOkToEditTicTacToeBox gameTestCreate board "1")
+
+
+[<Fact>]
+let Other_User_Input_Edit_Not_Spot_Taken_TicTacToeBox() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+    Assert.Equal("", otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
+
+[<Fact>]
+let Other_User_Input_Edit_Not_A_Number_TicTacToeBox() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+    Assert.Equal("Value not a number", otherUserInputOkToEditTicTacToeBox gameTestCreate board "werwer")
+
+[<Fact>]
+let Other_User_Input_Edit__Out_Of_Bounds_To_Big_TicTacToeBox() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+    Assert.Equal("Value out of bounds", otherUserInputOkToEditTicTacToeBox gameTestCreate board "99")
+
+[<Fact>]
+let Other_User_Input_Edit__Out_Of_Bounds__To_Small_TicTacToeBox() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+    Assert.Equal("Value out of bounds", otherUserInputOkToEditTicTacToeBox gameTestCreate board "0")
+
+[<Fact>]
+let Other_User_Input_Edit_TicTacToeBox() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
+
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
+
+    Assert.Equal("", otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 [<Fact>]
 let Convert_User_Input_To_Int() =
@@ -74,37 +135,37 @@ let User_Pick_In_Bound_Spot() =
 
 [<Fact>]
 let User_Pick_Non_Taken_Spot() =
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal(false, isSpotTaken board 1 "X" "@")
 
 [<Fact>]
 let User_Pick_Taken_Spot() =
-    let board = new TicTacToeBox(["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal(true, isSpotTaken board 0 "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_Correct() =
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("", isUserInputCorrect board "1" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_Spot_Taken() =
-    let board = new TicTacToeBox(["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Spot Taken", isUserInputCorrect board "1" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_is_Not_A_Input_Number() =
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Value not a number", isUserInputCorrect board "addas" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_OutOfBounds() =
-    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"].ToImmutableArray())
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
     Assert.Equal("Value out of bounds", isUserInputCorrect board "20" "X" "@")
 
 [<Fact>]
 let Human_Vs_Human_PlayerOneFirst() =
-    let io = new InputOutTestGame(new Queue<int>([1; 9; 2; 
+    let io = new InputOutTestGame(new Queue<int>([99; 1; 9; 2; 
                                                     8; 3; 7; 
                                                     5; 6; 4]))
 
@@ -113,14 +174,14 @@ let Human_Vs_Human_PlayerOneFirst() =
 
     let ticTacToeBox = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                         "-4-"; "-5-"; "-6-"; 
-                                        "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                        "-7-"; "-8-"; "-9"])
     let gameResult = startGame(gameTestCreate)(io)
     
     Assert.Equal(getWinningHumanValue(gameTestCreate.ticTacToeBoxSize), gameResult)
 
 [<Fact>]
 let Human_Vs_Human_PlayerTwoFirst() =
-    let io = new InputOutTestGame(new Queue<int>([1; 9; 2; 
+    let io = new InputOutTestGame(new Queue<int>([99; 1; 9; 2; 
                                                     8; 3; 7; 
                                                     5; 6; 4]))
 
@@ -129,7 +190,7 @@ let Human_Vs_Human_PlayerTwoFirst() =
 
     let ticTacToeBox = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                         "-4-"; "-5-"; "-6-"; 
-                                        "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                        "-7-"; "-8-"; "-9"])
     let gameResult = startGame(gameTestCreate)(io)
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize), gameResult)
 
@@ -142,7 +203,7 @@ let game_First_Human_Vs_Ai() =
                                                     7; 8; 9]))
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                "-7-"; "-8-"; "-9"])
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
                     , humanFirstVsAiGame gameTestCreate board io)
 
@@ -156,7 +217,7 @@ let game_Human_First_Vs_Ai_Ai_Doesnt_Stall() =
                                                     5; 4; 3]))
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                "-7-"; "-8-"; "-9"])
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
                     , humanFirstVsAiGame gameTestCreate board io)
 
@@ -169,7 +230,7 @@ let game_Human_Vs_First_Ai() =
                                                     7; 8; 9]))
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                "-7-"; "-8-"; "-9"])
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
                     , humanVsAiFirstGame gameTestCreate board io)
 
@@ -183,7 +244,7 @@ let game_Human_Vs_First_Ai_Ai_Doesnt_Stall() =
                                                     5; 4; 3]))
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                "-7-"; "-8-"; "-9"])
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
                     , humanVsAiFirstGame gameTestCreate board io)
 
@@ -197,6 +258,6 @@ let game_AI_Vs_AI() =
                                                     5; 4; 3]))
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
                                 "-4-"; "-5-"; "-6-"; 
-                                "-7-"; "-8-"; "-9"].ToImmutableArray())
+                                "-7-"; "-8-"; "-9"])
     Assert.Equal(int GenResult.Tie, aIvsAI gameTestCreate board io)
 

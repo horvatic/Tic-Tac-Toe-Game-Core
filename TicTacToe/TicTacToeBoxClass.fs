@@ -1,33 +1,37 @@
 ﻿module TicTacToeBoxClass
 open ITicTacToeBoxClass
 open System
-open System.Collections.Immutable
 
-exception IndexOutOfBoundsException of string
+exception IndexOutOfBoundsException of unit
 exception SpotTakenException of unit
 
-type TicTacToeBox(newTicTacToeBoard : ImmutableArray<string>) =
+type TicTacToeBox(newTicTacToeBoard : list<string>) =
     member val private ticTacToebox = newTicTacToeBoard
 
     member this.cellCount() : int =
         this.ticTacToebox.Length
 
     member this.getGlyphAtLocation(postion : int) : string =
+        if postion > this.ticTacToebox.Length - 1 || postion  < 0 then
+            raise(IndexOutOfBoundsException())
         this.ticTacToebox.[postion]
 
     member this.victoryCellCount() : int =
         int (sqrt(float this.ticTacToebox.Length))
 
-    member this.getTicTacToeBoxEdited(editPos : int, editSymbol : string) : TicTacToeBox = 
+    member this.getTicTacToeBoxEdited(editPos : int, editSymbol : string, playerGlyph : string, aIGlyph : string) 
+        : TicTacToeBox = 
         (new TicTacToeBox 
             (
                 [
                 for i in 0 .. this.ticTacToebox.Length - 1 -> 
                     (if editPos = i then
+                        if playerGlyph = this.ticTacToebox.[i] || aIGlyph = this.ticTacToebox.[i] then
+                            raise(SpotTakenException())
                         editSymbol
                     else
                         this.ticTacToebox.[i])
-                ].ToImmutableArray()
+                ]
             )
        )
        

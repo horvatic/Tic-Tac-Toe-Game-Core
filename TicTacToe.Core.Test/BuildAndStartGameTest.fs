@@ -8,6 +8,40 @@ open PlayerValues
 open System.Collections.Generic
 
 [<Fact>]
+let Run_Whole_Game_Once_Huamn_Vs_Human() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"y";"y";"w";"e";"n";"y";
+                                                                 "1";"3";"4";"6";"7";"n";
+                                                                 ])) 
+    Assert.Equal(0, buildAndStartGame io)
+
+[<Fact>]
+let Run_Whole_Game_Once_AI_AI() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"y";"w";"e";"n";"y";"n;"])) 
+    Assert.Equal(0, buildAndStartGame io)
+
+[<Fact>]
+let Run_Whole_Game_Once_Take_Twice_Correct_Settings() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"w";"e";"n";"n";
+                                                                 "3";"n";"n";"y";"w";"e";"n";"y";
+                                                                 "1";"2";"9";"n";
+                                                                 ])) 
+    Assert.Equal(0, buildAndStartGame io)
+
+[<Fact>]
+let Run_Whole_Game_Twice_Diifent_Settings() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"w";"e";"n";"y";
+                                                                 "1";"2";"9";"y";"n";"3";"n";"n";
+                                                                 "n";"t";"o";"y";"y";"3";"6";"n"])) 
+    Assert.Equal(0, buildAndStartGame io)
+
+[<Fact>]
+let Run_Whole_Game_Twice_Same_Settings() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"t";"y";
+                                                                 "n";"y";"1";"2";"9";"y";
+                                                                 "y";"1";"2";"9";"n";])) 
+    Assert.Equal(0, buildAndStartGame io)
+
+[<Fact>]
 let Run_Whole_Game() =
     let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"e";"r";"n";"y";"1";"2";"9";"n";"n";])) 
     Assert.Equal(0, buildAndStartGame io)
@@ -185,4 +219,14 @@ let Make_Tic_Tac_Toe_Box_5X5_Correct_To_Exception() =
 [<Fact>]   // test
 let Make_Tic_Tac_Toe_Box_0X0_Correct_To_Exception() =
     (fun () -> getTicTacToeBoxSize 0 |> ignore) |> should throw typeof<OutOfBoundsUnderFlow>
+
+[<Fact>]   // test
+let User_Input_Number_To_Large_For_Tic_tac_Toe_To_Exception() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["5"; "3";])) 
+    Assert.Equal(3, getBoxOfUserSize io "")
+
+[<Fact>]   // test
+let User_Input_Number_To_Small_For_Tic_tac_Toe_To_Exception() =
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["0"; "3"])) 
+    Assert.Equal(3, getBoxOfUserSize io "")
 

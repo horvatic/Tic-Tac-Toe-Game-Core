@@ -1,15 +1,17 @@
-﻿module ScreenEdit
-open GameSettings
-open IInputOutPut
+﻿module ScreenEditTest
+open ScreenEdit
+open Xunit
+open FsUnit
 open TicTacToeBoxClass
+open ScreenEditTestInputOut
 
-let invertedScreen(board : TicTacToeBox)
-                  (message : string)
-                  (io : IInputOut) : unit =
-    if board.cellCount() = 9 then
-            let package = 
+
+[<Fact>]
+let Board_Of_3X3_Simple_Message_Inverted() =
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"])
+    let correctOutput = 
                 [
-                 message;
+                 "Error Message";
                 "-------------------------------------------------";
                 "|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
                 "-------------------------------------------------";
@@ -18,12 +20,35 @@ let invertedScreen(board : TicTacToeBox)
                 "|\t"+ board.getGlyphAtLocation(8)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(6)+"\t|";
                 "-------------------------------------------------";
                 ]
-            io.cleanScreen()
-            io.printNoScreenFlush(package)
-    else
-        let package = 
+    let io = new InputOutTestGame(correctOutput)
+    writeToScreen(board)(true)("Error Message")(io)
+
+[<Fact>]
+let Board_Of_3X3_Simple_Message_Non_Inverted() =
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9-"])
+    let correctOutput = 
+                [
+                "Error Message";
+                "-------------------------------------------------";
+                "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|";
+                "-------------------------------------------------";
+                "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(4)+"\t|\t"+ board.getGlyphAtLocation(5)+"\t|";
+                "-------------------------------------------------";
+                "|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(8)+"\t|";
+                "-------------------------------------------------";
+                ]
+    let io = new InputOutTestGame(correctOutput)
+    writeToScreen(board)(false)("Error Message")(io)
+
+[<Fact>]
+let Board_Of_4X4_Simple_Message_Inverted() =
+    let board = new TicTacToeBox(["X"; "X"; "X"; "-4-"; 
+                                "-5-"; "-6-"; "-7-"; "-8-"; 
+                                "@"; "@"; "@"; "@";
+                                "-13-"; "-14-"; "-15-"; "-16-"])
+    let correctOutput = 
             [
-            message;
+            "Error Message";
              "-----------------------------------------------------------------";
              "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
              "-----------------------------------------------------------------";
@@ -34,31 +59,18 @@ let invertedScreen(board : TicTacToeBox)
              "|\t"+ board.getGlyphAtLocation(15)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(12)+"\t|";
              "-----------------------------------------------------------------";
             ]
-        io.cleanScreen()
-        io.printNoScreenFlush(package)
+    let io = new InputOutTestGame(correctOutput)
+    writeToScreen(board)(true)("Error Message")(io)
 
-let nonInvertedScreen(board : TicTacToeBox)
-                     (message : string)
-                     (io : IInputOut) : unit =
-    if board.cellCount() = 9 then
-        let package = 
+[<Fact>]
+let Board_Of_4X4_Simple_Message_Non_Inverted() =
+    let board = new TicTacToeBox(["X"; "X"; "X"; "-4-"; 
+                                "-5-"; "-6-"; "-7-"; "-8-"; 
+                                "@"; "@"; "@"; "@";
+                                "-13-"; "-14-"; "-15-"; "-16-"])
+    let correctOutput = 
             [
-            message;
-            "-------------------------------------------------";
-            "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|";
-            "-------------------------------------------------";
-            "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(4)+"\t|\t"+ board.getGlyphAtLocation(5)+"\t|";
-            "-------------------------------------------------";
-            "|\t"+ board.getGlyphAtLocation(6)+"\t|\t"+ board.getGlyphAtLocation(7)+"\t|\t"+ board.getGlyphAtLocation(8)+"\t|";
-            "-------------------------------------------------";
-            ]
-        io.cleanScreen()
-        io.printNoScreenFlush(package)
-
-    else
-        let package = 
-            [
-             message;
+             "Error Message";
              "-----------------------------------------------------------------";
              "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(3)+"\t|";
              "-----------------------------------------------------------------";
@@ -69,13 +81,5 @@ let nonInvertedScreen(board : TicTacToeBox)
              "|\t"+ board.getGlyphAtLocation(12)+"\t|\t"+ board.getGlyphAtLocation(13)+"\t|\t"+ board.getGlyphAtLocation(14)+"\t|\t"+ board.getGlyphAtLocation(15)+"\t|";
              "-----------------------------------------------------------------";
             ]
-        io.cleanScreen()
-        io.printNoScreenFlush(package)
-
-let writeToScreen(board : TicTacToeBox)
-                 (inverted : bool )(message : string )
-                 (io : IInputOut) : unit =
-    if not inverted then
-        nonInvertedScreen(board)(message)(io)
-    else
-        invertedScreen(board)(message)(io)
+    let io = new InputOutTestGame(correctOutput)
+    writeToScreen(board)(false)("Error Message")(io)

@@ -1,9 +1,11 @@
-﻿module InputOutPutTestGame
+﻿module ScreenEditTestInputOut
 open IInputOutPut
-open System.Collections.Generic
+open Xunit
+open FsUnit
 
-type InputOutTestGame(moves : Queue<int>) =
-    member val moves = moves
+type InputOutTestGame(newCorrectOutPut : list<string>) =
+    member val private correctOutPut = newCorrectOutPut
+
     member this.printNoScreenFlush(output : list<string>) 
         = (this :> IInputOut).printNoScreenFlush(output : list<string>)
     member this.print() 
@@ -15,8 +17,8 @@ type InputOutTestGame(moves : Queue<int>) =
             "Should" |> ignore
 
         member this.getUserInput() : string =
-            string (moves.Dequeue())
+            "Not needed For Testing"
 
          member this.printNoScreenFlush(output : list<string>) =
-            "Should" |> ignore
-            
+            for i = 0 to output.Length - 1 do
+                Assert.Equal(output.[i], this.correctOutPut.[i])
