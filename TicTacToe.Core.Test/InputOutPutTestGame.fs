@@ -4,8 +4,10 @@ open System.Collections.Generic
 
 type InputOutTestGame(moves : Queue<int>) =
     member val moves = moves
-    member this.printNoScreenFlush(output : list<string>) 
-        = (this :> IInputOut).printNoScreenFlush(output : list<string>)
+    member this.printNoScreenFlush(output : list<int>) 
+        = (this :> IInputOut).printNoScreenFlush(output : list<int>)
+    member this.printNoScreenFlushNoTranslate(output : list<string>) 
+        = (this :> IInputOut).printNoScreenFlushNoTranslate(output : list<string>)
     member this.print() 
         = (this :> IInputOut).cleanScreen()
     member this.getUserInput() : string 
@@ -17,6 +19,9 @@ type InputOutTestGame(moves : Queue<int>) =
         member this.getUserInput() : string =
             string (moves.Dequeue())
 
-         member this.printNoScreenFlush(output : list<string>) =
+         member this.printNoScreenFlush(output : list<int>) =
+            "Should" |> ignore
+
+        member this.printNoScreenFlushNoTranslate(output : list<string>) =
             "Should" |> ignore
             

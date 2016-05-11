@@ -1,7 +1,7 @@
 ﻿module userInputException
 
-exception InvaildGlyph of string
-exception InvaildSizeOfBox of string
-exception InvaildPlayer of string
-exception OutOfBoundsOverFlow of string
-exception OutOfBoundsUnderFlow of string
+exception InvaildGlyph of unit
+exception InvaildSizeOfBox of unit
+exception InvaildPlayer of unit
+exception OutOfBoundsOverFlow of unit
+exception OutOfBoundsUnderFlow of unit
