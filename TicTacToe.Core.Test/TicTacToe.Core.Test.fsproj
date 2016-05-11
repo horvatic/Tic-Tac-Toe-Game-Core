@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
+    <Compile Include="TranslatorTestEnglish.fs" />
     <Compile Include="TicTacToeBoxClassTest.fs" />
     <Compile Include="InputOutPutTestGame.fs" />
     <Compile Include="InputOutPutTestBuildGame.fs" />
@@ -74,6 +75,7 @@
     <Compile Include="ScreenEditTestInputOut.fs" />
     <Compile Include="ScreenEditTest.fs" />
     <Content Include="packages.config" />
+    <Compile Include="TranslatorTestSpanish.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

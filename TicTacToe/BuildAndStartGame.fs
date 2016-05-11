@@ -13,9 +13,9 @@ let getTicTacToeBoxSize(size : int) : int =
     elif size =  4 then 
         4
     elif size < 3 then
-        raise(OutOfBoundsUnderFlow("Invaild Box Size"))
+        raise(OutOfBoundsUnderFlow())
     else
-        raise(OutOfBoundsOverFlow("Invaild Box Size"))
+        raise(OutOfBoundsOverFlow())
 
 let rec getaIGlyph(io : IInputOut)
                   (message : string)

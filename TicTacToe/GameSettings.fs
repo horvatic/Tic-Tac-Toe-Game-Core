@@ -29,12 +29,12 @@ let craftGameSetting
     (aIvAI : bool)
     : gameSetting =
     if not (newTicTacToeBoxSize = 3) && not (newTicTacToeBoxSize = 4) then
-        raise(InvaildSizeOfBox("Invaild TicTacToe Box Size"))
+        raise(InvaildSizeOfBox())
     if not (playerGlyph.Length = 1) || not (aIGlyph.Length = 1) then
-        raise(InvaildGlyph("Glyph must be one Char"))
+        raise(InvaildGlyph())
     if playerGlyph = aIGlyph then 
-        raise(InvaildGlyph("Players Glyph must differ"))
+        raise(InvaildGlyph())
     if not (firstPlayer = int playerVals.Human) && not (firstPlayer = int playerVals.AI) then 
-        raise(InvaildPlayer("Player Vals can be " +  string playerVals.Human + " or " + string playerVals.AI))
+        raise(InvaildPlayer())
     gameSetting(newTicTacToeBoxSize, playerGlyph, aIGlyph, 
                firstPlayer, inverted, humanVsHuman, aIvAI)

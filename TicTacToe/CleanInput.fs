@@ -1,13 +1,13 @@
 ﻿module CleanInput
 open userInputException
-exception NonIntError of string
-exception InvaildOption of string
+exception NonIntError of unit
+exception InvaildOption of unit
 
 let inputWithinBoundsOfTiCTacToeBox ( userInput : int ) ( boxSize : int ) : int32 =
     if userInput > boxSize then
-        raise(OutOfBoundsOverFlow("Value to large"))
+        raise(OutOfBoundsOverFlow())
     elif userInput < 1 then
-        raise(OutOfBoundsUnderFlow("Value to small"))
+        raise(OutOfBoundsUnderFlow())
     userInput
 
 let SanitizeHumanPickedPlace ( input : string ) ( boxSize : int ) : int32 =
@@ -15,20 +15,20 @@ let SanitizeHumanPickedPlace ( input : string ) ( boxSize : int ) : int32 =
         let userInput = int input
         inputWithinBoundsOfTiCTacToeBox(userInput)(boxSize)
     with
-        | :? System.FormatException -> raise(NonIntError("Not an Int"))
+        | :? System.FormatException -> raise(NonIntError())
 
 
 let SanitizeGlyph( input : string) : string =
     if input.Length = 1 then
         input
     else
-        raise(InvaildGlyph("Length Must be one"))
+        raise(InvaildGlyph())
  
 let boxSizeWithinBound(userInput : int ) : int =
     if userInput > 4 then
-        raise(OutOfBoundsOverFlow("Value to large"))
+        raise(OutOfBoundsOverFlow())
     elif userInput < 3 then
-        raise(OutOfBoundsUnderFlow("Value to small"))
+        raise(OutOfBoundsUnderFlow())
     userInput
 
 let SanitizeBoxSize(input : string) : int =
@@ -36,11 +36,11 @@ let SanitizeBoxSize(input : string) : int =
         let userInput = int input
         boxSizeWithinBound(userInput)
     with
-        | :? System.FormatException -> raise(NonIntError("Not an Int"))
+        | :? System.FormatException -> raise(NonIntError())
 
 
 let SanitizeYesOrNo(input : string) : string =
     let userInput = input
     if not( userInput.ToUpper() = "Y") && not( userInput.ToUpper() = "N" ) then
-        raise(InvaildOption("Must be a Y or N"))
+        raise(InvaildOption())
     userInput.ToUpper()
