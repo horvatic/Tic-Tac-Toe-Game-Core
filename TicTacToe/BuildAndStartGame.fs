@@ -153,8 +153,8 @@ let rec settingGood(io : IInputOut)
     io.printNoScreenFlushNoTranslate([string gameInverted;])
     io.printNoScreenFlush([Are_These_The_Setting_You_Want;])
     try 
-        let invert = SanitizeYesOrNo(io.getUserInput())
-        if invert = "Y" || invert = "S" then
+        let settingGood = SanitizeYesOrNo(io.getUserInput())
+        if settingGood = "Y" || settingGood = "S" then
             true
         else
             false

@@ -73,6 +73,14 @@ let Sanitize_User_Go_First_Or_Not_LowerCase_y() =
     Assert.Equal("Y", SanitizeYesOrNo "y" )
 
 [<Fact>]   // test
+let Sanitize_User_Go_First_Or_Not_UpperCase_S() =
+    Assert.Equal("S", SanitizeYesOrNo "S" )
+
+[<Fact>]   // test
+let Sanitize_User_Go_First_Or_Not_LowerCase_s() =
+    Assert.Equal("S", SanitizeYesOrNo "s" )
+
+[<Fact>]   // test
 let Sanitize_User_Go_First_Or_Not_LowerCase_n() =
     Assert.Equal("N", SanitizeYesOrNo "n" )
 
