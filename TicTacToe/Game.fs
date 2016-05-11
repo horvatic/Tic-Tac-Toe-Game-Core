@@ -142,7 +142,7 @@ and humanTwoTurn(game : gameSetting)(board : ITicTacToeBox)(io : IInputOut)(mess
 
 let rec humanChoseMove(game : gameSetting)(board : ITicTacToeBox)(io : IInputOut)(message : int) : int =
     if not (isGameOver(game)(board)(io)) then
-        writeToScreen(board)(game.inverted)(Blank)(io)
+        writeToScreen(board)(game.inverted)(message)(io)
         let userPickedPos = io.getUserInput()
         if userInputOkToEditTicTacToeBox(game)(board)(userPickedPos) = Blank then
             aiChoseMove(game)
