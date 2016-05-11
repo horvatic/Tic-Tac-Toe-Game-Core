@@ -76,7 +76,6 @@
     <Compile Include="ScreenEditTestInputOut.fs" />
     <Compile Include="ScreenEditTest.fs" />
     <Content Include="packages.config" />
-    <Compile Include="TranslateTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

@@ -157,3 +157,7 @@ let Tranlate_Board_Size_4X4_To_Spanish() =
 [<Fact>]
 let Tranlate_No_Translation_To_Spanish() =
     Assert.Equal("Sin traducción" , translator language.spanish 999)
+
+[<Fact>]
+let Tranlate_Blank_To_English() =
+    Assert.Equal("" , translator language.spanish Blank)

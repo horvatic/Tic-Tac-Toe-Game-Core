@@ -10,8 +10,8 @@ open Translate
 
 [<Fact>]
 let Run_Whole_Game_Once_Huamn_Vs_Human() =
-    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"y";"y";"w";"e";"n";"y";
-                                                                 "1";"3";"4";"6";"7";"n";
+    let io = new InputOutTestBuildGameManyOps(new Queue<string>(["4";"n";"y";"y";"w";"e";"n";"y";
+                                                                 "1";"5";"2";"6";"3";"7";"4";"n";
                                                                  ])) 
     Assert.Equal(0, buildAndStartGame io)
 

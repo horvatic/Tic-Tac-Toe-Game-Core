@@ -146,12 +146,16 @@ let Tranlate_Same_Settings_Y_N_To_English() =
 
 [<Fact>]
 let Tranlate_Board_Size_3X3_To_English() =
-    Assert.Equal("3X3" , translator language.spanish Board_Size_3X3)
+    Assert.Equal("3X3" , translator language.english Board_Size_3X3)
 
 [<Fact>]
 let Tranlate_Board_Size_4X4_To_English() =
-    Assert.Equal("4X4" , translator language.spanish Board_Size_4X4)
+    Assert.Equal("4X4" , translator language.english Board_Size_4X4)
 
 [<Fact>]
 let Tranlate_No_Translation_To_English() =
     Assert.Equal("No Translation" , translator language.english 999)
+
+[<Fact>]
+let Tranlate_Blank_To_English() =
+    Assert.Equal("" , translator language.english Blank)
