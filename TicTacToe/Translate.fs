@@ -70,3 +70,9 @@ let Are_These_The_Setting_You_Want = 33
 let Another_Game_Y_N = 34
 [<Literal>]
 let Same_Settings_Y_N = 35
+[<Literal>]
+let Board_Size_3X3 = 36
+[<Literal>]
+let Board_Size_4X4 = 37
+[<Literal>]
+let Blank = 38

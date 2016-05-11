@@ -4,6 +4,7 @@ open Xunit
 open FsUnit
 open System.IO
 open Translator
+open Translate
 
 [<Fact>]
 let User_Pick_English() =
@@ -34,8 +35,20 @@ let Read_Output() =
     let io = new InputOut()
     let programOutput = new StringWriter()
     System.Console.SetOut(programOutput)
-    io.printNoScreenFlush(["Hello World"])
-    Assert.Equal("Hello World", programOutput.ToString().TrimEnd())
+    io.printNoScreenFlush([Your_Going_First])
+    Assert.Equal("Your going first", programOutput.ToString().TrimEnd())
+
+[<Fact>]
+let Read_Output_No_Trans() =
+    let trashData = new StringWriter()
+    System.Console.SetOut(trashData)
+    let programInput = new StringReader("1")
+    System.Console.SetIn(programInput)
+    let io = new InputOut()
+    let programOutput = new StringWriter()
+    System.Console.SetOut(programOutput)
+    io.printNoScreenFlushNoTranslate(["Hello"])
+    Assert.Equal("Hello", programOutput.ToString().TrimEnd())
 
 [<Fact>]
 let Clean_Screen()=

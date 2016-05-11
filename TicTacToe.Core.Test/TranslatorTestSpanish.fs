@@ -147,5 +147,13 @@ let Tranlate_Same_Settings_Y_N_To_Spanish() =
 
 
 [<Fact>]
+let Tranlate_Board_Size_3X3_To_Spanish() =
+    Assert.Equal("3X3" , translator language.spanish Board_Size_3X3)
+
+[<Fact>]
+let Tranlate_Board_Size_4X4_To_Spanish() =
+    Assert.Equal("4X4" , translator language.spanish Board_Size_4X4)
+
+[<Fact>]
 let Tranlate_No_Translation_To_Spanish() =
     Assert.Equal("Sin traducción" , translator language.spanish 999)

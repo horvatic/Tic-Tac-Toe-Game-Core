@@ -144,6 +144,13 @@ let Tranlate_Another_Game_Y_N_To_English() =
 let Tranlate_Same_Settings_Y_N_To_English() =
     Assert.Equal("Same Settings? Y/N: " , translator language.english Same_Settings_Y_N)
 
+[<Fact>]
+let Tranlate_Board_Size_3X3_To_English() =
+    Assert.Equal("3X3" , translator language.spanish Board_Size_3X3)
+
+[<Fact>]
+let Tranlate_Board_Size_4X4_To_English() =
+    Assert.Equal("4X4" , translator language.spanish Board_Size_4X4)
 
 [<Fact>]
 let Tranlate_No_Translation_To_English() =

@@ -70,3 +70,7 @@ let Are_These_The_Setting_You_Want_Sp = "¿Estos son el ajuste que desea?"
 let Another_Game_Y_N_Sp = "¿Otro juego? S / N: "
 [<Literal>]
 let Same_Settings_Y_N_Sp = "Mismos ajustes? S / N: "
+[<Literal>]
+let Board_Size_3X3_Sp = "3X3"
+[<Literal>]
+let Board_Size_4X4_Sp = "4X4"

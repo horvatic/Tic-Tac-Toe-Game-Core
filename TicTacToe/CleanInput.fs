@@ -41,6 +41,7 @@ let SanitizeBoxSize(input : string) : int =
 
 let SanitizeYesOrNo(input : string) : string =
     let userInput = input
-    if not( userInput.ToUpper() = "Y") && not( userInput.ToUpper() = "N" ) then
+    if not( userInput.ToUpper() = "Y") && not( userInput.ToUpper() = "N" ) 
+        && not( userInput.ToUpper() = "S") then
         raise(InvaildOption())
     userInput.ToUpper()

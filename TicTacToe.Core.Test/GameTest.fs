@@ -10,6 +10,7 @@ open GameSettings
 open InputOutPutTestGame
 open TicTacToeBoxClass
 open System.Collections.Generic
+open Translate
 
 [<Fact>]
 let Ai_Vs_Ai_Ai_Player_Two_First() =
@@ -44,25 +45,25 @@ let Make_3X3_Tic_Tac_Toe_Box() =
 let User_Input_Edit_Not_Spot_Taken_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("", userInputOkToEditTicTacToeBox gameTestCreate board "1")
+    Assert.Equal(Blank, userInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 [<Fact>]
 let User_Input_Edit_Not_A_Number_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value not a number", userInputOkToEditTicTacToeBox gameTestCreate board "werwer")
+    Assert.Equal(Value_Not_A_Number, userInputOkToEditTicTacToeBox gameTestCreate board "werwer")
 
 [<Fact>]
 let User_Input_Edit__Out_Of_Bounds_To_Big_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value out of bounds", userInputOkToEditTicTacToeBox gameTestCreate board "99")
+    Assert.Equal(Value_Out_Of_Bounds, userInputOkToEditTicTacToeBox gameTestCreate board "99")
 
 [<Fact>]
 let User_Input_Edit__Out_Of_Bounds__To_Small_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value out of bounds", userInputOkToEditTicTacToeBox gameTestCreate board "0")
+    Assert.Equal(Value_Out_Of_Bounds, userInputOkToEditTicTacToeBox gameTestCreate board "0")
 
 [<Fact>]
 let User_Input_Edit_TicTacToeBox() =
@@ -70,32 +71,32 @@ let User_Input_Edit_TicTacToeBox() =
 
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
 
-    Assert.Equal("", userInputOkToEditTicTacToeBox gameTestCreate board "1")
+    Assert.Equal(Blank, userInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 
 [<Fact>]
 let Other_User_Input_Edit_Not_Spot_Taken_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("", otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
+    Assert.Equal(Blank, otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 [<Fact>]
 let Other_User_Input_Edit_Not_A_Number_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value not a number", otherUserInputOkToEditTicTacToeBox gameTestCreate board "werwer")
+    Assert.Equal(Value_Not_A_Number, otherUserInputOkToEditTicTacToeBox gameTestCreate board "werwer")
 
 [<Fact>]
 let Other_User_Input_Edit__Out_Of_Bounds_To_Big_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value out of bounds", otherUserInputOkToEditTicTacToeBox gameTestCreate board "99")
+    Assert.Equal(Value_Out_Of_Bounds, otherUserInputOkToEditTicTacToeBox gameTestCreate board "99")
 
 [<Fact>]
 let Other_User_Input_Edit__Out_Of_Bounds__To_Small_TicTacToeBox() =
     let gameTestCreate = craftGameSetting (3)("X") ("@") (int playerVals.Human)(false)(false)(false)
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value out of bounds", otherUserInputOkToEditTicTacToeBox gameTestCreate board "0")
+    Assert.Equal(Value_Out_Of_Bounds, otherUserInputOkToEditTicTacToeBox gameTestCreate board "0")
 
 [<Fact>]
 let Other_User_Input_Edit_TicTacToeBox() =
@@ -103,7 +104,7 @@ let Other_User_Input_Edit_TicTacToeBox() =
 
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
 
-    Assert.Equal("", otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
+    Assert.Equal(Blank, otherUserInputOkToEditTicTacToeBox gameTestCreate board "1")
 
 [<Fact>]
 let Convert_User_Input_To_Int() =
@@ -146,22 +147,22 @@ let User_Pick_Taken_Spot() =
 [<Fact>]
 let User_Pick_Pos_Correct() =
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("", isUserInputCorrect board "1" "X" "@")
+    Assert.Equal(Blank, isUserInputCorrect board "1" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_Spot_Taken() =
     let board = new TicTacToeBox(["X"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Spot Taken", isUserInputCorrect board "1" "X" "@")
+    Assert.Equal(Spot_Taken, isUserInputCorrect board "1" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_is_Not_A_Input_Number() =
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value not a number", isUserInputCorrect board "addas" "X" "@")
+    Assert.Equal(Value_Not_A_Number, isUserInputCorrect board "addas" "X" "@")
 
 [<Fact>]
 let User_Pick_Pos_OutOfBounds() =
     let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; "-4-"; "-5-"; "-6-"; "-7-"; "-8-"; "-9"])
-    Assert.Equal("Value out of bounds", isUserInputCorrect board "20" "X" "@")
+    Assert.Equal(Value_Out_Of_Bounds, isUserInputCorrect board "20" "X" "@")
 
 [<Fact>]
 let Human_Vs_Human_PlayerOneFirst() =

@@ -4,12 +4,11 @@ open IInputOutPut
 open ITicTacToeBoxClass
 
 let invertedScreen(board : ITicTacToeBox)
-                  (message : string)
+                  (message : int)
                   (io : IInputOut) : unit =
     if board.cellCount() = 9 then
             let package = 
                 [
-                 message;
                 "-------------------------------------------------";
                 "|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
                 "-------------------------------------------------";
@@ -19,11 +18,11 @@ let invertedScreen(board : ITicTacToeBox)
                 "-------------------------------------------------";
                 ]
             io.cleanScreen()
-            io.printNoScreenFlush(package)
+            io.printNoScreenFlush([message;])
+            io.printNoScreenFlushNoTranslate(package)
     else
         let package = 
             [
-            message;
              "-----------------------------------------------------------------";
              "|\t"+ board.getGlyphAtLocation(3)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(0)+"\t|";
              "-----------------------------------------------------------------";
@@ -35,15 +34,15 @@ let invertedScreen(board : ITicTacToeBox)
              "-----------------------------------------------------------------";
             ]
         io.cleanScreen()
-        io.printNoScreenFlush(package)
+        io.printNoScreenFlush([message;])
+        io.printNoScreenFlushNoTranslate(package)
 
 let nonInvertedScreen(board : ITicTacToeBox)
-                     (message : string)
+                     (message : int)
                      (io : IInputOut) : unit =
     if board.cellCount() = 9 then
         let package = 
             [
-            message;
             "-------------------------------------------------";
             "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|";
             "-------------------------------------------------";
@@ -53,12 +52,12 @@ let nonInvertedScreen(board : ITicTacToeBox)
             "-------------------------------------------------";
             ]
         io.cleanScreen()
-        io.printNoScreenFlush(package)
+        io.printNoScreenFlush([message;])
+        io.printNoScreenFlushNoTranslate(package)
 
     else
         let package = 
             [
-             message;
              "-----------------------------------------------------------------";
              "|\t"+ board.getGlyphAtLocation(0)+"\t|\t"+ board.getGlyphAtLocation(1)+"\t|\t"+ board.getGlyphAtLocation(2)+"\t|\t"+ board.getGlyphAtLocation(3)+"\t|";
              "-----------------------------------------------------------------";
@@ -70,10 +69,11 @@ let nonInvertedScreen(board : ITicTacToeBox)
              "-----------------------------------------------------------------";
             ]
         io.cleanScreen()
-        io.printNoScreenFlush(package)
+        io.printNoScreenFlush([message;])
+        io.printNoScreenFlushNoTranslate(package)
 
 let writeToScreen(board : ITicTacToeBox)
-                 (inverted : bool )(message : string )
+                 (inverted : bool )(message : int )
                  (io : IInputOut) : unit =
     if not inverted then
         nonInvertedScreen(board)(message)(io)

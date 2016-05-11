@@ -8,8 +8,10 @@ type InputOutTestBuildGame(option : string) =
         = (this :> IInputOut).cleanScreen()
     member this.getUserInput() : string 
         = (this :> IInputOut).getUserInput() : string
-    member this.printNoScreenFlush(output : list<string>) 
-        = (this :> IInputOut).printNoScreenFlush(output : list<string>)
+    member this.printNoScreenFlushNoTranslate(output : list<string>) 
+        = (this :> IInputOut).printNoScreenFlushNoTranslate(output : list<string>)
+    member this.printNoScreenFlush(output : list<int>) 
+        = (this :> IInputOut).printNoScreenFlush(output : list<int>)
     interface IInputOut with
         member this.cleanScreen() = 
             "Should" |> ignore
@@ -17,13 +19,19 @@ type InputOutTestBuildGame(option : string) =
         member this.getUserInput() : string =
             option
 
-        member this.printNoScreenFlush(output : list<string>) = 
+        member this.printNoScreenFlush(output : list<int>) = 
+            "Should" |> ignore
+
+        member this.printNoScreenFlushNoTranslate(output : list<string>) =
             "Should" |> ignore
 
 type InputOutTestBuildGameManyOps(moves : Queue<string>) =
     member val moves = moves
-    member this.print(output : list<string>) 
-        = (this :> IInputOut).cleanScreen()
+    
+    member this.printNoScreenFlushNoTranslate(output : list<string>) 
+        = (this :> IInputOut).printNoScreenFlushNoTranslate(output : list<string>)
+    member this.printNoScreenFlush(output : list<int>) 
+        = (this :> IInputOut).printNoScreenFlush(output : list<int>)
     member this.getUserInput() : string 
         = (this :> IInputOut).getUserInput() : string
     interface IInputOut with
@@ -33,5 +41,8 @@ type InputOutTestBuildGameManyOps(moves : Queue<string>) =
         member this.getUserInput() : string =
             moves.Dequeue()
         
-        member this.printNoScreenFlush(output : list<string>) = 
+        member this.printNoScreenFlush(output : list<int>) = 
+            "Should" |> ignore
+
+        member this.printNoScreenFlushNoTranslate(output : list<string>) =
             "Should" |> ignore

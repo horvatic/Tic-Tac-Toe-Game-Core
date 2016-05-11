@@ -70,3 +70,7 @@ let Are_These_The_Setting_You_Want_En = "Are These the setting you want?"
 let Another_Game_Y_N_En = "Another Game? Y/N: "
 [<Literal>]
 let Same_Settings_Y_N_En = "Same Settings? Y/N: "
+[<Literal>]
+let Board_Size_3X3_En = "3X3"
+[<Literal>]
+let Board_Size_4X4_En = "4X4"
