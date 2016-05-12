@@ -208,6 +208,32 @@ let game_First_Human_Vs_Ai() =
     Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
                     , humanFirstVsAiGame gameTestCreate board io)
 
+[<Fact>]
+let Ai_Game_Board_Done() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") 
+                                          (int playerVals.AI)(false)(false)(false)
+    let io = new InputOutTestGame(new Queue<int>([1; 2; 3; 
+                                                    4; 5; 6; 
+                                                    7; 8; 9]))
+    let board = new TicTacToeBox(["@"; "@"; "@"; 
+                                "-4-"; "-5-"; "-6-"; 
+                                "-7-"; "-8-"; "-9"])
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
+                    , aiChoseMove gameTestCreate board io)
+
+[<Fact>]    // test
+let game_Human_Vs_Ai_First() =
+    let gameTestCreate = craftGameSetting (3)("X") ("@") 
+                                          (int playerVals.AI)(false)(false)(false)
+    let io = new InputOutTestGame(new Queue<int>([1; 2; 3; 
+                                                    4; 5; 6; 
+                                                    7; 8; 9]))
+    let board = new TicTacToeBox(["-1-"; "-2-"; "-3-"; 
+                                "-4-"; "-5-"; "-6-"; 
+                                "-7-"; "-8-"; "-9"])
+    Assert.Equal(getWinningAIValue(gameTestCreate.ticTacToeBoxSize)
+                    , aiChoseMove gameTestCreate board io)
+
 
 [<Fact>]    // test
 let game_Human_First_Vs_Ai_Ai_Doesnt_Stall() =
