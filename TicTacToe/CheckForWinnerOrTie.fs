@@ -26,14 +26,17 @@ let rec checkForDiangeWinRight(board : ITicTacToeBox)
                               (search : string)
                               (searchIndex : int)
                               : bool =
-    if board.getGlyphAtLocation(searchIndex) = search then
-        let boxLength = board.victoryCellCount()
-        if searchIndex + boxLength + 1 > board.cellCount() - 1 then
-            true
+    if searchIndex < board.cellCount() then
+        if board.getGlyphAtLocation(searchIndex) = search then
+            let boxLength = board.victoryCellCount()
+            if searchIndex + boxLength + 1 > board.cellCount() - 1 then
+                true
+            else
+                (true && checkForDiangeWinRight(board)(search)(searchIndex + boxLength + 1))
         else
-            (true && checkForDiangeWinRight(board)(search)(searchIndex + boxLength + 1))
+            false
     else
-        false
+        true
         
 
 
@@ -41,14 +44,17 @@ let rec checkForDiangeWinLeft(board : ITicTacToeBox)
                          (search : string)
                          (searchIndex : int)
                          : bool =
-    if board.getGlyphAtLocation(searchIndex) = search then
-        let boxLength = board.victoryCellCount()
-        if searchIndex + boxLength - 1 > board.cellCount() - 2 then
-            true
+    if searchIndex < board.cellCount() then
+        if board.getGlyphAtLocation(searchIndex) = search then
+            let boxLength = board.victoryCellCount()
+            if searchIndex + boxLength - 1 > board.cellCount() - 2 then
+                true
+            else
+                (true && checkForDiangeWinLeft(board)(search)(searchIndex + boxLength - 1))
         else
-            (true && checkForDiangeWinLeft(board)(search)(searchIndex + boxLength - 1))
+            false
     else
-        false
+        true
 
 let hasDiangleWin(board : ITicTacToeBox) 
                 (search : string)
@@ -64,14 +70,16 @@ let rec verticalTrurthValue(board : ITicTacToeBox)
                            (search : string)
                            (indexOfSearch : int)
                            (searchSpacSize : int) : bool =
-    
-    if board.getGlyphAtLocation(indexOfSearch) = search then
-        if (indexOfSearch + searchSpacSize) > board.cellCount() - 1 then
-            true
+    if indexOfSearch < board.cellCount() then
+        if board.getGlyphAtLocation(indexOfSearch) = search then
+            if (indexOfSearch + searchSpacSize) > board.cellCount() - 1 then
+                true
+            else
+                (true && verticalTrurthValue(board)(search)(indexOfSearch + searchSpacSize)(searchSpacSize))
         else
-            (true && verticalTrurthValue(board)(search)(indexOfSearch + searchSpacSize)(searchSpacSize))
+            false
     else
-        false
+        true
 
 let rec hasVerticalWin(board : ITicTacToeBox) 
                         (search : string)
@@ -92,13 +100,16 @@ let rec horzontailTrurthValue(board : ITicTacToeBox)
                              (offset : int)
                              (searchSpacSize : int) : bool =
 
-    if board.getGlyphAtLocation(indexOfSearch + offset) = search then
-        if (indexOfSearch + 1) > searchSpacSize - 1 then
-            true
+    if(indexOfSearch + offset) < board.cellCount() then
+        if board.getGlyphAtLocation(indexOfSearch + offset) = search then
+            if (indexOfSearch + 1) > searchSpacSize - 1 then
+                true
+            else
+                (true && horzontailTrurthValue(board)(search)(indexOfSearch + 1)(offset)(searchSpacSize))
         else
-            (true && horzontailTrurthValue(board)(search)(indexOfSearch + 1)(offset)(searchSpacSize))
+            false
     else
-        false
+        true
 
 let rec hasHorzontailWin(ticTacToeBox : ITicTacToeBox) 
                         (search : string)
