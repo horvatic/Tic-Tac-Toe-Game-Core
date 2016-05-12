@@ -47,6 +47,8 @@ let translatorEnglish(wordToTranslate : int) : string =
     | Board_Size_3X3 -> Board_Size_3X3_En
     | Board_Size_4X4 -> Board_Size_4X4_En
     | Blank -> ""
+    | True_Word -> True_Word_En
+    | False_Word -> False_Word_En
     | _ -> "No Translation"
 
 let translatorSpanish(wordToTranslate : int) : string =
@@ -89,6 +91,8 @@ let translatorSpanish(wordToTranslate : int) : string =
     | Board_Size_3X3 -> Board_Size_3X3_Sp
     | Board_Size_4X4 -> Board_Size_4X4_Sp
     | Blank -> ""
+    | True_Word -> True_Word_Sp
+    | False_Word -> False_Word_Sp
     | _ -> "Sin traducción"
 
 let translator(currentLanguage : language)(wordToTranslate : int) : string =

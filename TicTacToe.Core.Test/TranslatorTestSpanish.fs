@@ -159,5 +159,14 @@ let Tranlate_No_Translation_To_Spanish() =
     Assert.Equal("Sin traducción" , translator language.spanish 999)
 
 [<Fact>]
-let Tranlate_Blank_To_English() =
+let Tranlate_Blank_To_Spanish() =
     Assert.Equal("" , translator language.spanish Blank)
+
+
+[<Fact>]
+let Tranlate_True_To_Spanish() =
+    Assert.Equal("Cierto" , translator language.spanish True_Word)
+
+[<Fact>]
+let Tranlate_False_To_Spanish() =
+    Assert.Equal("Falso" , translator language.spanish False_Word)

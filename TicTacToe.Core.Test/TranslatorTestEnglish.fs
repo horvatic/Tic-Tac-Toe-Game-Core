@@ -159,3 +159,11 @@ let Tranlate_No_Translation_To_English() =
 [<Fact>]
 let Tranlate_Blank_To_English() =
     Assert.Equal("" , translator language.english Blank)
+
+[<Fact>]
+let Tranlate_True_To_English() =
+    Assert.Equal("True" , translator language.english True_Word)
+
+[<Fact>]
+let Tranlate_False_To_English() =
+    Assert.Equal("False" , translator language.english False_Word)

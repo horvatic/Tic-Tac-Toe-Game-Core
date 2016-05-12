@@ -76,3 +76,7 @@ let Board_Size_3X3 = 36
 let Board_Size_4X4 = 37
 [<Literal>]
 let Blank = 38
+[<Literal>]
+let True_Word = 39
+[<Literal>]
+let False_Word = 40
