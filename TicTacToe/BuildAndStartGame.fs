@@ -150,7 +150,7 @@ let rec settingGood(io : IInputOut)
     io.printNoScreenFlush([Other_Player_Glyph;])
     io.printNoScreenFlushNoTranslate([aIGlyph;])
     io.printNoScreenFlush([Game_Inverted;])
-    io.printNoScreenFlushNoTranslate([string gameInverted;])
+    io.printNoScreenFlush([(if gameInverted then True_Word else False_Word);])
     io.printNoScreenFlush([Are_These_The_Setting_You_Want;])
     try 
         let settingGood = SanitizeYesOrNo(io.getUserInput())

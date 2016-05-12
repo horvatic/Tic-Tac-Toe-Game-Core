@@ -6,6 +6,23 @@ open PlayerValues
 open userInputException
 
 [<Fact>]   // test
+let Make_A_Corrct_User_Setting_Null_String() =
+    let gameTest = gameSetting(3, null, null, int playerVals.Human, false, false, false)
+    Assert.Null(gameTest.playerGlyph)
+    Assert.Null(gameTest.aIGlyph)
+
+[<Fact>]   // test
+let Make_A_Corrct_User_Setting_For_Struct() =
+    let gameTest = gameSetting(3,"X", "O", int playerVals.Human, false, false, false)
+    Assert.Equal(3, gameTest.ticTacToeBoxSize)
+    Assert.Equal("X", gameTest.playerGlyph)
+    Assert.Equal("O", gameTest.aIGlyph)
+    Assert.Equal(int playerVals.Human, gameTest.firstPlayer)
+    Assert.Equal(false, gameTest.humanVsHuman)
+    Assert.Equal(false, gameTest.aIvAI)
+    Assert.Equal(false, gameTest.inverted)
+
+[<Fact>]   // test
 let Make_A_Corrct_User_Setting() =
     let gameTest = gameSetting(3,"X", "O", int playerVals.Human, false, false, false)
     let gameTestCreate = craftGameSetting (3)("X") ("O") (int playerVals.Human)(false)(false)(false)

@@ -74,3 +74,7 @@ let Same_Settings_Y_N_Sp = "Mismos ajustes? S / N: "
 let Board_Size_3X3_Sp = "3X3"
 [<Literal>]
 let Board_Size_4X4_Sp = "4X4"
+[<Literal>]
+let True_Word_Sp = "Cierto"
+[<Literal>]
+let False_Word_Sp = "Falso"

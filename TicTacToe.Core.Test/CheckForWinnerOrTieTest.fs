@@ -19,11 +19,25 @@ let Check_For_Diange_Win_Left_WithOffset() =
     Assert.Equal(true, checkForDiangeWinLeft ticTacToeBox gameTestCreate3X3.aIGlyph 2)
 
 [<Fact>]
+let Check_For_Diange_Win_Left_WithOffset_Inccorect() =
+    let ticTacToeBox = new TicTacToeBox (["-1-"; "-2-"; "@"; 
+                                            "-4-"; "@"; "-6-"; 
+                                            "@"; "-7-"; "-8-"])
+    Assert.Equal(true, checkForDiangeWinLeft ticTacToeBox gameTestCreate3X3.aIGlyph 999)
+
+[<Fact>]
 let Check_For_Diange_Win_Right_WithOffset() =
     let ticTacToeBox = new TicTacToeBox (["@"; "-2-"; "-3-"; 
                                         "-4-"; "@"; "-6-"; 
                                         "-7-"; "-8-"; "@"])
     Assert.Equal(true, checkForDiangeWinRight ticTacToeBox gameTestCreate3X3.aIGlyph 0)
+
+[<Fact>]
+let Check_For_Diange_Win_Right_WithOffset_Incorrect() =
+    let ticTacToeBox = new TicTacToeBox (["@"; "-2-"; "-3-"; 
+                                        "-4-"; "@"; "-6-"; 
+                                        "-7-"; "-8-"; "@"])
+    Assert.Equal(true, checkForDiangeWinRight ticTacToeBox gameTestCreate3X3.aIGlyph 999)
 
 [<Fact>]
 let Check_For_Diange_Win_Left() =
@@ -65,6 +79,11 @@ let Score_List_Is_Just_False() =
     Assert.Equal(false, horzontailTrurthValue scoreList "X" 0 0 3)
 
 [<Fact>]   // test
+let Score_List_Is_Just_False_InncorectSize() =
+    let scoreList = new TicTacToeBox (["X"; "X"; "-1-"])
+    Assert.Equal(true, horzontailTrurthValue scoreList "X" 999 999 999)
+
+[<Fact>]   // test
 let Score_List_Has_A_True() =
     let scoreList = new TicTacToeBox (["@"; "@"; "@";])
     Assert.Equal(true, horzontailTrurthValue scoreList "@" 0 0 3)
@@ -82,6 +101,13 @@ let Vertical_Score_List_Has_A_True() =
                     "@"; "X"; "-6-"; 
                     "@"; "-8-"; "-9-"])
     Assert.Equal(true, verticalTrurthValue scoreList "@" 0 3)
+
+[<Fact>]   // test
+let Vertical_Score_List_Has_A_True_Inccorect_Size() =
+    let scoreList = new TicTacToeBox (["@"; "2"; "3"; 
+                    "@"; "X"; "-6-"; 
+                    "@"; "-8-"; "-9-"])
+    Assert.Equal(true, verticalTrurthValue scoreList "@" 999 999)
 
 [<Fact>]   // test
 let AI_Won_3X3_Row_No_Does_Have_Vertical_Victory() =

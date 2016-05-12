@@ -74,3 +74,7 @@ let Same_Settings_Y_N_En = "Same Settings? Y/N: "
 let Board_Size_3X3_En = "3X3"
 [<Literal>]
 let Board_Size_4X4_En = "4X4"
+[<Literal>]
+let True_Word_En = "True"
+[<Literal>]
+let False_Word_En = "False"

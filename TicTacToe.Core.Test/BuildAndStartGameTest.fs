@@ -28,6 +28,7 @@ let Run_Whole_Game_Once_Take_Twice_Correct_Settings() =
                                                                  ])) 
     Assert.Equal(0, buildAndStartGame io)
 
+
 [<Fact>]
 let Run_Whole_Game_Twice_Diifent_Settings() =
     let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"w";"e";"n";"y";
@@ -35,11 +36,15 @@ let Run_Whole_Game_Twice_Diifent_Settings() =
                                                                  "n";"t";"o";"y";"y";"3";"6";"n"])) 
     Assert.Equal(0, buildAndStartGame io)
 
-[<Fact>]
-let Run_Whole_Game_Twice_Same_Settings() =
+[<Theory>]
+[<InlineData("y")>]
+[<InlineData("Y")>]
+[<InlineData("s")>]
+[<InlineData("S")>]
+let Run_Whole_Game_Twice_Same_Settings_Y(option : string) =
     let io = new InputOutTestBuildGameManyOps(new Queue<string>(["3";"n";"n";"y";"t";"y";
-                                                                 "n";"y";"1";"2";"9";"y";
-                                                                 "y";"1";"2";"9";"n";])) 
+                                                                 "n";"y";"1";"2";"9";option;
+                                                                 option;"1";"2";"9";"n";])) 
     Assert.Equal(0, buildAndStartGame io)
 
 [<Fact>]
