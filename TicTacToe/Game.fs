@@ -157,7 +157,10 @@ let rec humanChoseMove(game : gameSetting)(board : ITicTacToeBox)(io : IInputOut
         checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
 
 and aiChoseMove(game : gameSetting)(board : ITicTacToeBox)(io : IInputOut) : int =
-    humanChoseMove(game)(aIMove(game)(board))(io)(Blank)
+    if not (isGameOver(game)(board)(io)) then
+        humanChoseMove(game)(aIMove(game)(board))(io)(Blank)
+    else
+        checkForWinnerOrTie(board)(game.playerGlyph)(game.aIGlyph) 
 
 let humanVsHuman(game : gameSetting)(board : ITicTacToeBox)(io : IInputOut) : int =
     if int playerVals.Human = game.firstPlayer then
