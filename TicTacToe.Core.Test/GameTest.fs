@@ -1,4 +1,5 @@
 ﻿module GameTest
+open TicTacToe.Core 
 open Xunit 
 open FsUnit
 open Game

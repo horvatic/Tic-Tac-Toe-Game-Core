@@ -1,4 +1,5 @@
 ﻿module InputOutPutTestBuildGame
+open TicTacToe.Core 
 open IInputOutPut
 open System.Collections.Generic
 

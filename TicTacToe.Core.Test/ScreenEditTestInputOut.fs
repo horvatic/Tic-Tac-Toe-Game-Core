@@ -1,4 +1,5 @@
 ﻿module ScreenEditTestInputOut
+open TicTacToe.Core 
 open IInputOutPut
 open Xunit
 open FsUnit

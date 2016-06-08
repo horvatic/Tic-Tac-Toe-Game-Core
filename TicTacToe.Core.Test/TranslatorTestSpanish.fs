@@ -1,5 +1,5 @@
 ﻿module TranslatorTestSpanish
-
+open TicTacToe.Core 
 open Translator
 open Translate
 open Xunit

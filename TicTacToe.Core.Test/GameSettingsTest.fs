@@ -1,4 +1,5 @@
 ﻿module GameSettingsTest
+open TicTacToe.Core 
 open GameSettings
 open Xunit 
 open FsUnit

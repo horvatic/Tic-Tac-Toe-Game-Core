@@ -1,4 +1,5 @@
 ﻿module CleanInputTest
+open TicTacToe.Core 
 open Xunit 
 open FsUnit
 open CleanInput

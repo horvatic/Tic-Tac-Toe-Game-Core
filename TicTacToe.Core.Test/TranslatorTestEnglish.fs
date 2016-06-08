@@ -1,4 +1,5 @@
 ﻿module TranslatorTestEnglish
+open TicTacToe.Core 
 open Translator
 open Translate
 open Xunit

@@ -1,4 +1,5 @@
 ﻿module TicTacToeBoxEditTest
+open TicTacToe.Core 
 open TicTacToeBoxEdit
 open TicTacToeBoxClass
 open Xunit 

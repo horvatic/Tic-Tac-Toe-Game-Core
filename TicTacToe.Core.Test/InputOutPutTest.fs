@@ -1,4 +1,5 @@
 ﻿module InputOutPutTest
+open TicTacToe.Core 
 open InputOutPut
 open Xunit
 open FsUnit

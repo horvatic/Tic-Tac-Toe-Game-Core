@@ -1,146 +1,148 @@
-﻿module AI
-open ITicTacToeBoxClass
-open CheckForWinnerOrTie
-open PlayerValues
-open GameStatusCodes
-open System.Collections.Generic
-open GameSettings
+﻿namespace TicTacToe.Core 
+module AI =
 
-let maxiumeScoreCutOff(score : int)(depth : int ) : int =
-    if score - depth < int GenResult.Tie then
-        int GenResult.Tie
-    else
-        score - depth
+    open ITicTacToeBoxClass
+    open CheckForWinnerOrTie
+    open PlayerValues
+    open GameStatusCodes
+    open System.Collections.Generic
+    open GameSettings
 
-let minimizeScoreCutOff(score : int)(depth : int ) : int =
-    if score + depth > int GenResult.Tie then
-        int GenResult.Tie
-    else
-        score + depth
-
-let rec getMinScore(board : ITicTacToeBox)
-                   (currentPos : int)
-                   (playerGlyph : string)
-                   (aIGlyph : string)
-                   (prevoiusScore : int)
-                   (depth : int ) : int = 
-
-    if currentPos >= board.cellCount() then
-        prevoiusScore
-    else
-        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
-            getMinScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
+    let maxiumeScoreCutOff(score : int)(depth : int ) : int =
+        if score - depth < int GenResult.Tie then
+            int GenResult.Tie
         else
-            let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos)(playerGlyph)(playerGlyph)(aIGlyph))
-                                            (playerGlyph)
-                                            (aIGlyph)
-                                            (depth)
-            
-            let currentScore = getMinScore(board)
-                                          (currentPos+1)
-                                          (playerGlyph)
-                                          (aIGlyph)
-                                          (checkScore)
-                                          (depth)
-            
-            if currentScore < prevoiusScore then
-                currentScore
+            score - depth
+
+    let minimizeScoreCutOff(score : int)(depth : int ) : int =
+        if score + depth > int GenResult.Tie then
+            int GenResult.Tie
+        else
+            score + depth
+
+    let rec getMinScore(board : ITicTacToeBox)
+                       (currentPos : int)
+                       (playerGlyph : string)
+                       (aIGlyph : string)
+                       (prevoiusScore : int)
+                       (depth : int ) : int = 
+
+        if currentPos >= board.cellCount() then
+            prevoiusScore
+        else
+            if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
+                getMinScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
             else
-                prevoiusScore
+                let checkScore = miniMaxMaxium(board.getTicTacToeBoxEdited(currentPos)(playerGlyph)(playerGlyph)(aIGlyph))
+                                                (playerGlyph)
+                                                (aIGlyph)
+                                                (depth)
+            
+                let currentScore = getMinScore(board)
+                                              (currentPos+1)
+                                              (playerGlyph)
+                                              (aIGlyph)
+                                              (checkScore)
+                                              (depth)
+            
+                if currentScore < prevoiusScore then
+                    currentScore
+                else
+                    prevoiusScore
 
 
-and getMaxScore(board : ITicTacToeBox)
-                   (currentPos : int)
-                   (playerGlyph : string)
-                   (aIGlyph : string)
-                   (prevoiusScore : int)
-                   (depth : int ) : int = 
+    and getMaxScore(board : ITicTacToeBox)
+                       (currentPos : int)
+                       (playerGlyph : string)
+                       (aIGlyph : string)
+                       (prevoiusScore : int)
+                       (depth : int ) : int = 
     
-    if currentPos >= board.cellCount() then
-        prevoiusScore
-    else
-        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
-            getMaxScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
+        if currentPos >= board.cellCount() then
+            prevoiusScore
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
-                                            (playerGlyph)
-                                            (aIGlyph)
-                                            (depth)
-            
-            let currentScore = getMaxScore(board)
-                                          (currentPos+1)
-                                          (playerGlyph)
-                                          (aIGlyph)
-                                          (checkScore)
-                                          (depth)
-            
-            if currentScore > prevoiusScore then
-                currentScore
+            if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
+                getMaxScore(board)(currentPos+1)(playerGlyph)(aIGlyph)(prevoiusScore)(depth)
             else
-                prevoiusScore
+                let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
+                                                (playerGlyph)
+                                                (aIGlyph)
+                                                (depth)
+            
+                let currentScore = getMaxScore(board)
+                                              (currentPos+1)
+                                              (playerGlyph)
+                                              (aIGlyph)
+                                              (checkScore)
+                                              (depth)
+            
+                if currentScore > prevoiusScore then
+                    currentScore
+                else
+                    prevoiusScore
 
-and miniMaxMaxium(board : ITicTacToeBox)
-                (playerGlyph : string)
-                (aIGlyph : string)
-                (depth : int )
-                : int =
+    and miniMaxMaxium(board : ITicTacToeBox)
+                    (playerGlyph : string)
+                    (aIGlyph : string)
+                    (depth : int )
+                    : int =
 
-    let score = checkForWinnerOrTie(board)(playerGlyph)(aIGlyph) 
-    if score = int GenResult.NoWinner then
-        getMaxScore(board)(0)(playerGlyph)(aIGlyph)(-999)(depth + 1)
-    else
-        minimizeScoreCutOff(score)(depth)
+        let score = checkForWinnerOrTie(board)(playerGlyph)(aIGlyph) 
+        if score = int GenResult.NoWinner then
+            getMaxScore(board)(0)(playerGlyph)(aIGlyph)(-999)(depth + 1)
+        else
+            minimizeScoreCutOff(score)(depth)
 
-and miniMaxMinimize(board : ITicTacToeBox)
-                   (playerGlyph : string)
-                   (aIGlyph : string) 
-                   (depth : int )
-                   : int =
+    and miniMaxMinimize(board : ITicTacToeBox)
+                       (playerGlyph : string)
+                       (aIGlyph : string) 
+                       (depth : int )
+                       : int =
 
-    let score = checkForWinnerOrTie(board)(playerGlyph)(aIGlyph) 
-    if score = int GenResult.NoWinner then
-        getMinScore(board)(0)(playerGlyph)(aIGlyph)(999)(depth + 1)
-    else
-        maxiumeScoreCutOff(score)(depth)
+        let score = checkForWinnerOrTie(board)(playerGlyph)(aIGlyph) 
+        if score = int GenResult.NoWinner then
+            getMinScore(board)(0)(playerGlyph)(aIGlyph)(999)(depth + 1)
+        else
+            maxiumeScoreCutOff(score)(depth)
 
 
-let rec computingMove(board : ITicTacToeBox)
-                     (playerGlyph : string)
-                     (aIGlyph : string)      
-                     (prevoiusScoreAndPos : list<int>)
-                     (currentPos : int)
-                     : list<int> = 
+    let rec computingMove(board : ITicTacToeBox)
+                         (playerGlyph : string)
+                         (aIGlyph : string)      
+                         (prevoiusScoreAndPos : list<int>)
+                         (currentPos : int)
+                         : list<int> = 
    
-    if currentPos >= board.cellCount() then
-       prevoiusScoreAndPos
-    else
-        if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
-            computingMove(board)(playerGlyph)(aIGlyph)(prevoiusScoreAndPos)(currentPos + 1)
+        if currentPos >= board.cellCount() then
+           prevoiusScoreAndPos
         else
-            let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
-                                            (playerGlyph)
-                                            (aIGlyph)
-                                            (0)
-            
-            let currentScoreAndPos = computingMove(board)
-                                                  (playerGlyph)(aIGlyph)
-                                                  ([checkScore; currentPos])
-                                                  (currentPos + 1)
-            
-            if currentScoreAndPos.[0] > prevoiusScoreAndPos.[0] then
-                currentScoreAndPos
+            if board.getGlyphAtLocation(currentPos) = playerGlyph || board.getGlyphAtLocation(currentPos) = aIGlyph then 
+                computingMove(board)(playerGlyph)(aIGlyph)(prevoiusScoreAndPos)(currentPos + 1)
             else
-                prevoiusScoreAndPos
+                let checkScore = miniMaxMinimize(board.getTicTacToeBoxEdited(currentPos)(aIGlyph)(playerGlyph)(aIGlyph))
+                                                (playerGlyph)
+                                                (aIGlyph)
+                                                (0)
+            
+                let currentScoreAndPos = computingMove(board)
+                                                      (playerGlyph)(aIGlyph)
+                                                      ([checkScore; currentPos])
+                                                      (currentPos + 1)
+            
+                if currentScoreAndPos.[0] > prevoiusScoreAndPos.[0] then
+                    currentScoreAndPos
+                else
+                    prevoiusScoreAndPos
 
-let computerMove(board : ITicTacToeBox)
-                (playerGlyph : string)
-                (aIGlyph : string)
-                : int =
+    let computerMove(board : ITicTacToeBox)
+                    (playerGlyph : string)
+                    (aIGlyph : string)
+                    : int =
     
-    (computingMove(board)(playerGlyph)(aIGlyph)([-999;-1])(0)).[1]
+        (computingMove(board)(playerGlyph)(aIGlyph)([-999;-1])(0)).[1]
 
 
-let aIMove(game : gameSetting)(board : ITicTacToeBox) : ITicTacToeBox =
-    let insertPos = computerMove(board)(game.playerGlyph)(game.aIGlyph)
-    board.getTicTacToeBoxEdited(insertPos)(game.aIGlyph)(game.playerGlyph)(game.aIGlyph)
+    let aIMove(game : gameSetting)(board : ITicTacToeBox) : ITicTacToeBox =
+        let insertPos = computerMove(board)(game.playerGlyph)(game.aIGlyph)
+        board.getTicTacToeBoxEdited(insertPos)(game.aIGlyph)(game.playerGlyph)(game.aIGlyph)
     

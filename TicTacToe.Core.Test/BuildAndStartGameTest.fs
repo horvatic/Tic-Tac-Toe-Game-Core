@@ -1,4 +1,5 @@
 ﻿module BuildAndStartGameTest
+open TicTacToe.Core 
 open Xunit
 open FsUnit
 open BuildAndStartGame

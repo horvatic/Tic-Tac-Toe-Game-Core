@@ -1,4 +1,5 @@
 ﻿module TicTacToeBoxClassTest
+open TicTacToe.Core 
 open ITicTacToeBoxClass
 open TicTacToeBoxClass
 open Xunit 

@@ -1,4 +1,5 @@
 ﻿module GameStatusCodesTest
+open TicTacToe.Core 
 open GameStatusCodes
 open Xunit 
 open FsUnit

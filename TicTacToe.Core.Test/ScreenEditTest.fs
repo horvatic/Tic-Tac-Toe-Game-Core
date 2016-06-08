@@ -1,4 +1,5 @@
 ﻿module ScreenEditTest
+open TicTacToe.Core 
 open ScreenEdit
 open Xunit
 open FsUnit
