@@ -9,7 +9,6 @@ open PlayerValues
 open GameStatusCodes
 open System.Collections.Generic
 open GameSettings
-open InputOutPutTestGame
 open TicTacToeBoxClass
 
 

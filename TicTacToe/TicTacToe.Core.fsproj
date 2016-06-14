@@ -62,22 +62,17 @@
     <Compile Include="ITicTacToeBoxClass.fs" />
     <Compile Include="TicTacToeBoxClass.fs" />
     <Compile Include="English.fs" />
-    <Compile Include="Spanish.fs" />
     <Compile Include="Translate.fs" />
     <Compile Include="Translator.fs" />
-    <Compile Include="IInputOutPut.fs" />
-    <Compile Include="InputOutPut.fs" />
     <Compile Include="userInputException.fs" />
     <Compile Include="GameStatusCodes.fs" />
     <Compile Include="PlayerValues.fs" />
     <Compile Include="GameSettings.fs" />
     <Compile Include="CleanInput.fs" />
     <Compile Include="TicTacToeBoxEdit.fs" />
-    <Compile Include="ScreenEdit.fs" />
     <Compile Include="CheckForWinnerOrTie.fs" />
     <Compile Include="AI.fs" />
     <Compile Include="Game.fs" />
-    <Compile Include="BuildAndStartGame.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

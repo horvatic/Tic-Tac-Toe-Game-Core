@@ -60,21 +60,14 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
     <Compile Include="TranslatorTestEnglish.fs" />
-    <Compile Include="TranslatorTestSpanish.fs" />
     <Compile Include="TicTacToeBoxClassTest.fs" />
-    <Compile Include="InputOutPutTestGame.fs" />
-    <Compile Include="InputOutPutTestBuildGame.fs" />
-    <Compile Include="InputOutPutTest.fs" />
     <Compile Include="CleanInputTest.fs" />
     <Compile Include="TicTacToeBoxEditTest.fs" />
     <Compile Include="CheckForWinnerOrTieTest.fs" />
     <Compile Include="AITest.fs" />
     <Compile Include="GameTest.fs" />
     <Compile Include="GameSettingsTest.fs" />
-    <Compile Include="BuildAndStartGameTest.fs" />
     <Compile Include="GameStatusCodesTest.fs" />
-    <Compile Include="ScreenEditTestInputOut.fs" />
-    <Compile Include="ScreenEditTest.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +95,6 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\TicTacToe.UI\TicTacToe.UI.fsproj">
-      <Name>TicTacToe.UI</Name>
-      <Project>{0c2e8891-dc67-4a10-8e85-589773a4582b}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\TicTacToe\TicTacToe.Core.fsproj">
       <Name>TicTacToe.Core</Name>
       <Project>{f423887b-048d-4446-97d7-217c92e3aae2}</Project>
