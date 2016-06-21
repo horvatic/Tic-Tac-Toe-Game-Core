@@ -1,4 +1,5 @@
-﻿open BuildAndStartGame
+﻿open TicTacToe.Core 
+open BuildAndStartGame
 open InputOutPut
 
 [<EntryPoint>]

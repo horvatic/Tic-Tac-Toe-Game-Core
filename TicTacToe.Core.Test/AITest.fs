@@ -1,6 +1,7 @@
 ﻿module AITest
 open Xunit 
 open FsUnit
+open TicTacToe.Core 
 open AI
 open ITicTacToeBoxClass
 open CheckForWinnerOrTie
@@ -8,7 +9,6 @@ open PlayerValues
 open GameStatusCodes
 open System.Collections.Generic
 open GameSettings
-open InputOutPutTestGame
 open TicTacToeBoxClass
 
 
